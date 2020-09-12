@@ -1,19 +1,19 @@
 #!/bin/bash -eux
 # Simple script for packing Ungoogled-Chromium macOS build artifacts on GitHub Actions
 
-_root_dir=$(dirname $(greadlink -f $0))
-_src_dir="$_root_dir/build/src"
+_root=$(dirname "$(greadlink -f "$0")")
+_src="$_root/build/src"
 
-if [[ -f "$_root_dir/build_finished.log" ]] ; then
+if [[ -f "$_root/build_finished.log" ]] ; then
   # For packaging
-  _chromium_version=$(cat $_root_dir/ungoogled-chromium/chromium_version.txt)
-  _ungoogled_revision=$(cat $_root_dir/ungoogled-chromium/revision.txt)
-  _package_revision=$(cat $_root_dir/revision.txt)
+  _chromium_version=$(cat "$_root/chromium_version.txt")
+  _ungoogled_revision=$(cat "$_root/revision.txt")
+  _package_revision=$(cat "$_root/revision.txt")
 
   _file_name="ungoogled-chromium_${_chromium_version}-${_ungoogled_revision}.${_package_revision}_macos.dmg"
   _release_tag_version="${_chromium_version}-${_ungoogled_revision}.${_package_revision}"
   
-  cd "$_src_dir"
+  cd "$_src"
 
   xattr -csr out/Default/Chromium.app
   # Using ad-hoc signing
@@ -21,11 +21,11 @@ if [[ -f "$_root_dir/build_finished.log" ]] ; then
 
   chrome/installer/mac/pkg-dmg \
     --sourcefile --source out/Default/Chromium.app \
-    --target "$_root_dir/$_file_name" \
+    --target "$_root/$_file_name" \
     --volname Chromium --symlink /Applications:/Applications \
     --format UDBZ --verbosity 2
 
-  cd "$_root_dir"
+  cd "$_root"
   sha256sum ./"$_file_name" | tee ./sums.txt
   _sha256sum=$(awk '{print $1;exit 0}' ./sums.txt)
 
@@ -38,11 +38,11 @@ if [[ -f "$_root_dir/build_finished.log" ]] ; then
   printf 'See [this GitHub Actions Run](%s) for the [Workflow file](%s/workflow) used as well as the build logs and artifacts\n' "$_gh_run_href" "$_gh_run_href" | tee -a ./github_release_text.md
 else
 
-  if ! hdiutil detach -verbose "$_src_dir" ; then
-    sleep 1; umount "$_src_dir"
-    sleep 1; sudo umount "$_src_dir"
-    sleep 1; hdiutil detach -verbose "$_src_dir" -force
-    sleep 1; sudo hdiutil detach -verbose "$_src_dir" -force
+  if ! hdiutil detach -verbose "$_src" ; then
+    sleep 1; umount "$_src"
+    sleep 1; sudo umount "$_src"
+    sleep 1; hdiutil detach -verbose "$_src" -force
+    sleep 1; sudo hdiutil detach -verbose "$_src" -force
   fi
   sleep 2
 

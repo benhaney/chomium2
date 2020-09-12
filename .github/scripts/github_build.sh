@@ -3,7 +3,7 @@
 # Simple partitioned (2 of 3) build script for building Ungoogled-Chromium macOS binaries on GitHub Actions
 # Resuming build script for macOS
 
-_root_dir=$(dirname $(greadlink -f $0))
+_root_dir=$(dirname "$(greadlink -f "$0")")
 if [[ -f "$_root_dir/epoch_job_start.txt" ]]; then
   epoch_job_start=$(cat "$_root_dir/epoch_job_start.txt")
   # GitHub's hard time limit is 6 h per job, we want to spare 20 min for steps after the build, 
@@ -13,10 +13,10 @@ fi
 
 cd build/src
 
-echo $(date +%s) | tee -a "$_root_dir/build_times.log"
+date +%s | tee -a "$_root_dir/build_times.log"
 echo "::set-output name=status::running"
 
-timeout -k 7m -s SIGTERM ${_remaining_time:-19680}s ninja -C out/Default chrome chromedriver # 328 m as default $_remaining_time
+timeout -k 7m -s SIGTERM ${_remaining_time:-19680}s ninja -C out/Default chrome # 328 m as default $_remaining_time
 
-echo $(date +%s) | tee "$_root_dir/build_finished.log"
+date +%s | tee "$_root_dir/build_finished.log"
 echo "::set-output name=status::finished"

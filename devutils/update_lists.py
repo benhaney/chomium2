@@ -27,14 +27,7 @@ _ENCODING = 'UTF-8'
 
 # NOTE: Include patterns have precedence over exclude patterns
 # pathlib.Path.match() paths to include in binary pruning
-PRUNING_INCLUDE_PATTERNS = [
-    'components/domain_reliability/baked_in_configs/*',
-    # Removals for patches/core/ungoogled-chromium/remove-unused-preferences-fields.patch
-    'components/safe_browsing/core/common/safe_browsing_prefs.cc',
-    'components/safe_browsing/core/common/safe_browsing_prefs.h',
-    'components/signin/public/base/signin_pref_names.cc',
-    'components/signin/public/base/signin_pref_names.h',
-]
+PRUNING_INCLUDE_PATTERNS = []
 
 # pathlib.Path.match() paths to exclude from binary pruning
 PRUNING_EXCLUDE_PATTERNS = [
@@ -55,9 +48,11 @@ PRUNING_EXCLUDE_PATTERNS = [
     'components/language/content/browser/ulp_language_code_locator/geolanguage-data_rank0.bin',
     'components/language/content/browser/ulp_language_code_locator/geolanguage-data_rank1.bin',
     'components/language/content/browser/ulp_language_code_locator/geolanguage-data_rank2.bin',
+    'third_party/devtools-frontend/src/test/e2e/resources/sources/wasm/stepping-with-state.wasm',
     'third_party/icu/common/icudtl.dat', # Exclusion for ICU data
     # Exclusions for safe file extensions
     '*.ttf',
+    '*.avif',
     '*.png',
     '*.jpg',
     '*.webp',

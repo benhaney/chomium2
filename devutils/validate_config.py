@@ -44,7 +44,7 @@ def main():
     warnings |= check_unused_patches(patches_dir)
 
     # Check GN flags
-    warnings |= check_gn_flags(root_dir / 'flags.gn')
+    warnings |= check_gn_flags(root_dir / 'args.gn')
 
     # Check downloads.ini
     warnings |= check_downloads_ini([root_dir / 'downloads.ini'])

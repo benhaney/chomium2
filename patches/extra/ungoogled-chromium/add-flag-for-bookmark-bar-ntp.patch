@@ -1,6 +1,6 @@
 --- a/chrome/browser/about_flags.cc
 +++ b/chrome/browser/about_flags.cc
-@@ -298,6 +298,13 @@ const FeatureEntry::Choice kPDFPluginNam
+@@ -301,6 +301,13 @@ const FeatureEntry::Choice kPDFPluginNam
      {"Microsoft Edge", switches::kPDFPluginName, "edge"},
  };
  
@@ -11,10 +11,10 @@
 +     "never"},
 +};
 +
- const FeatureEntry::Choice kTouchEventFeatureDetectionChoices[] = {
-     {flags_ui::kGenericExperimentChoiceDisabled, "", ""},
-     {flags_ui::kGenericExperimentChoiceEnabled,
-@@ -2283,6 +2290,12 @@ const FeatureEntry kFeatureEntries[] = {
+ #if defined(USE_AURA)
+ const FeatureEntry::Choice kPullToRefreshChoices[] = {
+     {flags_ui::kGenericExperimentChoiceDefault, "", ""},
+@@ -2581,6 +2588,12 @@ const FeatureEntry kFeatureEntries[] = {
      {"focus-mode", flag_descriptions::kFocusMode,
       flag_descriptions::kFocusModeDescription, kOsDesktop,
       FEATURE_VALUE_TYPE(features::kFocusMode)},
@@ -24,9 +24,9 @@
 +     "Disable the Bookmark Bar on the New-Tab-Page", kOsDesktop,
 +     MULTI_VALUE_TYPE(kBookmarkBarNewTab)},
 +
-     {"touch-events", flag_descriptions::kTouchEventsName,
-      flag_descriptions::kTouchEventsDescription, kOsDesktop,
-      MULTI_VALUE_TYPE(kTouchEventFeatureDetectionChoices)},
+ #if defined(OS_CHROMEOS)
+     {"disable-explicit-dma-fences",
+      flag_descriptions::kDisableExplicitDmaFencesName,
 --- a/chrome/browser/ui/bookmarks/bookmark_tab_helper.cc
 +++ b/chrome/browser/ui/bookmarks/bookmark_tab_helper.cc
 @@ -4,6 +4,7 @@

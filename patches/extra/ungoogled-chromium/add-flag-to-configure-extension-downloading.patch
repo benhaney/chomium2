@@ -3,7 +3,7 @@
 
 --- a/chrome/browser/about_flags.cc
 +++ b/chrome/browser/about_flags.cc
-@@ -259,6 +259,16 @@ const unsigned kOsDesktop = kOsMac | kOs
+@@ -262,6 +262,16 @@ const unsigned kOsDesktop = kOsMac | kOs
  const unsigned kOsAura = kOsWin | kOsLinux | kOsCrOS;
  #endif  // USE_AURA || OS_ANDROID
  
@@ -17,10 +17,10 @@
 +     "always-prompt-for-install"},
 +};
 +
- const FeatureEntry::Choice kTouchEventFeatureDetectionChoices[] = {
-     {flags_ui::kGenericExperimentChoiceDisabled, "", ""},
-     {flags_ui::kGenericExperimentChoiceEnabled,
-@@ -1962,6 +1972,10 @@ const FeatureEntry kFeatureEntries[] = {
+ #if defined(USE_AURA)
+ const FeatureEntry::Choice kPullToRefreshChoices[] = {
+     {flags_ui::kGenericExperimentChoiceDefault, "", ""},
+@@ -2260,6 +2270,10 @@ const FeatureEntry kFeatureEntries[] = {
  // Include generated flags for flag unexpiry; see //docs/flag_expiry.md and
  // //tools/flags/generate_unexpire_flags.py.
  #include "chrome/browser/unexpire_flags_gen.inc"
@@ -41,7 +41,7 @@
  #include "chrome/browser/chrome_notification_types.h"
  #include "chrome/browser/extensions/crx_installer.h"
  #include "chrome/browser/extensions/extension_install_prompt.h"
-@@ -126,6 +127,14 @@ scoped_refptr<extensions::CrxInstaller>
+@@ -126,6 +127,14 @@ scoped_refptr<extensions::CrxInstaller> 
    return installer;
  }
  
@@ -67,7 +67,7 @@
    }
 --- a/chrome/browser/download/download_crx_util.h
 +++ b/chrome/browser/download/download_crx_util.h
-@@ -43,6 +43,10 @@ scoped_refptr<extensions::CrxInstaller>
+@@ -43,6 +43,10 @@ scoped_refptr<extensions::CrxInstaller> 
      Profile* profile,
      const download::DownloadItem& download_item);
  
@@ -107,7 +107,7 @@
  #include "base/logging.h"
  #include "base/metrics/histogram_macros.h"
  #include "base/stl_util.h"
-@@ -191,6 +192,13 @@ bool ExtensionManagement::IsInstallation
+@@ -193,6 +194,13 @@ bool ExtensionManagement::IsInstallation
  bool ExtensionManagement::IsOffstoreInstallAllowed(
      const GURL& url,
      const GURL& referrer_url) const {

@@ -20,7 +20,7 @@ mkdir -p "$_download_cache"
 "$_root/utils/prune_binaries.py" "$_src" "$_root/pruning.list"
 "$_root/utils/patches.py" apply "$_src" "$_root/patches"
 "$_root/utils/domain_substitution.py" apply -r "$_root/domain_regex.list" -f "$_root/domain_substitution.list" -c "$_root/build/domsubcache.tar.gz" "$_src"
-cp "$_root/args.gn" "$_src/out/Default/args.gn"
+cp "$_root/args.gn" "$_src/out/Default/"
 
 cd "$_src"
 

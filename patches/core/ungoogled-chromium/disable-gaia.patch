@@ -3,22 +3,23 @@
 
 --- a/chrome/browser/browser_resources.grd
 +++ b/chrome/browser/browser_resources.grd
-@@ -141,7 +141,6 @@
-       <include name="IDR_INLINE_LOGIN_HTML" file="resources\inline_login\inline_login.html" flattenhtml="true" allowexternalscript="true" type="BINDATA" preprocess="true" />
-       <include name="IDR_INLINE_LOGIN_CSS" file="resources\inline_login\inline_login.css" flattenhtml="true" type="BINDATA" preprocess="true" />
-       <include name="IDR_INLINE_LOGIN_JS" file="resources\inline_login\inline_login.js" flattenhtml="true" type="BINDATA" />
--      <include name="IDR_GAIA_AUTH_AUTHENTICATOR_JS" file="resources\gaia_auth_host\authenticator.js" flattenhtml="true" type="BINDATA" />
+@@ -249,8 +249,6 @@
+           <include name="IDR_ACCOUNT_MANAGER_WELCOME_GOOGLE_LOGO_SVG" file="resources\chromeos\googleg.svg" type="BINDATA" />
+         </if>
  
-       <include name="IDR_INSPECT_CSS" file="resources\inspect\inspect.css" flattenhtml="true" type="BINDATA" />
-       <include name="IDR_INSPECT_HTML" file="resources\inspect\inspect.html" flattenhtml="true" allowexternalscript="true" type="BINDATA" />
+-        <include name="IDR_GAIA_ACTION_BUTTONS_JS" file="${root_gen_dir}\chrome\browser\resources\chromeos\gaia_action_buttons\gaia_action_buttons.js" use_base_dir="false" type ="BINDATA" />
+-
+         <include name="IDR_PASSWORD_CHANGE_HTML" file="resources\chromeos\password_change\password_change.html" flattenhtml="true" type="BINDATA" />
+         <include name="IDR_PASSWORD_CHANGE_JS" file="resources\chromeos\password_change\password_change.js" flattenhtml="true" type="BINDATA" />
+         <include name="IDR_PASSWORD_CHANGE_CSS" file="resources\chromeos\password_change\password_change.css" flattenhtml="true" type="BINDATA" />
 --- a/chrome/browser/ui/webui/signin/inline_login_ui.cc
 +++ b/chrome/browser/ui/webui/signin/inline_login_ui.cc
 @@ -112,7 +112,6 @@ content::WebUIDataSource* CreateWebUIDat
-   static constexpr webui::ResourcePath kResources[] = {
-     {"inline_login.css", IDR_INLINE_LOGIN_CSS},
-     {"inline_login.js", IDR_INLINE_LOGIN_JS},
--    {"gaia_auth_host.js", IDR_GAIA_AUTH_AUTHENTICATOR_JS},
+     {"inline_login_app.js", IDR_INLINE_LOGIN_APP_JS},
+     {"inline_login_browser_proxy.js", IDR_INLINE_LOGIN_BROWSER_PROXY_JS},
  #if defined(OS_CHROMEOS)
+-    {"gaia_action_buttons.js", IDR_GAIA_ACTION_BUTTONS_JS},
+     {"error_screen.js", IDR_ACCOUNT_MANAGER_COMPONENTS_ERROR_SCREEN_JS},
      {"edu", IDR_EDU_LOGIN_EDU_LOGIN_HTML},
      {"app.js", IDR_EDU_LOGIN_EDU_LOGIN_JS},
 --- a/google_apis/gaia/gaia_auth_fetcher.cc

@@ -12,7 +12,7 @@ if [[ -f "$_root/build_finished.log" ]] ; then
 
   _file_name="ungoogled-chromium_${_chromium_version}-${_ungoogled_revision}.${_package_revision}_macos.dmg"
   _release_tag_version="${_chromium_version}-${_ungoogled_revision}.${_package_revision}"
-  
+
   cd "$_src"
 
   xattr -csr out/Default/Chromium.app
@@ -33,10 +33,13 @@ if [[ -f "$_root/build_finished.log" ]] ; then
   echo "::set-output name=release_tag_version::$_release_tag_version"
 
   _gh_run_href="https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
-  
+
   printf '`sha256sum` for diskimage `%s`: \n\n```\n%s\n```\n\n' "$_file_name" "$_sha256sum" | tee -a ./github_release_text.md
   printf 'See [this GitHub Actions Run](%s) for the [Workflow file](%s/workflow) used as well as the build logs and artifacts\n' "$_gh_run_href" "$_gh_run_href" | tee -a ./github_release_text.md
 else
+
+  # llvm is very large, so we're not going to include it in the artifact
+  rm -rf "$_src/third_party/llvm-build/Release+Asserts/"
 
   if ! hdiutil detach -verbose "$_src" ; then
     sleep 1; umount "$_src"

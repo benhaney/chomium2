@@ -1,32 +1,9 @@
 description: fix int-in-bool-context gcc warnings
 author: Michael Gilbert <mgilbert@debian.org>
 
---- a/third_party/webrtc/modules/video_processing/video_denoiser.cc
-+++ b/third_party/webrtc/modules/video_processing/video_denoiser.cc
-@@ -191,7 +191,7 @@ void VideoDenoiser::CopySrcOnMOB(const u
-       // artifacts.
-       if (mb_filter_decision_[mb_index] != FILTER_BLOCK ||
-           IsTrailingBlock(moving_edge_, mb_row, mb_col) ||
--          (x_density_[mb_col] * y_density_[mb_row] &&
-+          (x_density_[mb_col] * y_density_[mb_row] != 0 &&
-            moving_object_[mb_row * mb_cols_ + mb_col])) {
-         // Copy y source.
-         filter_->CopyMem16x16(mb_src, stride_src, mb_dst, stride_dst);
---- a/gpu/command_buffer/service/gles2_cmd_decoder.cc
-+++ b/gpu/command_buffer/service/gles2_cmd_decoder.cc
-@@ -16419,7 +16419,8 @@ bool GLES2DecoderImpl::GetUniformSetup(G
-   }
-   uint32_t checked_size = 0;
-   if (!SizedResult<T>::ComputeSize(num_elements).AssignIfValid(&checked_size)) {
--    return error::kOutOfBounds;
-+    *error = error::kOutOfBounds;
-+    return false;
-   }
-   result = GetSharedMemoryAs<SizedResult<T>*>(shm_id, shm_offset, checked_size);
-   if (!result) {
 --- a/content/browser/renderer_host/render_widget_host_view_base.cc
 +++ b/content/browser/renderer_host/render_widget_host_view_base.cc
-@@ -318,15 +318,16 @@ void RenderWidgetHostViewBase::SetBackgr
+@@ -294,15 +294,16 @@ void RenderWidgetHostViewBase::SetBackgr
    if (default_background_color_ == color)
      return;
  
@@ -49,9 +26,21 @@ author: Michael Gilbert <mgilbert@debian.org>
      }
    }
  }
+--- a/gpu/command_buffer/service/gles2_cmd_decoder.cc
++++ b/gpu/command_buffer/service/gles2_cmd_decoder.cc
+@@ -16512,7 +16512,8 @@ bool GLES2DecoderImpl::GetUniformSetup(G
+   }
+   uint32_t checked_size = 0;
+   if (!SizedResult<T>::ComputeSize(num_elements).AssignIfValid(&checked_size)) {
+-    return error::kOutOfBounds;
++    *error = error::kOutOfBounds;
++    return false;
+   }
+   result = GetSharedMemoryAs<SizedResult<T>*>(shm_id, shm_offset, checked_size);
+   if (!result) {
 --- a/third_party/blink/renderer/core/html/parser/html_tree_builder.cc
 +++ b/third_party/blink/renderer/core/html/parser/html_tree_builder.cc
-@@ -1047,7 +1047,7 @@ void HTMLTreeBuilder::ProcessStartTagFor
+@@ -1049,7 +1049,7 @@ void HTMLTreeBuilder::ProcessStartTagFor
    }
    if (token->GetName() == html_names::kColTag) {
      ProcessFakeStartTag(html_names::kColgroupTag);
@@ -60,3 +49,14 @@ author: Michael Gilbert <mgilbert@debian.org>
      ProcessStartTag(token);
      return;
    }
+--- a/third_party/webrtc/modules/video_processing/video_denoiser.cc
++++ b/third_party/webrtc/modules/video_processing/video_denoiser.cc
+@@ -191,7 +191,7 @@ void VideoDenoiser::CopySrcOnMOB(const u
+       // artifacts.
+       if (mb_filter_decision_[mb_index] != FILTER_BLOCK ||
+           IsTrailingBlock(moving_edge_, mb_row, mb_col) ||
+-          (x_density_[mb_col] * y_density_[mb_row] &&
++          (x_density_[mb_col] * y_density_[mb_row] != 0 &&
+            moving_object_[mb_row * mb_cols_ + mb_col])) {
+         // Copy y source.
+         filter_->CopyMem16x16(mb_src, stride_src, mb_dst, stride_dst);

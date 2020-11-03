@@ -2,7 +2,7 @@
 
 --- a/chrome/browser/about_flags.cc
 +++ b/chrome/browser/about_flags.cc
-@@ -2260,6 +2260,10 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2406,6 +2406,10 @@ const FeatureEntry kFeatureEntries[] = {
  // Include generated flags for flag unexpiry; see //docs/flag_expiry.md and
  // //tools/flags/generate_unexpire_flags.py.
  #include "chrome/browser/unexpire_flags_gen.inc"

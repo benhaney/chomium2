@@ -7,7 +7,7 @@
 
 --- a/chrome/BUILD.gn
 +++ b/chrome/BUILD.gn
-@@ -291,7 +291,6 @@ if (!is_android && !is_mac) {
+@@ -302,7 +302,6 @@ if (!is_android && !is_mac) {
      }
  
      data_deps += [
@@ -15,7 +15,7 @@
        "//third_party/widevine/cdm",
      ]
    }
-@@ -999,7 +998,6 @@ if (is_win) {
+@@ -1013,7 +1012,6 @@ if (is_win) {
        ":keystone_registration_framework",
        ":swiftshader_library",
        ":widevine_cdm_library",

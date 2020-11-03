@@ -5,23 +5,16 @@
 
 --- a/third_party/devtools-frontend/src/BUILD.gn
 +++ b/third_party/devtools-frontend/src/BUILD.gn
-@@ -171,13 +171,12 @@ generated_non_autostart_non_remote_modul
-   "$resources_out_dir/webauthn/webauthn_module.js",
-   "$resources_out_dir/workspace_diff/workspace_diff_module.js",
-   "$resources_out_dir/emulated_devices/emulated_devices_module.js",
--]
--
--generated_remote_modules = [
-   "$resources_out_dir/lighthouse_worker/lighthouse_worker_module.js",
-   "$resources_out_dir/dagre_layout/dagre_layout_module.js",
+@@ -227,7 +227,7 @@ devtools_frontend_resources_deps = [
+   ":build_release_devtools",
+   ":devtools_extension_api",
+   "front_end",
+-  "test",
++#  "test",
  ]
  
-+generated_remote_modules = []
-+
- generated_test_modules = [
-   "$resources_out_dir/accessibility_test_runner/accessibility_test_runner_module.js",
-   "$resources_out_dir/application_test_runner/application_test_runner_module.js",
-@@ -268,7 +267,6 @@ action("generate_devtools_grd") {
+ group("devtools_all_files") {
+@@ -262,7 +262,6 @@ action("generate_devtools_grd") {
        generated_emulated_device_images +
        [
          "$resources_out_dir/devtools_extension_api.js",
@@ -29,46 +22,23 @@
          "$resources_out_dir/formatter_worker_entrypoint.js",
          "$resources_out_dir/third_party/acorn/package/dist/acorn.mjs",
        ]
---- a/third_party/devtools-frontend/src/front_end/devtools_app.json
-+++ b/third_party/devtools-frontend/src/front_end/devtools_app.json
-@@ -10,7 +10,7 @@
-     { "name": "browser_debugger" },
-     { "name": "css_overview" },
-     { "name": "cookie_table" },
--    { "name": "dagre_layout", "type": "remote" },
-+    { "name": "dagre_layout" },
-     { "name": "devices" },
-     { "name": "elements" },
-     { "name": "emulated_devices" },
---- a/third_party/devtools-frontend/src/front_end/lighthouse_worker.json
-+++ b/third_party/devtools-frontend/src/front_end/lighthouse_worker.json
-@@ -2,6 +2,6 @@
-     "worker": true,
-     "modules": [
-         { "name": "worker_service", "type": "autostart" },
--        { "name": "lighthouse_worker", "type": "remote" }
-+        { "name": "lighthouse_worker" }
-     ]
+--- a/third_party/devtools-frontend/src/devtools_grd_files.gni
++++ b/third_party/devtools-frontend/src/devtools_grd_files.gni
+@@ -308,7 +308,6 @@ grd_files_release_sources = [
+   "front_end/screencast/screencast.js",
+   "front_end/sdk/sdk-legacy.js",
+   "front_end/sdk/sdk.js",
+-  "front_end/sdk/wasm_source_map/pkg/wasm_source_map_bg.wasm",
+   "front_end/search/search-legacy.js",
+   "front_end/search/search.js",
+   "front_end/search/search_module.js",
+--- a/third_party/devtools-frontend/src/front_end/sdk/wasm_source_map/BUILD.gn
++++ b/third_party/devtools-frontend/src/front_end/sdk/wasm_source_map/BUILD.gn
+@@ -8,7 +8,6 @@ devtools_pre_built("wasm_source_map") {
+   sources = [
+     "pkg/wasm_source_map.d.ts",
+     "pkg/wasm_source_map.js",
+-    "pkg/wasm_source_map_bg.wasm",
+     "wasm_source_map-tsconfig.json",
+   ]
  }
---- a/third_party/devtools-frontend/src/BUILD.gn
-+++ b/third_party/devtools-frontend/src/BUILD.gn
-@@ -294,14 +294,17 @@
-   # Remove the inputs from the expectations, any leftovers means that not all inputs were provided.
-   _missing_files_expected = filter_exclude(_expected_files, _normalized_inputs)
-   assert(
--      _missing_files_expected == [],
-+      _missing_files_expected == ["front_end/sdk/wasm_source_map/pkg/wasm_source_map_bg.wasm"],
-       "Files were expected that weren't found in the GRD inputs: $_missing_files_expected")
- 
-   # Remove the expectations from the inputs, any leftovers means that too many files were provided.
-   _missing_files_normalized =
-       filter_exclude(_normalized_inputs, _expected_files)
-   assert(
--      _missing_files_normalized == [],
-+      _missing_files_normalized == [
-+        "front_end/lighthouse_worker/lighthouse_worker_module.js",
-+        "front_end/dagre_layout/dagre_layout_module.js"
-+      ],
-       "Files were provided that weren't expected in the GRD inputs: $_missing_files_normalized")
- 
-   response_file_contents = rebase_path(grd_files, root_build_dir)

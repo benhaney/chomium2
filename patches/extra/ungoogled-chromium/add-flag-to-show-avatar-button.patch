@@ -1,6 +1,6 @@
 --- a/chrome/browser/about_flags.cc
 +++ b/chrome/browser/about_flags.cc
-@@ -272,6 +272,19 @@ const FeatureEntry::Choice kExtensionHan
+@@ -274,6 +274,19 @@ const FeatureEntry::Choice kExtensionHan
       "always-prompt-for-install"},
  };
  
@@ -20,8 +20,8 @@
  #if defined(USE_AURA)
  const FeatureEntry::Choice kPullToRefreshChoices[] = {
      {flags_ui::kGenericExperimentChoiceDefault, "", ""},
-@@ -4798,6 +4811,11 @@ const FeatureEntry kFeatureEntries[] = {
-      FEATURE_VALUE_TYPE(arc::kEnableUnifiedAudioFocusFeature)},
+@@ -4958,6 +4971,11 @@ const FeatureEntry kFeatureEntries[] = {
+      FEATURE_VALUE_TYPE(chromeos::features::kKerberosSettingsSection)},
  #endif  // defined(OS_CHROMEOS)
  
 +    {"show-avatar-button",
@@ -34,7 +34,7 @@
       flag_descriptions::kUseAngleDescription, kOsWin,
 --- a/chrome/browser/ui/views/toolbar/toolbar_view.cc
 +++ b/chrome/browser/ui/views/toolbar/toolbar_view.cc
-@@ -233,14 +233,30 @@ void ToolbarView::Init() {
+@@ -240,14 +240,30 @@ void ToolbarView::Init() {
  
    std::unique_ptr<ToolbarAccountIconContainerView>
        toolbar_account_icon_container;

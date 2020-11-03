@@ -81,7 +81,7 @@ by default.
 +  plist['KSUpdateURL'] = 'trk:132:https://tools.google.com/service/update2'
  
    _RemoveKeys(plist, 'KSChannelID')
-   for tag_suffix in _TagSuffixes():
+   if base_tag != '':
 --- a/chrome/browser/chromeos/customization/customization_document.cc
 +++ b/chrome/browser/chromeos/customization/customization_document.cc
 @@ -172,7 +172,7 @@ std::string ReadFileInBackground(const b
@@ -95,7 +95,7 @@ by default.
  // creates and uses to publish OEM default apps to the extensions system.
 --- a/chrome/browser/chromeos/extensions/file_manager/private_api_drive.cc
 +++ b/chrome/browser/chromeos/extensions/file_manager/private_api_drive.cc
-@@ -842,7 +842,7 @@ void FileManagerPrivateInternalGetDownlo
+@@ -857,7 +857,7 @@ void FileManagerPrivateInternalGetDownlo
    const CoreAccountId& account_id =
        identity_manager->GetPrimaryAccountId(signin::ConsentLevel::kNotRequired);
    std::vector<std::string> scopes;
@@ -106,7 +106,7 @@ by default.
        content::BrowserContext::GetDefaultStoragePartition(
 --- a/chrome/browser/chromeos/extensions/file_manager/private_api_misc.cc
 +++ b/chrome/browser/chromeos/extensions/file_manager/private_api_misc.cc
-@@ -93,7 +93,7 @@ namespace {
+@@ -81,7 +81,7 @@ namespace {
  
  using api::file_manager_private::ProfileInfo;
  
@@ -246,7 +246,7 @@ by default.
                base::ToLowerASCII(bdict_file));
 --- a/chrome/browser/supervised_user/supervised_user_service.cc
 +++ b/chrome/browser/supervised_user/supervised_user_service.cc
-@@ -85,7 +85,7 @@ namespace {
+@@ -86,7 +86,7 @@ namespace {
  
  // The URL from which to download a host denylist if no local one exists yet.
  const char kDenylistURL[] =
@@ -279,7 +279,7 @@ by default.
  // The maximum number of ignored bubble we track in the NumLaterPerReinstall
 --- a/chrome/browser/ui/webui/ntp/ntp_resource_cache.cc
 +++ b/chrome/browser/ui/webui/ntp/ntp_resource_cache.cc
-@@ -79,17 +79,17 @@ namespace {
+@@ -78,17 +78,17 @@ namespace {
  // The URL for the the Learn More page shown on incognito new tab.
  const char kLearnMoreIncognitoUrl[] =
  #if defined(OS_CHROMEOS)
@@ -300,7 +300,7 @@ by default.
 +    "trk:261:https://support.google.com/chrome/?p=ui_guest";
  #endif
  
- SkColor GetThemeColor(const ui::ThemeProvider& tp, int id) {
+ // The URL for the Learn More page shown on ephermal guest session new tab.
 --- a/chrome/common/extensions/chrome_extensions_client.cc
 +++ b/chrome/common/extensions/chrome_extensions_client.cc
 @@ -46,9 +46,9 @@ namespace {
@@ -317,7 +317,7 @@ by default.
  
 --- a/chrome/common/url_constants.cc
 +++ b/chrome/common/url_constants.cc
-@@ -263,7 +263,7 @@ const char kSyncErrorsHelpURL[] =
+@@ -272,7 +272,7 @@ const char kSyncErrorsHelpURL[] =
      "https://support.google.com/chrome/?p=settings_sync_error";
  
  const char kSyncGoogleDashboardURL[] =
@@ -326,7 +326,7 @@ by default.
  
  const char kSyncLearnMoreURL[] =
      "https://support.google.com/chrome/?p=settings_sign_in";
-@@ -385,7 +385,7 @@ const char kNaturalScrollHelpURL[] =
+@@ -397,7 +397,7 @@ const char kNaturalScrollHelpURL[] =
  const char kOemEulaURLPath[] = "oem";
  
  const char kOnlineEulaURLPath[] =
@@ -512,7 +512,7 @@ by default.
      base::Time out_time;
 --- a/components/policy/resources/policy_templates.json
 +++ b/components/policy/resources/policy_templates.json
-@@ -4465,7 +4465,7 @@
+@@ -4528,7 +4528,7 @@
          'dynamic_refresh': True,
          'per_profile': True,
        },
@@ -521,7 +521,7 @@ by default.
        'id': 34,
        'caption': '''Configure the list of force-installed apps and extensions''',
        'tags': ['full-admin-access'],
-@@ -9638,7 +9638,7 @@
+@@ -9726,7 +9726,7 @@
          'dynamic_refresh': True,
        },
        'deprecated': True,
@@ -608,7 +608,7 @@ by default.
  
 --- a/content/shell/browser/shell_browser_main_parts.cc
 +++ b/content/shell/browser/shell_browser_main_parts.cc
-@@ -84,7 +84,7 @@ GURL GetStartupURL() {
+@@ -87,7 +87,7 @@ GURL GetStartupURL() {
  #else
    const base::CommandLine::StringVector& args = command_line->GetArgs();
    if (args.empty())

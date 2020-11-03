@@ -1,3 +1,15 @@
+--- a/build/toolchain/mac/BUILD.gn
++++ b/build/toolchain/mac/BUILD.gn
+@@ -199,8 +199,7 @@ template("mac_toolchain") {
+     if (_enable_dsyms) {
+       dsym_switch = " -Wcrl,dsym,{{root_out_dir}} "
+       dsym_switch += "-Wcrl,dsymutilpath," +
+-                     rebase_path("//tools/clang/dsymutil/bin/dsymutil",
+-                                 root_build_dir) + " "
++                        "/usr/bin/dsymutil "
+ 
+       dsym_output_dir =
+           "{{root_out_dir}}/{{target_output_name}}{{output_extension}}.dSYM"
 --- a/tools/mac/dump-static-initializers.py
 +++ b/tools/mac/dump-static-initializers.py
 @@ -41,7 +41,7 @@ def ParseDsymutil(binary):
@@ -9,15 +21,3 @@
       stdout=subprocess.PIPE)
    for line in child.stdout:
      file_match = dsymutil_file_re.search(line)
---- a/build/toolchain/mac/BUILD.gn
-+++ b/build/toolchain/mac/BUILD.gn
-@@ -185,8 +185,7 @@ template("mac_toolchain") {
-     if (_enable_dsyms) {
-       dsym_switch = " -Wcrl,dsym,{{root_out_dir}} "
-       dsym_switch += "-Wcrl,dsymutilpath," +
--                     rebase_path("//tools/clang/dsymutil/bin/dsymutil",
--                                 root_build_dir) + " "
-+                        "/usr/bin/dsymutil "
- 
-       dsym_output_dir =
-           "{{root_out_dir}}/{{target_output_name}}{{output_extension}}.dSYM"

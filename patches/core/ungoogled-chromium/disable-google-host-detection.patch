@@ -480,7 +480,7 @@
  bool IsGoogleHostname(const GURL& url) {
 --- a/components/search_engines/template_url.cc
 +++ b/components/search_engines/template_url.cc
-@@ -510,11 +510,7 @@ base::string16 TemplateURLRef::SearchTer
+@@ -511,11 +511,7 @@ base::string16 TemplateURLRef::SearchTer
  bool TemplateURLRef::HasGoogleBaseURLs(
      const SearchTermsData& search_terms_data) const {
    ParseIfNecessary(search_terms_data);
@@ -506,10 +506,10 @@
  namespace {
  
  // The result of checking whether a request to a URL should have variations
-@@ -205,32 +201,7 @@ class VariationsHeaderHelper {
-   bool AppendHeaderIfNeeded(const GURL& url,
-                             InIncognito incognito,
-                             Owner owner) {
+@@ -236,29 +232,7 @@ class VariationsHeaderHelper {
+   }
+ 
+   bool AppendHeaderIfNeeded(const GURL& url, InIncognito incognito) {
 -    AppendOmniboxOnDeviceSuggestionsHeaderIfNeeded(url, resource_request_);
 -
 -    // Note the criteria for attaching client experiment headers:
@@ -525,9 +525,6 @@
 -        !ShouldAppendVariationsHeader(url, "Append"))
 -      return false;
 -
--    // TODO(crbug/1094303): Use the result to determine which IDs to include.
--    IsFirstPartyContext(*resource_request_, owner);
--
 -    if (variations_header_.empty())
 -      return false;
 -
@@ -540,7 +537,7 @@
    }
  
   private:
-@@ -281,8 +252,6 @@ void RemoveVariationsHeaderIfNeeded(
+@@ -328,8 +302,6 @@ void RemoveVariationsHeaderIfNeeded(
      const net::RedirectInfo& redirect_info,
      const network::mojom::URLResponseHead& response_head,
      std::vector<std::string>* to_be_removed_headers) {
@@ -549,7 +546,7 @@
  }
  
  std::unique_ptr<network::SimpleURLLoader>
-@@ -312,14 +281,11 @@ CreateSimpleURLLoaderWithVariationsHeade
+@@ -359,14 +331,11 @@ CreateSimpleURLLoaderWithVariationsHeade
  }
  
  bool IsVariationsHeader(const std::string& header_name) {
@@ -566,7 +563,7 @@
  }
  
  bool ShouldAppendVariationsHeaderForTesting(
-@@ -330,12 +296,6 @@ bool ShouldAppendVariationsHeaderForTest
+@@ -377,12 +346,6 @@ bool ShouldAppendVariationsHeaderForTest
  
  void UpdateCorsExemptHeaderForVariations(
      network::mojom::NetworkContextParams* params) {

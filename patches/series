@@ -1,4 +1,3 @@
-#core/inox-patchset/0001-fix-building-without-safebrowsing.patch
 core/inox-patchset/0003-disable-autofill-download-manager.patch
 core/inox-patchset/0005-disable-default-extensions.patch
 core/inox-patchset/0007-disable-web-resource-service.patch
@@ -6,9 +5,6 @@ core/inox-patchset/0009-disable-google-ipv6-probes.patch
 core/inox-patchset/0015-disable-update-pings.patch
 core/inox-patchset/0017-disable-new-avatar-menu.patch
 core/inox-patchset/0021-disable-rlz.patch
-#core/debian/disable/unrar.patch
-#core/iridium-browser/safe_browsing-disable-incident-reporting.patch
-#core/iridium-browser/safe_browsing-disable-reporting-of-safebrowsing-over.patch
 core/iridium-browser/all-add-trk-prefixes-to-possibly-evil-connections.patch
 core/ungoogled-chromium/disable-crash-reporter.patch
 core/ungoogled-chromium/disable-google-host-detection.patch
@@ -25,19 +21,15 @@ core/ungoogled-chromium/disable-gaia.patch
 core/ungoogled-chromium/disable-fonts-googleapis-references.patch
 core/ungoogled-chromium/disable-webstore-urls.patch
 core/ungoogled-chromium/fix-learn-doubleclick-hsts.patch
-#core/ungoogled-chromium/disable-webrtc-log-uploader.patch
 core/ungoogled-chromium/use-local-devtools-files.patch
 core/ungoogled-chromium/disable-network-time-tracker.patch
 core/ungoogled-chromium/disable-mei-preload.patch
-#core/ungoogled-chromium/fix-building-without-safebrowsing.patch
-#core/ungoogled-chromium/remove-unused-preferences-fields.patch
 core/ungoogled-chromium/fix-building-without-enabling-reporting.patch
 core/ungoogled-chromium/block-requests.patch
 core/bromite/disable-fetching-field-trials.patch
 
 extra/inox-patchset/0006-modify-default-prefs.patch
 extra/inox-patchset/0008-restore-classic-ntp.patch
-#extra/inox-patchset/0011-add-duckduckgo-search-engine.patch
 extra/inox-patchset/0013-disable-missing-key-warning.patch
 extra/inox-patchset/0016-chromium-sandbox-pie.patch
 extra/inox-patchset/0018-disable-first-run-behaviour.patch
@@ -50,8 +42,6 @@ extra/debian/disable/welcome-page.patch
 extra/debian/disable/google-api-warning.patch
 extra/iridium-browser/net-cert-increase-default-key-length-for-newly-gener.patch
 extra/iridium-browser/mime_util-force-text-x-suse-ymp-to-be-downloaded.patch
-#extra/iridium-browser/prefs-only-keep-cookies-until-exit.patch
-#extra/iridium-browser/prefs-always-prompt-for-download-directory-by-defaul.patch
 extra/iridium-browser/updater-disable-auto-update.patch
 extra/iridium-browser/Remove-EV-certificates.patch
 extra/iridium-browser/browser-disable-profile-auto-import-on-first-run.patch
@@ -69,7 +59,6 @@ extra/ungoogled-chromium/add-flag-to-configure-extension-downloading.patch
 extra/ungoogled-chromium/add-flag-for-search-engine-collection.patch
 extra/ungoogled-chromium/add-flag-to-disable-beforeunload.patch
 extra/ungoogled-chromium/add-flag-to-force-punycode-hostnames.patch
-#extra/ungoogled-chromium/searx.patch
 extra/ungoogled-chromium/disable-webgl-renderer-info.patch
 extra/ungoogled-chromium/add-flag-to-show-avatar-button.patch
 extra/ungoogled-chromium/add-suggestions-url-field.patch
@@ -100,7 +89,6 @@ macos/debian_buster/warnings/null-destination.patch
 macos/debian_buster/warnings/int-in-bool-context.patch
 macos/ungoogled-chromium/disable-symbol-order-verification.patch
 macos/ungoogled-chromium/disable-crashpad-handler.patch
-#macos/ungoogled-chromium/fix-disabling-safebrowsing.patch
 macos/ungoogled-chromium/fix-visibility.patch
 macos/ungoogled-chromium/fix-ignored-pragma-optimize.patch
 macos/ungoogled-chromium/fix-dsymutil.patch

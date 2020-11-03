@@ -1,5 +1,16 @@
 # Disable rlz
 
+--- a/BUILD.gn
++++ b/BUILD.gn
+@@ -450,7 +450,7 @@ group("gn_all") {
+     ]
+   }
+ 
+-  if (is_chromeos || is_mac || is_win) {
++  if (is_chromeos || is_win) {
+     deps += [
+       "//rlz:rlz_id",
+       "//rlz:rlz_lib",
 --- a/rlz/buildflags/buildflags.gni
 +++ b/rlz/buildflags/buildflags.gni
 @@ -6,6 +6,6 @@ import("//build/config/chrome_build.gni"

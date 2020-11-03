@@ -1,23 +1,28 @@
 # Removes the Google sign-in sections on the settings page
 --- a/chrome/browser/resources/history/side_bar.html
 +++ b/chrome/browser/resources/history/side_bar.html
-@@ -101,11 +101,13 @@
-         $i18n{historyMenuItem}
-         <paper-ripple></paper-ripple>
-       </a>
-+<if expr="false">
-       <a href="/syncedTabs" class="page-item" path="syncedTabs"
-           on-click="onItemClick_">
-         $i18n{openTabsMenuItem}
-         <paper-ripple></paper-ripple>
-       </a>
-+</if>
-       <div class="separator"></div>
-       <a id="clear-browsing-data"
-           href="chrome://settings/clearBrowserData"
+@@ -104,11 +104,6 @@
+           $i18n{historyMenuItem}
+           <paper-ripple></paper-ripple>
+         </a>
+-        <a role="menuitem" href="/syncedTabs" class="page-item"
+-            path="syncedTabs" on-click="onItemClick_">
+-          $i18n{openTabsMenuItem}
+-          <paper-ripple></paper-ripple>
+-        </a>
+         <div class="separator"></div>
+         <a role="menuitem" id="clear-browsing-data"
+             href="chrome://settings/clearBrowserData"
+@@ -131,4 +126,4 @@
+         <iron-icon icon="cr:info-outline"></iron-icon>
+         <div>$i18nRaw{sidebarFooter}</div>
+       </div>
+-    </div>
+\ No newline at end of file
++    </div>
 --- a/chrome/browser/resources/settings/a11y_page/a11y_page.html
 +++ b/chrome/browser/resources/settings/a11y_page/a11y_page.html
-@@ -46,10 +46,6 @@
+@@ -56,10 +56,6 @@
              sub-label="$i18n{accessibleImageLabelsSubtitle}">
          </settings-toggle-button>
  </if>
@@ -59,21 +64,21 @@
            <settings-section page-title="$i18n{privacyPageTitle}"
 --- a/chrome/browser/resources/settings/languages_page/languages_page.html
 +++ b/chrome/browser/resources/settings/languages_page/languages_page.html
-@@ -208,14 +208,6 @@
-               </a>
+@@ -220,14 +220,6 @@
+                 </a>
+               </div>
              </div>
-           </div>
--          <settings-toggle-button id="offerTranslateOtherLanguages"
--              pref="{{prefs.translate.enabled}}"
--              label="$i18n{offerToEnableTranslate}"
--          <if expr="chromeos">
--              on-settings-boolean-control-change="onTranslateToggleChange_"
--          </if>
--          >
--          </settings-toggle-button>
-         </iron-collapse>
-         <settings-toggle-button
-             id="enableSpellcheckingToggle"
+-            <settings-toggle-button id="offerTranslateOtherLanguages"
+-                pref="{{prefs.translate.enabled}}"
+-                label="$i18n{offerToEnableTranslate}"
+-            <if expr="chromeos">
+-                on-settings-boolean-control-change="onTranslateToggleChange_"
+-            </if>
+-            >
+-            </settings-toggle-button>
+           </iron-collapse>
+           <settings-toggle-button
+               id="enableSpellcheckingToggle"
 --- a/chrome/browser/resources/settings/printing_page/printing_page.html
 +++ b/chrome/browser/resources/settings/printing_page/printing_page.html
 @@ -6,6 +6,7 @@
@@ -90,21 +95,6 @@
        </template>
 +</if>
      </settings-animated-pages>
---- a/chrome/browser/resources/settings/privacy_page/passwords_leak_detection_toggle.html
-+++ b/chrome/browser/resources/settings/privacy_page/passwords_leak_detection_toggle.html
-@@ -6,6 +6,7 @@
-           padding-inline-start: 0;
-       }
-     </style>
-+<if expr="false">
-     <settings-toggle-button id="passwordsLeakDetectionCheckbox" class="hr"
-         pref="[[passwordsLeakDetectionPref_]]" no-set-pref
-         label="$i18n{passwordsLeakDetectionLabel}"
-@@ -16,3 +17,4 @@
-             prefs.safebrowsing.enhanced.value)]]"
-         on-settings-boolean-control-change="onPasswordsLeakDetectionChange_">
-     </settings-toggle-button>
-+</if>
 --- a/chrome/browser/resources/settings/privacy_page/personalization_options.html
 +++ b/chrome/browser/resources/settings/privacy_page/personalization_options.html
 @@ -35,7 +35,7 @@
@@ -131,26 +121,34 @@
 +</if>
  
  <if expr="not chromeos">
-     <cr-toast id="toast" open="[[showRestartToast_]]">
+     <cr-toast id="toast">
 --- a/chrome/browser/resources/settings/settings_menu/settings_menu.html
 +++ b/chrome/browser/resources/settings/settings_menu/settings_menu.html
-@@ -107,11 +107,13 @@
-         <iron-icon icon="settings:assignment"></iron-icon>
-         $i18n{autofillPageTitle}
-       </a>
+@@ -111,12 +111,14 @@
+             <iron-icon icon="settings:assignment"></iron-icon>
+             $i18n{autofillPageTitle}
+           </a>
 +<if expr="false">
-       <a href="/safetyCheck" hidden="[[!pageVisibility.safetyCheck]]"
-           id="safetyCheck">
-         <iron-icon icon="settings20:safety-check"></iron-icon>
-         $i18n{safetyCheckSectionTitle}
-       </a>
+           <a role="menuitem" href="/safetyCheck"
+               hidden="[[!pageVisibility.safetyCheck]]"
+               id="safetyCheck">
+             <iron-icon icon="settings20:safety-check"></iron-icon>
+             $i18n{safetyCheckSectionTitle}
+           </a>
 +</if>
-       <a href="/privacy" hidden="[[!pageVisibility.privacy]]">
-         <iron-icon icon="cr:security"></iron-icon>
-         $i18n{privacyPageTitle}
+           <a role="menuitem" href="/privacy"
+               hidden="[[!pageVisibility.privacy]]">
+             <iron-icon icon="cr:security"></iron-icon>
+@@ -207,4 +209,4 @@
+           </a>
+         </iron-selector>
+       </cr-menu-selector>
+-    </div>
+\ No newline at end of file
++    </div>
 --- a/chrome/browser/ui/views/profiles/profile_menu_view.cc
 +++ b/chrome/browser/ui/views/profiles/profile_menu_view.cc
-@@ -195,6 +195,7 @@ void ProfileMenuView::BuildMenu() {
+@@ -199,6 +199,7 @@ void ProfileMenuView::BuildMenu() {
  }
  
  gfx::ImageSkia ProfileMenuView::GetSyncIcon() const {
@@ -158,7 +156,7 @@
    Profile* profile = browser()->profile();
  
    if (!profile->IsRegularProfile())
-@@ -476,7 +477,7 @@ void ProfileMenuView::BuildIdentity() {
+@@ -475,7 +476,7 @@ void ProfileMenuView::BuildIdentity() {
          ui::ImageModel::FromImage(
              profile_attributes->GetAvatarIcon(kIdentityImageSize)),
          /*title=*/base::string16(),
@@ -167,7 +165,7 @@
    }
  }
  
-@@ -530,6 +531,7 @@ void ProfileMenuView::BuildSyncInfo() {
+@@ -546,6 +547,7 @@ void ProfileMenuView::BuildSyncInfo() {
      return;
    }
  

@@ -21,6 +21,7 @@ mkdir -p "$_cache"
 
 "$_root/utils/downloads.py" retrieve -i "$_root/downloads.ini" "$_root/llvm_download.ini" -c "$_cache"
 "$_root/utils/downloads.py" unpack -i "$_root/downloads.ini" "$_root/llvm_download.ini" -c "$_cache" "$_src"
+chmod -R u+w "$_src/third_party/"
 "$_root/utils/prune_binaries.py" "$_src" "$_root/pruning.list"
 "$_root/utils/patches.py" apply "$_src" "$_root/patches"
 "$_root/utils/domain_substitution.py" apply -r "$_root/domain_regex.list" -f "$_root/domain_substitution.list" -c "$_root/build/domsubcache.tar.gz" "$_src"

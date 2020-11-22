@@ -79,22 +79,6 @@
            </iron-collapse>
            <settings-toggle-button
                id="enableSpellcheckingToggle"
---- a/chrome/browser/resources/settings/printing_page/printing_page.html
-+++ b/chrome/browser/resources/settings/printing_page/printing_page.html
-@@ -6,6 +6,7 @@
-         <cr-link-row label="$i18n{localPrintersTitle}"
-             on-click="onTapLocalPrinters_" external></cr-link-row>
- </if>
-+<if expr="false">
-         <cr-link-row class="hr" id="cloudPrinters"
-             label="$i18n{cloudPrintersTitle}"
-             sub-label="[[cloudPrintersSublabel_]]"
-@@ -23,4 +24,5 @@
-           </settings-cloud-printers>
-         </settings-subpage>
-       </template>
-+</if>
-     </settings-animated-pages>
 --- a/chrome/browser/resources/settings/privacy_page/personalization_options.html
 +++ b/chrome/browser/resources/settings/privacy_page/personalization_options.html
 @@ -35,7 +35,7 @@
@@ -139,16 +123,9 @@
            <a role="menuitem" href="/privacy"
                hidden="[[!pageVisibility.privacy]]">
              <iron-icon icon="cr:security"></iron-icon>
-@@ -207,4 +209,4 @@
-           </a>
-         </iron-selector>
-       </cr-menu-selector>
--    </div>
-\ No newline at end of file
-+    </div>
 --- a/chrome/browser/ui/views/profiles/profile_menu_view.cc
 +++ b/chrome/browser/ui/views/profiles/profile_menu_view.cc
-@@ -199,6 +199,7 @@ void ProfileMenuView::BuildMenu() {
+@@ -215,6 +215,7 @@ void ProfileMenuView::BuildMenu() {
  }
  
  gfx::ImageSkia ProfileMenuView::GetSyncIcon() const {
@@ -156,7 +133,7 @@
    Profile* profile = browser()->profile();
  
    if (!profile->IsRegularProfile())
-@@ -475,7 +476,7 @@ void ProfileMenuView::BuildIdentity() {
+@@ -505,7 +506,7 @@ void ProfileMenuView::BuildIdentity() {
          ui::ImageModel::FromImage(
              profile_attributes->GetAvatarIcon(kIdentityImageSize)),
          /*title=*/base::string16(),
@@ -165,7 +142,7 @@
    }
  }
  
-@@ -546,6 +547,7 @@ void ProfileMenuView::BuildSyncInfo() {
+@@ -576,6 +577,7 @@ void ProfileMenuView::BuildSyncInfo() {
      return;
    }
  

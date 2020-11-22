@@ -2,7 +2,7 @@
 
 --- a/chrome/browser/ui/chrome_pages.cc
 +++ b/chrome/browser/ui/chrome_pages.cc
-@@ -466,22 +466,6 @@ GURL GetOSSettingsUrl(const std::string&
+@@ -482,22 +482,6 @@ GURL GetOSSettingsUrl(const std::string&
  #if !defined(OS_ANDROID) && !defined(OS_CHROMEOS)
  void ShowBrowserSignin(Browser* browser,
                         signin_metrics::AccessPoint access_point) {

@@ -5,26 +5,26 @@
 
 --- a/third_party/devtools-frontend/src/BUILD.gn
 +++ b/third_party/devtools-frontend/src/BUILD.gn
-@@ -227,7 +227,7 @@ devtools_frontend_resources_deps = [
+@@ -225,7 +225,7 @@ devtools_applications = [
+ devtools_frontend_resources_deps = [
    ":build_release_devtools",
-   ":devtools_extension_api",
    "front_end",
 -  "test",
 +#  "test",
  ]
  
  group("devtools_all_files") {
-@@ -262,7 +262,6 @@ action("generate_devtools_grd") {
+@@ -259,7 +259,6 @@ action("generate_devtools_grd") {
+       generated_typescript_modules + generated_devtools_locale_files +
        generated_emulated_device_images +
        [
-         "$resources_out_dir/devtools_extension_api.js",
 -        "$resources_out_dir/sdk/wasm_source_map/pkg/wasm_source_map_bg.wasm",
          "$resources_out_dir/formatter_worker_entrypoint.js",
          "$resources_out_dir/third_party/acorn/package/dist/acorn.mjs",
        ]
 --- a/third_party/devtools-frontend/src/devtools_grd_files.gni
 +++ b/third_party/devtools-frontend/src/devtools_grd_files.gni
-@@ -308,7 +308,6 @@ grd_files_release_sources = [
+@@ -318,7 +318,6 @@ grd_files_release_sources = [
    "front_end/screencast/screencast.js",
    "front_end/sdk/sdk-legacy.js",
    "front_end/sdk/sdk.js",

@@ -1,7 +1,7 @@
 
 --- a/chrome/browser/background/background_mode_manager.cc
 +++ b/chrome/browser/background/background_mode_manager.cc
-@@ -339,7 +339,7 @@ void BackgroundModeManager::RegisterPref
+@@ -342,7 +342,7 @@ void BackgroundModeManager::RegisterPref
    registry->RegisterBooleanPref(prefs::kChromeCreatedLoginItem, false);
    registry->RegisterBooleanPref(prefs::kMigratedLoginItemPref, false);
  #endif
@@ -12,7 +12,7 @@
  void BackgroundModeManager::RegisterProfile(Profile* profile) {
 --- a/chrome/browser/chrome_content_browser_client.cc
 +++ b/chrome/browser/chrome_content_browser_client.cc
-@@ -1312,7 +1312,7 @@ void ChromeContentBrowserClient::Registe
+@@ -1331,7 +1331,7 @@ void ChromeContentBrowserClient::Registe
  void ChromeContentBrowserClient::RegisterProfilePrefs(
      user_prefs::PrefRegistrySyncable* registry) {
    registry->RegisterBooleanPref(prefs::kDisable3DAPIs, false);
@@ -56,7 +56,7 @@
    registry->RegisterStringPref(
 --- a/chrome/browser/resources/settings/reset_page/reset_profile_dialog.html
 +++ b/chrome/browser/resources/settings/reset_page/reset_profile_dialog.html
-@@ -34,7 +34,7 @@
+@@ -36,7 +36,7 @@
          </cr-button>
        </div>
        <div slot="footer">
@@ -146,7 +146,7 @@
        prefs::kShowManagedBookmarksInBookmarkBar,
 --- a/components/password_manager/core/browser/password_manager.cc
 +++ b/components/password_manager/core/browser/password_manager.cc
-@@ -205,10 +205,10 @@ FormData SimplifiedFormDataFromFormStruc
+@@ -206,10 +206,10 @@ FormData SimplifiedFormDataFromFormStruc
  void PasswordManager::RegisterProfilePrefs(
      user_prefs::PrefRegistrySyncable* registry) {
    registry->RegisterBooleanPref(

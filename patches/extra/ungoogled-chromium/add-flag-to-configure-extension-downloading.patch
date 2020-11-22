@@ -3,7 +3,7 @@
 
 --- a/chrome/browser/about_flags.cc
 +++ b/chrome/browser/about_flags.cc
-@@ -264,6 +264,16 @@ const unsigned kOsDesktop = kOsMac | kOs
+@@ -266,6 +266,16 @@ const unsigned kOsDesktop = kOsMac | kOs
  const unsigned kOsAura = kOsWin | kOsLinux | kOsCrOS;
  #endif  // USE_AURA || OS_ANDROID
  
@@ -20,7 +20,7 @@
  #if defined(USE_AURA)
  const FeatureEntry::Choice kPullToRefreshChoices[] = {
      {flags_ui::kGenericExperimentChoiceDefault, "", ""},
-@@ -2406,6 +2416,10 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2442,6 +2452,10 @@ const FeatureEntry kFeatureEntries[] = {
  // Include generated flags for flag unexpiry; see //docs/flag_expiry.md and
  // //tools/flags/generate_unexpire_flags.py.
  #include "chrome/browser/unexpire_flags_gen.inc"
@@ -102,7 +102,7 @@
 @@ -8,6 +8,7 @@
  
  #include "base/bind.h"
- #include "base/bind_helpers.h"
+ #include "base/callback_helpers.h"
 +#include "base/command_line.h"
  #include "base/logging.h"
  #include "base/metrics/histogram_functions.h"

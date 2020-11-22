@@ -2,7 +2,7 @@
 
 --- a/build/config/compiler/BUILD.gn
 +++ b/build/config/compiler/BUILD.gn
-@@ -1544,10 +1544,6 @@ config("default_warnings") {
+@@ -1525,10 +1525,6 @@ config("default_warnings") {
            # instead of having a global flag.
            "-Wno-psabi",
  
@@ -13,7 +13,7 @@
            # TODO(https://crbug.com/989932): Evaluate and possibly enable.
            "-Wno-implicit-int-float-conversion",
  
-@@ -1559,9 +1555,6 @@ config("default_warnings") {
+@@ -1540,9 +1536,6 @@ config("default_warnings") {
  
            # TODO(https://crbug.com/1028110): Evaluate and possible enable.
            "-Wno-deprecated-copy",
@@ -23,7 +23,7 @@
          ]
  
          cflags_c += [
-@@ -1576,9 +1569,6 @@ config("default_warnings") {
+@@ -1552,9 +1545,6 @@ config("default_warnings") {
  
          if (enable_wmax_tokens) {
            cflags += [ "-Wmax-tokens" ]

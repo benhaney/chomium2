@@ -1,6 +1,6 @@
 --- a/chrome/browser/about_flags.cc
 +++ b/chrome/browser/about_flags.cc
-@@ -303,6 +303,13 @@ const FeatureEntry::Choice kPDFPluginNam
+@@ -305,6 +305,13 @@ const FeatureEntry::Choice kPDFPluginNam
      {"Microsoft Edge", switches::kPDFPluginName, "edge"},
  };
  
@@ -14,7 +14,7 @@
  #if defined(USE_AURA)
  const FeatureEntry::Choice kPullToRefreshChoices[] = {
      {flags_ui::kGenericExperimentChoiceDefault, "", ""},
-@@ -2731,6 +2738,12 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2767,6 +2774,12 @@ const FeatureEntry kFeatureEntries[] = {
      {"focus-mode", flag_descriptions::kFocusMode,
       flag_descriptions::kFocusModeDescription, kOsDesktop,
       FEATURE_VALUE_TYPE(features::kFocusMode)},

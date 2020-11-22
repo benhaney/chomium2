@@ -95,7 +95,7 @@ by default.
  // creates and uses to publish OEM default apps to the extensions system.
 --- a/chrome/browser/chromeos/extensions/file_manager/private_api_drive.cc
 +++ b/chrome/browser/chromeos/extensions/file_manager/private_api_drive.cc
-@@ -857,7 +857,7 @@ void FileManagerPrivateInternalGetDownlo
+@@ -860,7 +860,7 @@ void FileManagerPrivateInternalGetDownlo
    const CoreAccountId& account_id =
        identity_manager->GetPrimaryAccountId(signin::ConsentLevel::kNotRequired);
    std::vector<std::string> scopes;
@@ -115,35 +115,6 @@ by default.
  
  // Thresholds for mountCrostini() API.
  constexpr base::TimeDelta kMountCrostiniSlowOperationThreshold =
---- a/chrome/browser/chromeos/file_manager/file_manager_string_util.cc
-+++ b/chrome/browser/chromeos/file_manager/file_manager_string_util.cc
-@@ -19,21 +19,21 @@ namespace {
- 
- // Location of the page to buy more storage for Google Drive.
- const char kGoogleDriveBuyStorageUrl[] =
--    "https://www.google.com/settings/storage";
-+    "trk:210:https://www.google.com/settings/storage";
- 
- // Location of the overview page about Google Drive.
- const char kGoogleDriveOverviewUrl[] =
--    "https://support.google.com/chromebook/?p=filemanager_drive";
-+    "trk:210:https://support.google.com/chromebook/?p=filemanager_drive";
- 
- // Location of Google Drive specific help.
- const char kGoogleDriveHelpUrl[] =
--    "https://support.google.com/chromebook/?p=filemanager_drivehelp";
-+    "trk:212:https://support.google.com/chromebook/?p=filemanager_drivehelp";
- 
- // Location of Google Drive root.
--const char kGoogleDriveRootUrl[] = "https://drive.google.com";
-+const char kGoogleDriveRootUrl[] = "trk:213:https://drive.google.com";
- 
- // Printf format
--const char kHelpURLFormat[] = "https://support.google.com/chromebook/answer/%d";
-+const char kHelpURLFormat[] = "trk:214:https://support.google.com/chromebook/answer/%d";
- 
- // Location of the help page for low space warning in the downloads directory.
- const int kDownloadsLowSpaceWarningHelpNumber = 1061547;
 --- a/chrome/browser/extensions/api/cryptotoken_private/cryptotoken_private_api.cc
 +++ b/chrome/browser/extensions/api/cryptotoken_private/cryptotoken_private_api.cc
 @@ -60,8 +60,8 @@ enum class U2FAttestationPromptResult {
@@ -190,27 +161,6 @@ by default.
  }
  
  ProfileAvatarDownloader::ProfileAvatarDownloader(size_t icon_index,
---- a/chrome/browser/resources/default_apps/external_extensions.json
-+++ b/chrome/browser/resources/default_apps/external_extensions.json
-@@ -23,15 +23,15 @@
-   },
-   // Google Sheets
-   "aapocclcgogkmnckokdopfmhonfmgoek" : {
--    "external_update_url": "https://clients2.google.com/service/update2/crx"
-+    "external_update_url": "trk:03:https://clients2.google.com/service/update2/crx"
-   },
-   // Google Slides
-   "felcaaldnbdncclmgdcncolpebgiejap" : {
--    "external_update_url": "https://clients2.google.com/service/update2/crx"
-+    "external_update_url": "trk:04:https://clients2.google.com/service/update2/crx"
-   },
-   // Drive extension
-   "ghbmnnjooekpmoecnnnilnnbdlolhkhi" : {
--    "external_update_url": "https://clients2.google.com/service/update2/crx"
-+    "external_update_url": "trk:04:https://clients2.google.com/service/update2/crx"
-   }
- }
- 
 --- a/chrome/browser/safe_browsing/client_side_detection_service.cc
 +++ b/chrome/browser/safe_browsing/client_side_detection_service.cc
 @@ -57,7 +57,7 @@ const int ClientSideDetectionService::kN
@@ -337,7 +287,7 @@ by default.
      "https://www.google.com/intl/%s/chrome/terms/";
 --- a/chrome/installer/setup/google_chrome_behaviors.cc
 +++ b/chrome/installer/setup/google_chrome_behaviors.cc
-@@ -44,7 +44,7 @@ base::string16 LocalizeUrl(const wchar_t
+@@ -47,7 +47,7 @@ base::string16 LocalizeUrl(const wchar_t
  
  base::string16 GetUninstallSurveyUrl() {
    static constexpr wchar_t kSurveyUrl[] =
@@ -381,29 +331,12 @@ by default.
  
 --- a/components/cloud_devices/common/cloud_devices_urls.cc
 +++ b/components/cloud_devices/common/cloud_devices_urls.cc
-@@ -14,27 +14,27 @@
+@@ -14,14 +14,14 @@
  namespace cloud_devices {
  
  const char kCloudPrintAuthScope[] =
 -    "https://www.googleapis.com/auth/cloudprint";
 +    "trk:197:https://www.googleapis.com/auth/cloudprint";
- 
- const char kCloudPrintDeprecationHelpURL[] =
- #if defined(OS_CHROMEOS)
--    "https://support.google.com/chromebook/?p=cloudprint";
-+    "trk:198:https://support.google.com/chromebook/?p=cloudprint";
- #else
--    "https://support.google.com/chrome/?p=cloudprint";
-+    "trk:198:https://support.google.com/chrome/?p=cloudprint";
- #endif
- 
- const char kCloudPrintLearnMoreURL[] =
--    "https://www.google.com/support/cloudprint";
-+    "trk:199:https://www.google.com/support/cloudprint";
- 
- const char kCloudPrintTestPageURL[] =
--    "http://www.google.com/landing/cloudprint/enable.html?print=true";
-+    "trk:200:http://www.google.com/landing/cloudprint/enable.html?print=true";
  
  namespace {
  
@@ -495,7 +428,7 @@ by default.
  
 --- a/components/password_manager/core/browser/password_store.cc
 +++ b/components/password_manager/core/browser/password_store.cc
-@@ -268,10 +268,10 @@ void PasswordStore::GetLogins(const Form
+@@ -270,10 +270,10 @@ void PasswordStore::GetLogins(const Form
    // TODO(mdm): actually delete them at some point, say M24 or so.
    base::Time cutoff;  // the null time
    if (form.scheme == PasswordForm::Scheme::kHtml &&
@@ -512,7 +445,7 @@ by default.
      base::Time out_time;
 --- a/components/policy/resources/policy_templates.json
 +++ b/components/policy/resources/policy_templates.json
-@@ -4528,7 +4528,7 @@
+@@ -4624,7 +4624,7 @@
          'dynamic_refresh': True,
          'per_profile': True,
        },
@@ -521,7 +454,7 @@ by default.
        'id': 34,
        'caption': '''Configure the list of force-installed apps and extensions''',
        'tags': ['full-admin-access'],
-@@ -9726,7 +9726,7 @@
+@@ -9905,7 +9905,7 @@
          'dynamic_refresh': True,
        },
        'deprecated': True,
@@ -552,17 +485,6 @@ by default.
  const char kDataContentType[] = "application/x-www-form-urlencoded";
  const char kDataFormat[] = "key=%s&urls=%s";
  
---- a/components/search_engines/prepopulated_engines.json
-+++ b/components/search_engines/prepopulated_engines.json
-@@ -115,7 +115,7 @@
-     "google": {
-       "name": "Google",
-       "keyword": "google.com",
--      "favicon_url": "https://www.google.com/images/branding/product/ico/googleg_lodp.ico",
-+      "favicon_url": "trk:186:https://www.google.com/images/branding/product/ico/googleg_lodp.ico",
-       "search_url": "{google:baseURL}search?q={searchTerms}&{google:RLZ}{google:originalQueryForSuggestion}{google:assistedQueryStats}{google:searchFieldtrialParameter}{google:iOSSearchLanguage}{google:searchClient}{google:sourceId}{google:contextualSearchVersion}ie={inputEncoding}",
-       "suggest_url": "{google:baseSuggestURL}search?{google:searchFieldtrialParameter}client={google:suggestClient}&gs_ri={google:suggestRid}&xssi=t&q={searchTerms}&{google:inputType}{google:omniboxFocusType}{google:cursorPosition}{google:currentPageUrl}{google:pageClassification}{google:searchVersion}{google:sessionToken}{google:prefetchQuery}sugkey={google:suggestAPIKeyParameter}",
-       "image_url": "{google:baseURL}searchbyimage/upload",
 --- a/components/translate/core/browser/translate_url_fetcher.cc
 +++ b/components/translate/core/browser/translate_url_fetcher.cc
 @@ -113,6 +113,7 @@ bool TranslateURLFetcher::Request(const 

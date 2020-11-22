@@ -1,6 +1,6 @@
 --- a/chrome/browser/about_flags.cc
 +++ b/chrome/browser/about_flags.cc
-@@ -310,6 +310,16 @@ const FeatureEntry::Choice kBookmarkBarN
+@@ -312,6 +312,16 @@ const FeatureEntry::Choice kBookmarkBarN
       "never"},
  };
  
@@ -17,7 +17,7 @@
  #if defined(USE_AURA)
  const FeatureEntry::Choice kPullToRefreshChoices[] = {
      {flags_ui::kGenericExperimentChoiceDefault, "", ""},
-@@ -2468,6 +2478,10 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2504,6 +2514,10 @@ const FeatureEntry kFeatureEntries[] = {
        "Force punycode hostnames",
        "Force punycode in hostnames instead of Unicode when displaying Internationalized Domain Names (IDNs).",
        kOsAll, SINGLE_VALUE_TYPE("force-punycode-hostnames")},

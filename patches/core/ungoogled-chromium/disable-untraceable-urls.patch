@@ -2,7 +2,7 @@
 
 --- a/chrome/browser/plugins/plugins_resource_service.cc
 +++ b/chrome/browser/plugins/plugins_resource_service.cc
-@@ -53,9 +53,6 @@ const int kStartResourceFetchDelayMs = 6
+@@ -52,9 +52,6 @@ const int kStartResourceFetchDelayMs = 6
  // Delay between calls to update the cache 1 day and 2 minutes in testing mode.
  const int kCacheUpdateDelayMs = 24 * 60 * 60 * 1000;
  
@@ -12,7 +12,7 @@
  GURL GetPluginsServerURL() {
    std::string filename;
  #if defined(OS_WIN)
-@@ -70,7 +67,7 @@ GURL GetPluginsServerURL() {
+@@ -69,7 +66,7 @@ GURL GetPluginsServerURL() {
  #error Unknown platform
  #endif
  
@@ -23,7 +23,7 @@
  }  // namespace
 --- a/chrome/browser/safe_browsing/client_side_model_loader.cc
 +++ b/chrome/browser/safe_browsing/client_side_model_loader.cc
-@@ -59,8 +59,6 @@ std::string ReadFileIntoString(base::Fil
+@@ -60,8 +60,6 @@ std::string ReadFileIntoString(base::Fil
  // Model Loader strings
  const size_t ModelLoader::kMaxModelSizeBytes = 150 * 1024;
  const int ModelLoader::kClientModelFetchIntervalMs = 3600 * 1000;
@@ -31,8 +31,8 @@
 -    "https://ssl.gstatic.com/safebrowsing/csd/";
  const char ModelLoader::kClientModelNamePattern[] =
      "client_model_v5%s_variation_%d.pb";
- const char ModelLoader::kClientModelFinchExperiment[] =
-@@ -121,7 +119,7 @@ ModelLoader::ModelLoader(
+ #if !BUILDFLAG(FULL_SAFE_BROWSING)
+@@ -125,7 +123,7 @@ ModelLoader::ModelLoader(
      scoped_refptr<network::SharedURLLoaderFactory> url_loader_factory,
      bool is_extended_reporting)
      : name_(FillInModelName(is_extended_reporting, GetModelNumber())),
@@ -41,7 +41,7 @@
        update_renderers_callback_(update_renderers_callback),
        url_loader_factory_(url_loader_factory),
        last_client_model_status_(ClientModelStatus::MODEL_NEVER_FETCHED) {
-@@ -135,7 +133,7 @@ ModelLoader::ModelLoader(
+@@ -139,7 +137,7 @@ ModelLoader::ModelLoader(
      scoped_refptr<network::SharedURLLoaderFactory> url_loader_factory,
      const std::string& model_name)
      : name_(model_name),

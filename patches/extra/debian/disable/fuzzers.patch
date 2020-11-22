@@ -15,7 +15,7 @@ author: Michael Gilbert <mgilbert@debian.org>
        "//testing/libfuzzer/fuzzers",
 --- a/content/test/BUILD.gn
 +++ b/content/test/BUILD.gn
-@@ -2553,10 +2553,6 @@ test("content_perftests") {
+@@ -2571,10 +2571,6 @@ test("content_perftests") {
    }
  }
  

@@ -71,7 +71,7 @@
      return GURL(parts.scheme.is_valid() ? text : FixupPath(text));
 --- a/content/browser/child_process_security_policy_impl.cc
 +++ b/content/browser/child_process_security_policy_impl.cc
-@@ -751,6 +751,7 @@ ChildProcessSecurityPolicyImpl::ChildPro
+@@ -771,6 +771,7 @@ ChildProcessSecurityPolicyImpl::ChildPro
  #endif  // BUILDFLAG(ENABLE_WEBSOCKETS)
    RegisterWebSafeScheme(url::kFtpScheme);
    RegisterWebSafeScheme(url::kDataScheme);
@@ -81,7 +81,7 @@
    // TODO(nick): https://crbug.com/651534 blob: and filesystem: schemes embed
 --- a/net/BUILD.gn
 +++ b/net/BUILD.gn
-@@ -1085,6 +1085,8 @@ component("net") {
+@@ -1082,6 +1082,8 @@ component("net") {
        "url_request/report_sender.h",
        "url_request/static_http_user_agent_settings.cc",
        "url_request/static_http_user_agent_settings.h",

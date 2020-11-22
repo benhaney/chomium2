@@ -17,17 +17,17 @@ with limited CPU/memory resources and it is disabled by default.
 
 --- a/chrome/browser/BUILD.gn
 +++ b/chrome/browser/BUILD.gn
-@@ -2053,6 +2053,7 @@ static_library("browser") {
+@@ -2102,6 +2102,7 @@ static_library("browser") {
      "//components/net_log",
      "//components/network_hints/common:mojo_bindings",
      "//components/network_session_configurator/browser",
 +    "//components/network_session_configurator/common",
      "//components/network_time",
-     "//components/ntp_tiles",
-     "//components/offline_items_collection/core",
+     "//components/no_state_prefetch/browser",
+     "//components/no_state_prefetch/common",
 --- a/chrome/browser/about_flags.cc
 +++ b/chrome/browser/about_flags.cc
-@@ -837,6 +837,11 @@ const FeatureEntry::Choice kForceEffecti
+@@ -839,6 +839,11 @@ const FeatureEntry::Choice kForceEffecti
       net::kEffectiveConnectionType4G},
  };
  
@@ -39,7 +39,7 @@ with limited CPU/memory resources and it is disabled by default.
  // Ensure that all effective connection types returned by Network Quality
  // Estimator (NQE) are also exposed via flags.
  static_assert(net::EFFECTIVE_CONNECTION_TYPE_LAST + 2 ==
-@@ -3550,6 +3555,9 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -3595,6 +3600,9 @@ const FeatureEntry kFeatureEntries[] = {
       flag_descriptions::kAutofillCreditCardUploadDescription, kOsAll,
       FEATURE_VALUE_TYPE(autofill::features::kAutofillUpstream)},
  #endif  // TOOLKIT_VIEWS || OS_ANDROID
@@ -103,7 +103,7 @@ with limited CPU/memory resources and it is disabled by default.
  
 --- a/chrome/browser/flag_descriptions.cc
 +++ b/chrome/browser/flag_descriptions.cc
-@@ -1379,6 +1379,10 @@ const char kMediaHistoryDescription[] =
+@@ -1382,6 +1382,10 @@ const char kMediaHistoryDescription[] =
      "Enables Media History which records data around media playbacks on "
      "websites.";
  
@@ -116,7 +116,7 @@ with limited CPU/memory resources and it is disabled by default.
  const char kMediaRouterCastAllowAllIPsDescription[] =
 --- a/chrome/browser/flag_descriptions.h
 +++ b/chrome/browser/flag_descriptions.h
-@@ -816,6 +816,9 @@ extern const char kMarkHttpAsWarningAndD
+@@ -820,6 +820,9 @@ extern const char kMarkHttpAsWarningAndD
  extern const char kMediaHistoryName[];
  extern const char kMediaHistoryDescription[];
  

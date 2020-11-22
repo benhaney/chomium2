@@ -1,6 +1,6 @@
 --- a/build/config/compiler/BUILD.gn
 +++ b/build/config/compiler/BUILD.gn
-@@ -1539,11 +1539,6 @@ config("default_warnings") {
+@@ -1520,11 +1520,6 @@ config("default_warnings") {
          # Flags NaCl (Clang 3.7) and Xcode 9.2 (Clang clang-900.0.39.2) do not
          # recognize.
          cflags += [
@@ -14,7 +14,7 @@
  
 --- a/third_party/angle/BUILD.gn
 +++ b/third_party/angle/BUILD.gn
-@@ -154,8 +154,6 @@ config("extra_warnings") {
+@@ -175,8 +175,6 @@ config("extra_warnings") {
        "-Wredundant-parens",
        "-Wreturn-std-move-in-c++11",
        "-Wshadow-field",
@@ -25,7 +25,7 @@
        "-Wunneeded-internal-declaration",
 --- a/third_party/dawn/src/common/BUILD.gn
 +++ b/third_party/dawn/src/common/BUILD.gn
-@@ -106,7 +106,6 @@ config("dawn_internal") {
+@@ -107,7 +107,6 @@ config("dawn_internal") {
        "-Winconsistent-missing-destructor-override",
        "-Winvalid-offsetof",
        "-Wmissing-field-initializers",

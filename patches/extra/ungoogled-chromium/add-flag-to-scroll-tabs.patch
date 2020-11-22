@@ -1,6 +1,6 @@
 --- a/chrome/browser/about_flags.cc
 +++ b/chrome/browser/about_flags.cc
-@@ -287,6 +287,16 @@ const FeatureEntry::Choice kShowAvatarBu
+@@ -289,6 +289,16 @@ const FeatureEntry::Choice kShowAvatarBu
       "never"}
  };
  
@@ -17,7 +17,7 @@
  #if defined(USE_AURA)
  const FeatureEntry::Choice kPullToRefreshChoices[] = {
      {flags_ui::kGenericExperimentChoiceDefault, "", ""},
-@@ -4772,6 +4782,11 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -4771,6 +4781,11 @@ const FeatureEntry kFeatureEntries[] = {
       FEATURE_VALUE_TYPE(
           lookalikes::features::kDetectTargetEmbeddingLookalikes)},
  

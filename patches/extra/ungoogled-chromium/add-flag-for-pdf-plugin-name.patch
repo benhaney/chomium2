@@ -1,6 +1,6 @@
 --- a/chrome/browser/about_flags.cc
 +++ b/chrome/browser/about_flags.cc
-@@ -297,6 +297,12 @@ const FeatureEntry::Choice kScrollEventC
+@@ -299,6 +299,12 @@ const FeatureEntry::Choice kScrollEventC
       "never"}
  };
  
@@ -13,7 +13,7 @@
  #if defined(USE_AURA)
  const FeatureEntry::Choice kPullToRefreshChoices[] = {
      {flags_ui::kGenericExperimentChoiceDefault, "", ""},
-@@ -2455,6 +2461,10 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2491,6 +2497,10 @@ const FeatureEntry kFeatureEntries[] = {
        "Force punycode hostnames",
        "Force punycode in hostnames instead of Unicode when displaying Internationalized Domain Names (IDNs).",
        kOsAll, SINGLE_VALUE_TYPE("force-punycode-hostnames")},
@@ -26,7 +26,7 @@
       SINGLE_VALUE_TYPE(switches::kIgnoreGpuBlocklist)},
 --- a/chrome/browser/chrome_content_browser_client.cc
 +++ b/chrome/browser/chrome_content_browser_client.cc
-@@ -5753,7 +5753,7 @@ bool ChromeContentBrowserClient::ShouldA
+@@ -5760,7 +5760,7 @@ bool ChromeContentBrowserClient::ShouldA
      const url::Origin& embedder_origin,
      const content::PepperPluginInfo& plugin_info) {
  #if BUILDFLAG(ENABLE_PDF)
@@ -37,7 +37,7 @@
      if (embedder_origin.scheme() == extensions::kExtensionScheme &&
 --- a/chrome/browser/pdf/pdf_extension_util.cc
 +++ b/chrome/browser/pdf/pdf_extension_util.cc
-@@ -152,7 +152,7 @@ std::string GetManifest() {
+@@ -153,7 +153,7 @@ std::string GetManifest() {
    DCHECK(manifest_contents.find(kNameTag) != std::string::npos);
    base::ReplaceFirstSubstringAfterOffset(
        &manifest_contents, 0, kNameTag,
@@ -89,7 +89,7 @@
  }
 --- a/chrome/browser/resources/plugin_metadata/plugins_chromeos.json
 +++ b/chrome/browser/resources/plugin_metadata/plugins_chromeos.json
-@@ -43,6 +43,19 @@
+@@ -44,6 +44,19 @@
      "name": "Chrome PDF Viewer",
      "group_name_matcher": "*Chrome PDF Viewer*"
    },
@@ -109,7 +109,7 @@
    "chromium-pdf": {
      "mime_types": [
      ],
-@@ -69,6 +82,19 @@
+@@ -70,6 +83,19 @@
      "name": "Chrome PDF Plugin",
      "group_name_matcher": "*Chrome PDF Plugin*"
    },
@@ -131,7 +131,7 @@
      ],
 --- a/chrome/browser/resources/plugin_metadata/plugins_linux.json
 +++ b/chrome/browser/resources/plugin_metadata/plugins_linux.json
-@@ -35,6 +35,19 @@
+@@ -36,6 +36,19 @@
      "name": "Chrome PDF Viewer",
      "group_name_matcher": "*Chrome PDF Viewer*"
    },
@@ -151,7 +151,7 @@
    "chromium-pdf": {
      "mime_types": [
      ],
-@@ -61,6 +74,19 @@
+@@ -62,6 +75,19 @@
      "name": "Chrome PDF Plugin",
      "group_name_matcher": "*Chrome PDF Plugin*"
    },
@@ -173,7 +173,7 @@
      ],
 --- a/chrome/browser/resources/plugin_metadata/plugins_mac.json
 +++ b/chrome/browser/resources/plugin_metadata/plugins_mac.json
-@@ -32,6 +32,19 @@
+@@ -33,6 +33,19 @@
      "name": "Chrome PDF Viewer",
      "group_name_matcher": "*Chrome PDF Viewer*"
    },
@@ -193,7 +193,7 @@
    "chromium-pdf": {
      "mime_types": [
      ],
-@@ -58,6 +71,19 @@
+@@ -59,6 +72,19 @@
      "name": "Chrome PDF Plugin",
      "group_name_matcher": "*Chrome PDF Plugin*"
    },
@@ -215,7 +215,7 @@
      ],
 --- a/chrome/browser/resources/plugin_metadata/plugins_win.json
 +++ b/chrome/browser/resources/plugin_metadata/plugins_win.json
-@@ -32,6 +32,19 @@
+@@ -33,6 +33,19 @@
      "name": "Chrome PDF Viewer",
      "group_name_matcher": "*Chrome PDF Viewer*"
    },
@@ -235,7 +235,7 @@
    "chromium-pdf": {
      "mime_types": [
      ],
-@@ -58,6 +71,19 @@
+@@ -59,6 +72,19 @@
      "name": "Chrome PDF Plugin",
      "group_name_matcher": "*Chrome PDF Plugin*"
    },
@@ -257,10 +257,10 @@
      ],
 --- a/chrome/common/BUILD.gn
 +++ b/chrome/common/BUILD.gn
-@@ -245,6 +245,7 @@ static_library("common") {
+@@ -241,6 +241,7 @@ static_library("common") {
+     "//components/no_state_prefetch/common",
+     "//components/no_state_prefetch/common:mojo_bindings",
      "//components/page_load_metrics/common:common",
-     "//components/prerender/common",
-     "//components/prerender/common:mojo_bindings",
 +    "//components/ungoogled:ugswitches",
    ]
  
@@ -365,7 +365,7 @@
      FILE_PATH_LITERAL("internal-pdf-viewer");
 --- a/chrome/renderer/chrome_content_renderer_client.cc
 +++ b/chrome/renderer/chrome_content_renderer_client.cc
-@@ -915,7 +915,7 @@ WebPlugin* ChromeContentRendererClient::
+@@ -930,7 +930,7 @@ WebPlugin* ChromeContentRendererClient::
              }
            }
          } else if (info.name ==
@@ -374,7 +374,7 @@
            // Report PDF load metrics. Since the PDF plugin is comprised of an
            // extension that loads a second plugin, avoid double counting by
            // ignoring the creation of the second plugin.
-@@ -951,7 +951,7 @@ WebPlugin* ChromeContentRendererClient::
+@@ -966,7 +966,7 @@ WebPlugin* ChromeContentRendererClient::
          PluginUMAReporter::GetInstance()->ReportPluginDisabled(orig_mime_type,
                                                                 url);
          if (info.name ==

@@ -1,6 +1,6 @@
 --- a/chrome/browser/about_flags.cc
 +++ b/chrome/browser/about_flags.cc
-@@ -274,6 +274,19 @@ const FeatureEntry::Choice kExtensionHan
+@@ -276,6 +276,19 @@ const FeatureEntry::Choice kExtensionHan
       "always-prompt-for-install"},
  };
  
@@ -20,7 +20,7 @@
  #if defined(USE_AURA)
  const FeatureEntry::Choice kPullToRefreshChoices[] = {
      {flags_ui::kGenericExperimentChoiceDefault, "", ""},
-@@ -4958,6 +4971,11 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -4975,6 +4988,11 @@ const FeatureEntry kFeatureEntries[] = {
       FEATURE_VALUE_TYPE(chromeos::features::kKerberosSettingsSection)},
  #endif  // defined(OS_CHROMEOS)
  

@@ -15,7 +15,7 @@
        "//third_party/widevine/cdm",
      ]
    }
-@@ -1013,7 +1012,6 @@ if (is_win) {
+@@ -1025,7 +1024,6 @@ if (is_win) {
        ":keystone_registration_framework",
        ":swiftshader_library",
        ":widevine_cdm_library",

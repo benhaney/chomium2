@@ -1,7 +1,7 @@
 
 --- a/chrome/browser/background/background_mode_manager.cc
 +++ b/chrome/browser/background/background_mode_manager.cc
-@@ -342,7 +342,7 @@ void BackgroundModeManager::RegisterPref
+@@ -370,7 +370,7 @@ void BackgroundModeManager::RegisterPref
    registry->RegisterBooleanPref(prefs::kChromeCreatedLoginItem, false);
    registry->RegisterBooleanPref(prefs::kMigratedLoginItemPref, false);
  #endif
@@ -12,7 +12,7 @@
  void BackgroundModeManager::RegisterProfile(Profile* profile) {
 --- a/chrome/browser/chrome_content_browser_client.cc
 +++ b/chrome/browser/chrome_content_browser_client.cc
-@@ -1331,7 +1331,7 @@ void ChromeContentBrowserClient::Registe
+@@ -1289,7 +1289,7 @@ void ChromeContentBrowserClient::Registe
  void ChromeContentBrowserClient::RegisterProfilePrefs(
      user_prefs::PrefRegistrySyncable* registry) {
    registry->RegisterBooleanPref(prefs::kDisable3DAPIs, false);
@@ -43,9 +43,20 @@
  };
  
  enum class NetworkPredictionStatus {
+--- a/chrome/browser/net/profile_network_context_service.cc
++++ b/chrome/browser/net/profile_network_context_service.cc
+@@ -325,7 +325,7 @@ void ProfileNetworkContextService::Updat
+ void ProfileNetworkContextService::RegisterProfilePrefs(
+     user_prefs::PrefRegistrySyncable* registry) {
+   registry->RegisterBooleanPref(
+-      embedder_support::kAlternateErrorPagesEnabled, true,
++      embedder_support::kAlternateErrorPagesEnabled, false,
+       user_prefs::PrefRegistrySyncable::SYNCABLE_PREF);
+   registry->RegisterBooleanPref(prefs::kQuicAllowed, true);
+   registry->RegisterBooleanPref(prefs::kGloballyScopeHTTPAuthCacheEnabled,
 --- a/chrome/browser/profiles/profile.cc
 +++ b/chrome/browser/profiles/profile.cc
-@@ -277,7 +277,7 @@ const char Profile::kProfileKey[] = "__P
+@@ -265,7 +265,7 @@ const char Profile::kProfileKey[] = "__P
  void Profile::RegisterProfilePrefs(user_prefs::PrefRegistrySyncable* registry) {
    registry->RegisterBooleanPref(
        prefs::kSearchSuggestEnabled,
@@ -67,7 +78,7 @@
      </cr-dialog>
 --- a/chrome/browser/signin/account_consistency_mode_manager.cc
 +++ b/chrome/browser/signin/account_consistency_mode_manager.cc
-@@ -118,7 +118,7 @@ void AccountConsistencyModeManager::Regi
+@@ -116,7 +116,7 @@ void AccountConsistencyModeManager::Regi
  #if BUILDFLAG(ENABLE_DICE_SUPPORT)
    registry->RegisterBooleanPref(kDiceMigrationCompletePref, false);
  #endif
@@ -129,7 +140,7 @@
        prefs::kAutofillProfileValidity, "",
 --- a/components/bookmarks/browser/bookmark_utils.cc
 +++ b/components/bookmarks/browser/bookmark_utils.cc
-@@ -442,12 +442,12 @@ bool DoesBookmarkContainWords(const base
+@@ -440,12 +440,12 @@ bool DoesBookmarkContainWords(const std:
  void RegisterProfilePrefs(user_prefs::PrefRegistrySyncable* registry) {
    registry->RegisterBooleanPref(
        prefs::kShowBookmarkBar,
@@ -143,10 +154,21 @@
 +      false,
        user_prefs::PrefRegistrySyncable::SYNCABLE_PREF);
    registry->RegisterBooleanPref(
-       prefs::kShowManagedBookmarksInBookmarkBar,
+       prefs::kShowReadingListInBookmarkBar, true,
+--- a/components/content_settings/core/browser/cookie_settings.cc
++++ b/components/content_settings/core/browser/cookie_settings.cc
+@@ -62,7 +62,7 @@ void CookieSettings::RegisterProfilePref
+     user_prefs::PrefRegistrySyncable* registry) {
+   registry->RegisterIntegerPref(
+       prefs::kCookieControlsMode,
+-      static_cast<int>(CookieControlsMode::kIncognitoOnly),
++      static_cast<int>(CookieControlsMode::kBlockThirdParty),
+       user_prefs::PrefRegistrySyncable::SYNCABLE_PREF);
+ }
+ 
 --- a/components/password_manager/core/browser/password_manager.cc
 +++ b/components/password_manager/core/browser/password_manager.cc
-@@ -206,10 +206,10 @@ FormData SimplifiedFormDataFromFormStruc
+@@ -198,10 +198,10 @@ FormData SimplifiedFormDataFromFormStruc
  void PasswordManager::RegisterProfilePrefs(
      user_prefs::PrefRegistrySyncable* registry) {
    registry->RegisterBooleanPref(

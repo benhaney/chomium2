@@ -1,4 +1,16 @@
-# Removes the Google sign-in sections on the settings page
+# Removes in order:
+# 'Tabs from other devices' entry on the History page sidebar
+# link to Google's accessibility site from the settings page
+# link to Google's help site on the About page
+# Safety check section on the settings page
+# option to offer page translations on the settings page
+# cloud printing entry on the settings page
+# option for password leak detection on the settings page
+# Google sign-in and Anonymized Data Collection sections
+# Advanced Protection Program link on the security settings page
+# Safety Check entry on the side menu on the settings page
+# unneeded elements from the profile menu
+
 --- a/chrome/browser/resources/history/side_bar.html
 +++ b/chrome/browser/resources/history/side_bar.html
 @@ -104,11 +104,6 @@
@@ -13,16 +25,9 @@
          <div class="separator"></div>
          <a role="menuitem" id="clear-browsing-data"
              href="chrome://settings/clearBrowserData"
-@@ -131,4 +126,4 @@
-         <iron-icon icon="cr:info-outline"></iron-icon>
-         <div>$i18nRaw{sidebarFooter}</div>
-       </div>
--    </div>
-\ No newline at end of file
-+    </div>
 --- a/chrome/browser/resources/settings/a11y_page/a11y_page.html
 +++ b/chrome/browser/resources/settings/a11y_page/a11y_page.html
-@@ -56,10 +56,6 @@
+@@ -51,10 +51,6 @@
              sub-label="$i18n{accessibleImageLabelsSubtitle}">
          </settings-toggle-button>
  </if>
@@ -31,11 +36,11 @@
 -            external>
 -        </cr-link-row>
        </div>
- <if expr="not is_macosx and not chromeos">
-       <template is="dom-if" route-path="/captions">
+       <template is="dom-if" if="[[!captionSettingsOpensExternally_]]">
+         <template is="dom-if" route-path="/captions">
 --- a/chrome/browser/resources/settings/about_page/about_page.html
 +++ b/chrome/browser/resources/settings/about_page/about_page.html
-@@ -124,8 +124,6 @@
+@@ -122,8 +122,6 @@
          </div>
        </template>
  </if>
@@ -62,26 +67,9 @@
          <template is="dom-if" if="[[showPage_(pageVisibility.privacy)]]"
              restamp>
            <settings-section page-title="$i18n{privacyPageTitle}"
---- a/chrome/browser/resources/settings/languages_page/languages_page.html
-+++ b/chrome/browser/resources/settings/languages_page/languages_page.html
-@@ -220,14 +220,6 @@
-                 </a>
-               </div>
-             </div>
--            <settings-toggle-button id="offerTranslateOtherLanguages"
--                pref="{{prefs.translate.enabled}}"
--                label="$i18n{offerToEnableTranslate}"
--            <if expr="chromeos">
--                on-settings-boolean-control-change="onTranslateToggleChange_"
--            </if>
--            >
--            </settings-toggle-button>
-           </iron-collapse>
-           <settings-toggle-button
-               id="enableSpellcheckingToggle"
 --- a/chrome/browser/resources/settings/privacy_page/personalization_options.html
 +++ b/chrome/browser/resources/settings/privacy_page/personalization_options.html
-@@ -35,7 +35,7 @@
+@@ -8,7 +8,7 @@
          border-top: none;
        }
      </style>
@@ -89,43 +77,51 @@
 +<if expr="false">
      <settings-toggle-button id="signinAllowedToggle"
          class="hr"
-         disabled="[[syncFirstSetupInProgress_]]"
-@@ -53,6 +53,7 @@
-         label="$i18n{searchSuggestPref}"
-         sub-label="$i18n{searchSuggestPrefDesc}">
+         hidden="[[!signinAvailable_]]"
+@@ -51,12 +51,6 @@
      </settings-toggle-button>
-+<if expr="false">
+ </if><!-- not chromeos -->
+ </if><!-- _google_chrome -->
+-    <settings-toggle-button id="urlCollectionToggle"
+-        class="hr"
+-        pref="{{prefs.url_keyed_anonymized_data_collection.enabled}}"
+-        label="$i18n{urlKeyedAnonymizedDataCollection}"
+-        sub-label="$i18n{urlKeyedAnonymizedDataCollectionDesc}">
+-    </settings-toggle-button>
  <if expr="_google_chrome">
- <if expr="chromeos">
-     <settings-toggle-button class="hr"
-@@ -107,6 +108,7 @@
-           on-close="onSignoutDialogClosed_">
-       </settings-signout-dialog>
-     </template>
-+</if>
- 
- <if expr="not chromeos">
-     <cr-toast id="toast">
+     <settings-toggle-button id="spellCheckControl"
+         class="hr"
+--- a/chrome/browser/resources/settings/privacy_page/security_page.html
++++ b/chrome/browser/resources/settings/privacy_page/security_page.html
+@@ -76,10 +76,3 @@
+         sub-label="$i18n{manageCertificatesDescription}"
+         on-click="onManageCertificatesClick_"></cr-link-row>
+ </if>
+-    <cr-link-row id="advanced-protection-program-link"
+-        class="hr"
+-        label="$i18n{advancedProtectionProgramTitle}"
+-        sub-label="$i18n{advancedProtectionProgramDesc}"
+-        on-click="onAdvancedProtectionProgramLinkClick_"
+-        external>
+-    </cr-link-row>
 --- a/chrome/browser/resources/settings/settings_menu/settings_menu.html
 +++ b/chrome/browser/resources/settings/settings_menu/settings_menu.html
-@@ -111,12 +111,14 @@
+@@ -111,12 +111,6 @@
              <iron-icon icon="settings:assignment"></iron-icon>
              $i18n{autofillPageTitle}
            </a>
-+<if expr="false">
-           <a role="menuitem" href="/safetyCheck"
-               hidden="[[!pageVisibility.safetyCheck]]"
-               id="safetyCheck">
-             <iron-icon icon="settings20:safety-check"></iron-icon>
-             $i18n{safetyCheckSectionTitle}
-           </a>
-+</if>
+-          <a role="menuitem" href="/safetyCheck"
+-              hidden="[[!pageVisibility.safetyCheck]]"
+-              id="safetyCheck">
+-            <iron-icon icon="settings20:safety-check"></iron-icon>
+-            $i18n{safetyCheckSectionTitle}
+-          </a>
            <a role="menuitem" href="/privacy"
                hidden="[[!pageVisibility.privacy]]">
              <iron-icon icon="cr:security"></iron-icon>
 --- a/chrome/browser/ui/views/profiles/profile_menu_view.cc
 +++ b/chrome/browser/ui/views/profiles/profile_menu_view.cc
-@@ -215,6 +215,7 @@ void ProfileMenuView::BuildMenu() {
+@@ -220,6 +220,7 @@ void ProfileMenuView::BuildMenu() {
  }
  
  gfx::ImageSkia ProfileMenuView::GetSyncIcon() const {
@@ -133,20 +129,21 @@
    Profile* profile = browser()->profile();
  
    if (!profile->IsRegularProfile())
-@@ -505,7 +506,7 @@ void ProfileMenuView::BuildIdentity() {
+@@ -514,8 +515,7 @@ void ProfileMenuView::BuildIdentity() {
+         menu_title_, menu_subtitle_);
+   } else {
+     menu_title_ = std::u16string();
+-    menu_subtitle_ =
+-        l10n_util::GetStringUTF16(IDS_PROFILES_LOCAL_PROFILE_STATE);
++    menu_subtitle_ = std::u16string();
+     SetProfileIdentityInfo(
+         profile_name, background_color, edit_button_params,
          ui::ImageModel::FromImage(
-             profile_attributes->GetAvatarIcon(kIdentityImageSize)),
-         /*title=*/base::string16(),
--        l10n_util::GetStringUTF16(IDS_PROFILES_LOCAL_PROFILE_STATE));
-+        base::string16());
-   }
- }
- 
-@@ -576,6 +577,7 @@ void ProfileMenuView::BuildSyncInfo() {
+@@ -586,6 +586,7 @@ void ProfileMenuView::BuildSyncInfo() {
      return;
    }
  
 +  return;
    // Show sync promos.
-   CoreAccountInfo unconsented_account = identity_manager->GetPrimaryAccountInfo(
-       signin::ConsentLevel::kNotRequired);
+   CoreAccountInfo unconsented_account =
+       identity_manager->GetPrimaryAccountInfo(signin::ConsentLevel::kSignin);

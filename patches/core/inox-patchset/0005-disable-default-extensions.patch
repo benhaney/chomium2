@@ -1,16 +1,16 @@
 --- a/chrome/browser/extensions/component_extensions_allowlist/allowlist.cc
 +++ b/chrome/browser/extensions/component_extensions_allowlist/allowlist.cc
-@@ -26,7 +26,6 @@ namespace extensions {
- 
+@@ -28,7 +28,6 @@ namespace extensions {
  bool IsComponentExtensionAllowlisted(const std::string& extension_id) {
    const char* const kAllowed[] = {
--    extension_misc::kInAppPaymentsSupportAppId,
      extension_misc::kCastExtensionIdRelease,
+-    extension_misc::kInAppPaymentsSupportAppId,
      extension_misc::kPdfExtensionId,
- #if defined(OS_CHROMEOS)
+ #if BUILDFLAG(IS_CHROMEOS_ASH)
+     extension_misc::kAccessibilityCommonExtensionId,
 --- a/chrome/browser/extensions/component_loader.cc
 +++ b/chrome/browser/extensions/component_loader.cc
-@@ -348,11 +348,6 @@ void ComponentLoader::AddWebStoreApp() {
+@@ -352,11 +352,6 @@ void ComponentLoader::AddWebStoreApp() {
    if (!IsNormalSession())
      return;
  #endif
@@ -21,20 +21,8 @@
 -      l10n_util::GetStringUTF8(IDS_WEBSTORE_APP_DESCRIPTION));
  }
  
- #if defined(OS_CHROMEOS)
-@@ -451,11 +446,6 @@ void ComponentLoader::AddDefaultComponen
-   AddKeyboardApp();
- #else  // defined(OS_CHROMEOS)
-   DCHECK(!skip_session_components);
--#if BUILDFLAG(ENABLE_PRINTING)
--  // Cloud Print component app. Not required on Chrome OS.
--  Add(IDR_CLOUDPRINT_MANIFEST,
--      base::FilePath(FILE_PATH_LITERAL("cloud_print")));
--#endif  // BUILDFLAG(ENABLE_PRINTING)
- #endif  // defined(OS_CHROMEOS)
- 
-   if (!skip_session_components) {
-@@ -516,18 +506,6 @@ void ComponentLoader::AddDefaultComponen
+ #if BUILDFLAG(IS_CHROMEOS_ASH)
+@@ -527,18 +522,6 @@ void ComponentLoader::AddDefaultComponen
      AddHangoutServicesExtension();
  #endif  // BUILDFLAG(ENABLE_HANGOUT_SERVICES_EXTENSION)
  
@@ -50,9 +38,9 @@
 -          l10n_util::GetStringUTF8(IDS_FEEDBACK_REPORT_PAGE_TITLE));
 -    }
 -
- #if defined(OS_CHROMEOS)
-     AddChromeCameraApp();
-     AddVideoPlayerExtension();
+ #if BUILDFLAG(IS_CHROMEOS_ASH)
+     if (command_line->HasSwitch(switches::kLoadGuestModeTestExtension)) {
+       base::FilePath path = base::FilePath(command_line->GetSwitchValueASCII(
 --- a/chrome/browser/extensions/external_component_loader.cc
 +++ b/chrome/browser/extensions/external_component_loader.cc
 @@ -31,9 +31,6 @@ ExternalComponentLoader::~ExternalCompon
@@ -63,11 +51,11 @@
 -  AddExternalExtension(extension_misc::kInAppPaymentsSupportAppId, prefs.get());
 -#endif  // BUILDFLAG(GOOGLE_CHROME_BRANDING)
  
- #if defined(OS_CHROMEOS)
+ #if BUILDFLAG(IS_CHROMEOS_ASH)
    {
 --- a/chrome/browser/extensions/webstore_installer.cc
 +++ b/chrome/browser/extensions/webstore_installer.cc
-@@ -552,20 +552,6 @@ void WebstoreInstaller::DownloadNextPend
+@@ -553,20 +553,6 @@ void WebstoreInstaller::DownloadNextPend
  void WebstoreInstaller::DownloadCrx(
      const std::string& extension_id,
      InstallSource source) {
@@ -88,7 +76,7 @@
  }
  
  // http://crbug.com/165634
-@@ -710,21 +696,6 @@ void WebstoreInstaller::UpdateDownloadPr
+@@ -711,21 +697,6 @@ void WebstoreInstaller::UpdateDownloadPr
  void WebstoreInstaller::StartCrxInstaller(const DownloadItem& download) {
    DCHECK_CURRENTLY_ON(BrowserThread::UI);
    DCHECK(!crx_installer_.get());

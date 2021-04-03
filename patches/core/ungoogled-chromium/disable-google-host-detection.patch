@@ -2,9 +2,9 @@
 
 --- a/chrome/common/google_url_loader_throttle.cc
 +++ b/chrome/common/google_url_loader_throttle.cc
-@@ -13,10 +13,6 @@
- #include "net/base/url_util.h"
- #include "services/network/public/mojom/url_response_head.mojom.h"
+@@ -18,10 +18,6 @@
+ #include "ui/base/device_form_factor.h"
+ #endif
  
 -#if BUILDFLAG(ENABLE_EXTENSIONS)
 -#include "extensions/common/extension_urls.h"
@@ -13,7 +13,7 @@
  namespace {
  
  #if defined(OS_ANDROID)
-@@ -58,53 +54,6 @@ void GoogleURLLoaderThrottle::DetachFrom
+@@ -66,61 +62,6 @@ void GoogleURLLoaderThrottle::DetachFrom
  void GoogleURLLoaderThrottle::WillStartRequest(
      network::ResourceRequest* request,
      bool* defer) {
@@ -62,12 +62,20 @@
 -    }
 -    base::UmaHistogramBoolean("Android.DarkTheme.DarkSearchRequested",
 -                              night_mode_enabled_);
+-
+-    if (base::FeatureList::IsEnabled(features::kRequestDesktopSiteForTablets) &&
+-        ui::GetDeviceFormFactor() == ui::DEVICE_FORM_FACTOR_TABLET) {
+-      request->headers.SetHeader(kRequestDesktopDataHeader,
+-                                 is_tab_large_enough_ ? "1" : "0");
+-      base::UmaHistogramBoolean("Android.RequestDesktopSite.TabletEligible",
+-                                is_tab_large_enough_);
+-    }
 -  }
 -#endif
  }
  
  void GoogleURLLoaderThrottle::WillRedirectRequest(
-@@ -114,37 +63,6 @@ void GoogleURLLoaderThrottle::WillRedire
+@@ -130,37 +71,6 @@ void GoogleURLLoaderThrottle::WillRedire
      std::vector<std::string>* to_be_removed_headers,
      net::HttpRequestHeaders* modified_headers,
      net::HttpRequestHeaders* modified_cors_exempt_headers) {
@@ -105,33 +113,35 @@
  }
  
  #if BUILDFLAG(ENABLE_EXTENSIONS)
-@@ -152,16 +70,5 @@ void GoogleURLLoaderThrottle::WillProces
+@@ -168,22 +78,5 @@ void GoogleURLLoaderThrottle::WillProces
      const GURL& response_url,
      network::mojom::URLResponseHead* response_head,
      bool* defer) {
--  // Built-in additional protection for the chrome web store origin.
+-  // Built-in additional protection for the chrome web store origin by ensuring
+-  // that the X-Frame-Options protection mechanism is set to either DENY or
+-  // SAMEORIGIN.
 -  GURL webstore_url(extension_urls::GetWebstoreLaunchURL());
 -  if (response_url.SchemeIsHTTPOrHTTPS() &&
 -      response_url.DomainIs(webstore_url.host_piece())) {
--    if (response_head && response_head->headers &&
--        !response_head->headers->HasHeaderValue("x-frame-options", "deny") &&
--        !response_head->headers->HasHeaderValue("x-frame-options",
--                                                "sameorigin")) {
--      response_head->headers->AddHeader("x-frame-options", "sameorigin");
+-    // TODO(mkwst): Consider shifting this to a NavigationThrottle rather than
+-    // relying on implicit ordering between this check and the time at which
+-    // ParsedHeaders is created.
+-    CHECK(response_head);
+-    CHECK(response_head->parsed_headers);
+-    if (response_head->parsed_headers->xfo !=
+-        network::mojom::XFrameOptionsValue::kDeny) {
+-      response_head->parsed_headers->xfo =
+-          network::mojom::XFrameOptionsValue::kSameOrigin;
 -    }
 -  }
  }
  #endif
 --- a/components/google/core/common/google_util.cc
 +++ b/components/google/core/common/google_util.cc
-@@ -29,126 +29,11 @@
+@@ -32,109 +32,6 @@ namespace google_util {
  
- namespace google_util {
+ namespace {
  
--// Helpers --------------------------------------------------------------------
--
--namespace {
--
 -bool IsPathHomePageBase(base::StringPiece path) {
 -  return (path == "/") || (path == "/webhp");
 -}
@@ -235,11 +245,11 @@
 -  return google_subdomains->contains(host);
 -}
 -
--}  // namespace
--
- // Global functions -----------------------------------------------------------
+ }  // namespace
  
- const char kGoogleHomepageURL[] = "https://www.google.com/";
+ // Global functions -----------------------------------------------------------
+@@ -142,12 +39,6 @@ bool IsGoogleSearchSubdomainUrl(const GU
+ const char kGoogleHomepageURL[] = "trk:113:https://www.google.com/";
  
  bool HasGoogleSearchQueryParam(base::StringPiece str) {
 -  url::Component query(0, static_cast<int>(str.length())), key, value;
@@ -251,7 +261,7 @@
    return false;
  }
  
-@@ -159,161 +44,53 @@ std::string GetGoogleLocale(const std::s
+@@ -158,161 +49,53 @@ std::string GetGoogleLocale(const std::s
  
  GURL AppendGoogleLocaleParam(const GURL& url,
                               const std::string& application_locale) {
@@ -480,7 +490,7 @@
  bool IsGoogleHostname(const GURL& url) {
 --- a/components/search_engines/template_url.cc
 +++ b/components/search_engines/template_url.cc
-@@ -513,11 +513,7 @@ base::string16 TemplateURLRef::SearchTer
+@@ -526,11 +526,7 @@ std::u16string TemplateURLRef::SearchTer
  bool TemplateURLRef::HasGoogleBaseURLs(
      const SearchTermsData& search_terms_data) const {
    ParseIfNecessary(search_terms_data);
@@ -578,7 +588,7 @@
  }  // namespace variations
 --- a/net/base/url_util.cc
 +++ b/net/base/url_util.cc
-@@ -415,27 +415,6 @@ bool HasGoogleHost(const GURL& url) {
+@@ -431,27 +431,6 @@ bool HasGoogleHost(const GURL& url) {
  }
  
  bool IsGoogleHost(base::StringPiece host) {

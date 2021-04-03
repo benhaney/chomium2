@@ -3,12 +3,9 @@
 
 --- a/third_party/blink/renderer/modules/webgl/webgl_rendering_context_base.cc
 +++ b/third_party/blink/renderer/modules/webgl/webgl_rendering_context_base.cc
-@@ -3619,10 +3619,9 @@ ScriptValue WebGLRenderingContextBase::g
-                 blink::IdentifiableSurface::Type::kWebGLParameter)) {
-           RecordIdentifiableGLParameterDigest(
+@@ -3560,8 +3560,7 @@ ScriptValue WebGLRenderingContextBase::g
                pname, IdentifiabilityBenignStringToken(
--                         String(ContextGL()->GetString(GL_RENDERER))));
-+                         String("")));
+                          String(ContextGL()->GetString(GL_RENDERER))));
          }
 -        return WebGLAny(script_state,
 -                        String(ContextGL()->GetString(GL_RENDERER)));
@@ -16,12 +13,9 @@
        }
        SynthesizeGLError(
            GL_INVALID_ENUM, "getParameter",
-@@ -3634,10 +3633,9 @@ ScriptValue WebGLRenderingContextBase::g
-                 blink::IdentifiableSurface::Type::kWebGLParameter)) {
-           RecordIdentifiableGLParameterDigest(
+@@ -3575,8 +3574,7 @@ ScriptValue WebGLRenderingContextBase::g
                pname, IdentifiabilityBenignStringToken(
--                         String(ContextGL()->GetString(GL_VENDOR))));
-+                         String("")));
+                          String(ContextGL()->GetString(GL_VENDOR))));
          }
 -        return WebGLAny(script_state,
 -                        String(ContextGL()->GetString(GL_VENDOR)));

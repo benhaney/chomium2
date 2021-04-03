@@ -1,32 +1,3 @@
---- a/chrome/browser/about_flags.cc
-+++ b/chrome/browser/about_flags.cc
-@@ -305,6 +305,13 @@ const FeatureEntry::Choice kPDFPluginNam
-     {"Microsoft Edge", switches::kPDFPluginName, "edge"},
- };
- 
-+const FeatureEntry::Choice kBookmarkBarNewTab[] = {
-+    {flags_ui::kGenericExperimentChoiceDefault, "", ""},
-+    {"Never",
-+     "bookmark-bar-ntp",
-+     "never"},
-+};
-+
- #if defined(USE_AURA)
- const FeatureEntry::Choice kPullToRefreshChoices[] = {
-     {flags_ui::kGenericExperimentChoiceDefault, "", ""},
-@@ -2767,6 +2774,12 @@ const FeatureEntry kFeatureEntries[] = {
-     {"focus-mode", flag_descriptions::kFocusMode,
-      flag_descriptions::kFocusModeDescription, kOsDesktop,
-      FEATURE_VALUE_TYPE(features::kFocusMode)},
-+
-+    {"bookmark-bar-ntp",
-+     "Bookmark Bar on New-Tab-Page",
-+     "Disable the Bookmark Bar on the New-Tab-Page", kOsDesktop,
-+     MULTI_VALUE_TYPE(kBookmarkBarNewTab)},
-+
- #if defined(OS_CHROMEOS)
-     {"disable-explicit-dma-fences",
-      flag_descriptions::kDisableExplicitDmaFencesName,
 --- a/chrome/browser/ui/bookmarks/bookmark_tab_helper.cc
 +++ b/chrome/browser/ui/bookmarks/bookmark_tab_helper.cc
 @@ -4,6 +4,7 @@
@@ -36,8 +7,8 @@
 +#include "base/command_line.h"
  #include "base/observer_list.h"
  #include "build/build_config.h"
- #include "chrome/browser/bookmarks/bookmark_model_factory.h"
-@@ -68,10 +69,12 @@ bool BookmarkTabHelper::ShouldShowBookma
+ #include "build/chromeos_buildflags.h"
+@@ -71,10 +72,12 @@ bool BookmarkTabHelper::ShouldShowBookma
        !prefs->GetBoolean(bookmarks::prefs::kShowBookmarkBar))
      return false;
  
@@ -51,3 +22,27 @@
  }
  
  void BookmarkTabHelper::AddObserver(BookmarkTabHelperObserver* observer) {
+--- a/chrome/browser/ungoogled_flag_choices.h
++++ b/chrome/browser/ungoogled_flag_choices.h
+@@ -34,4 +34,10 @@ const FeatureEntry::Choice kScrollEventC
+      "scroll-tabs",
+      "never"}
+ };
++const FeatureEntry::Choice kBookmarkBarNewTab[] = {
++    {flags_ui::kGenericExperimentChoiceDefault, "", ""},
++    {"Never",
++     "bookmark-bar-ntp",
++     "never"},
++};
+ #endif  // CHROME_BROWSER_UNGOOGLED_FLAG_CHOICES_H_
+--- a/chrome/browser/ungoogled_flag_entries.h
++++ b/chrome/browser/ungoogled_flag_entries.h
+@@ -40,4 +40,8 @@
+      "Scroll switches tab",
+      "Switch to the left/right tab if the wheel-scroll happens over the tabstrip, or the empty space beside the tabstrip.  ungoogled-chromium flag.",
+      kOsDesktop, MULTI_VALUE_TYPE(kScrollEventChangesTab)},
++    {"bookmark-bar-ntp",
++     "Bookmark Bar on New-Tab-Page",
++     "Disable the Bookmark Bar on the New-Tab-Page.  ungoogled-chromium flag.",
++     kOsDesktop, MULTI_VALUE_TYPE(kBookmarkBarNewTab)},
+ #endif  // CHROME_BROWSER_UNGOOGLED_FLAG_ENTRIES_H_

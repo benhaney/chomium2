@@ -2,7 +2,7 @@
 
 --- a/chrome/browser/chrome_content_browser_client.cc
 +++ b/chrome/browser/chrome_content_browser_client.cc
-@@ -4164,11 +4164,13 @@ ChromeContentBrowserClient::CreateThrott
+@@ -4165,11 +4165,13 @@ ChromeContentBrowserClient::CreateThrott
                     &throttles);
  #endif
  
@@ -16,7 +16,7 @@
  
  // TODO(crbug.com/1052397): Revisit the macro expression once build flag switch
  // of lacros-chrome is complete.
-@@ -5385,26 +5387,7 @@ ChromeContentBrowserClient::GetSafeBrows
+@@ -5393,26 +5395,7 @@ ChromeContentBrowserClient::GetSafeBrows
      const std::vector<std::string>& allowlist_domains) {
    DCHECK_CURRENTLY_ON(BrowserThread::IO);
  
@@ -44,7 +44,7 @@
  }
  
  safe_browsing::RealTimeUrlLookupServiceBase*
-@@ -5425,11 +5408,6 @@ ChromeContentBrowserClient::GetUrlLookup
+@@ -5433,11 +5416,6 @@ ChromeContentBrowserClient::GetUrlLookup
          GetForProfile(profile);
    }
  #endif
@@ -437,7 +437,7 @@
  
 --- a/chrome/browser/media/webrtc/display_media_access_handler.cc
 +++ b/chrome/browser/media/webrtc/display_media_access_handler.cc
-@@ -107,6 +107,7 @@ void DisplayMediaAccessHandler::HandleRe
+@@ -108,6 +108,7 @@ void DisplayMediaAccessHandler::HandleRe
      return;
    }
  
@@ -445,7 +445,7 @@
    // SafeBrowsing Delayed Warnings experiment can delay some SafeBrowsing
    // warnings until user interaction. If the current page has a delayed warning,
    // it'll have a user interaction observer attached. Show the warning
-@@ -121,6 +122,7 @@ void DisplayMediaAccessHandler::HandleRe
+@@ -122,6 +123,7 @@ void DisplayMediaAccessHandler::HandleRe
      observer->OnDesktopCaptureRequest();
      return;
    }
@@ -476,7 +476,7 @@
  
  #if defined(OS_ANDROID)
  #include "base/feature_list.h"
-@@ -795,6 +794,7 @@ autofill::LanguageCode ChromePasswordMan
+@@ -793,6 +792,7 @@ autofill::LanguageCode ChromePasswordMan
    return autofill::LanguageCode();
  }
  
@@ -484,7 +484,7 @@
  safe_browsing::PasswordProtectionService*
  ChromePasswordManagerClient::GetPasswordProtectionService() const {
    return safe_browsing::ChromePasswordProtectionService::
-@@ -805,13 +805,6 @@ ChromePasswordManagerClient::GetPassword
+@@ -803,13 +803,6 @@ ChromePasswordManagerClient::GetPassword
  void ChromePasswordManagerClient::CheckSafeBrowsingReputation(
      const GURL& form_action,
      const GURL& frame_url) {
@@ -498,7 +498,7 @@
  }
  #endif  // defined(ON_FOCUS_PING_ENABLED)
  
-@@ -821,22 +814,10 @@ void ChromePasswordManagerClient::CheckP
+@@ -819,22 +812,10 @@ void ChromePasswordManagerClient::CheckP
      const std::vector<password_manager::MatchingReusedCredential>&
          matching_reused_credentials,
      bool password_field_exists) {
@@ -522,7 +522,7 @@
  }
  
  ukm::SourceId ChromePasswordManagerClient::GetUkmSourceId() {
-@@ -1291,9 +1272,11 @@ void ChromePasswordManagerClient::OnPast
+@@ -1289,9 +1270,11 @@ void ChromePasswordManagerClient::OnPast
    }
  
    was_on_paste_called_ = true;
@@ -535,7 +535,7 @@
  
  void ChromePasswordManagerClient::RenderFrameCreated(
      content::RenderFrameHost* render_frame_host) {
-@@ -1328,7 +1311,9 @@ void ChromePasswordManagerClient::OnInpu
+@@ -1326,7 +1309,9 @@ void ChromePasswordManagerClient::OnInpu
    if (key_event.windows_key_code == (ui::VKEY_V & 0x1f)) {
      OnPaste();
    } else {
@@ -545,7 +545,7 @@
    }
  #endif  // defined(OS_ANDROID)
  }
-@@ -1367,6 +1352,7 @@ bool ChromePasswordManagerClient::IsPass
+@@ -1365,6 +1350,7 @@ bool ChromePasswordManagerClient::IsPass
      is_enabled = false;
    }
  
@@ -553,7 +553,7 @@
    // SafeBrowsing Delayed Warnings experiment can delay some SafeBrowsing
    // warnings until user interaction. If the current page has a delayed warning,
    // it'll have a user interaction observer attached. Disable password
-@@ -1377,6 +1363,7 @@ bool ChromePasswordManagerClient::IsPass
+@@ -1375,6 +1361,7 @@ bool ChromePasswordManagerClient::IsPass
      observer->OnPasswordSaveOrAutofillDenied();
      is_enabled = false;
    }
@@ -563,7 +563,7 @@
      password_manager::BrowserSavePasswordProgressLogger logger(
 --- a/chrome/browser/password_manager/chrome_password_manager_client.h
 +++ b/chrome/browser/password_manager/chrome_password_manager_client.h
-@@ -190,13 +190,14 @@ class ChromePasswordManagerClient
+@@ -189,13 +189,14 @@ class ChromePasswordManagerClient
    void AnnotateNavigationEntry(bool has_password_field) override;
    autofill::LanguageCode GetPageLanguage() const override;
  
@@ -579,7 +579,7 @@
  
    void CheckProtectedPasswordEntry(
        password_manager::metrics_util::PasswordType reused_password_type,
-@@ -204,6 +205,7 @@ class ChromePasswordManagerClient
+@@ -203,6 +204,7 @@ class ChromePasswordManagerClient
        const std::vector<password_manager::MatchingReusedCredential>&
            matching_reused_credentials,
        bool password_field_exists) override;
@@ -683,7 +683,7 @@
  void ContextualNotificationPermissionUiSelector::OnSafeBrowsingVerdictReceived(
 --- a/chrome/browser/permissions/prediction_based_permission_ui_selector.cc
 +++ b/chrome/browser/permissions/prediction_based_permission_ui_selector.cc
-@@ -19,7 +19,6 @@
+@@ -20,7 +20,6 @@
  #include "components/permissions/prediction_service/prediction_service.h"
  #include "components/permissions/prediction_service/prediction_service_messages.pb.h"
  #include "components/prefs/pref_service.h"
@@ -691,7 +691,7 @@
  
  namespace {
  
-@@ -182,8 +181,7 @@ bool PredictionBasedPermissionUiSelector
+@@ -197,8 +196,7 @@ bool PredictionBasedPermissionUiSelector
    // We need to also check `kQuietNotificationPrompts` here since there is no
    // generic safeguard anywhere else in the stack.
    return base::FeatureList::IsEnabled(features::kQuietNotificationPrompts) &&
@@ -883,7 +883,7 @@
    modal_construction_start_time_ = base::TimeTicks::Now();
 --- a/chrome/browser/ui/webui/chrome_web_ui_controller_factory.cc
 +++ b/chrome/browser/ui/webui/chrome_web_ui_controller_factory.cc
-@@ -76,8 +76,6 @@
+@@ -75,8 +75,6 @@
  #include "components/prefs/pref_service.h"
  #include "components/reading_list/features/reading_list_switches.h"
  #include "components/safe_browsing/buildflags.h"
@@ -892,7 +892,7 @@
  #include "components/search/ntp_features.h"
  #include "components/security_interstitials/content/connection_help_ui.h"
  #include "components/security_interstitials/content/known_interception_disclosure_ui.h"
-@@ -591,8 +589,6 @@ WebUIFactoryFunction GetWebUIFactoryFunc
+@@ -588,8 +586,6 @@ WebUIFactoryFunction GetWebUIFactoryFunc
      return &NewWebUI<PredictorsUI>;
    if (url.host_piece() == chrome::kChromeUIQuotaInternalsHost)
      return &NewWebUI<QuotaInternalsUI>;
@@ -913,7 +913,7 @@
  
 --- a/chrome/browser/ui/webui/management/management_ui_handler.cc
 +++ b/chrome/browser/ui/webui/management/management_ui_handler.cc
-@@ -777,14 +777,6 @@ base::Value ManagementUIHandler::GetThre
+@@ -790,14 +790,6 @@ base::Value ManagementUIHandler::GetThre
  
    auto* on_page_visited_event =
        chrome_policies.GetValue(policy::key::kEnterpriseRealTimeUrlCheckMode);
@@ -941,7 +941,7 @@
  }
 --- a/components/password_manager/core/browser/password_manager_client.h
 +++ b/components/password_manager/core/browser/password_manager_client.h
-@@ -332,11 +332,14 @@ class PasswordManagerClient {
+@@ -331,11 +331,14 @@ class PasswordManagerClient {
    // Returns the current best guess as to the page's display language.
    virtual autofill::LanguageCode GetPageLanguage() const;
  
@@ -957,7 +957,7 @@
    // Checks the safe browsing reputation of the webpage when the
    // user focuses on a username/password field. This is used for reporting
    // only, and won't trigger a warning.
-@@ -344,6 +347,7 @@ class PasswordManagerClient {
+@@ -343,6 +346,7 @@ class PasswordManagerClient {
                                             const GURL& frame_url) = 0;
  #endif
  
@@ -965,7 +965,7 @@
    // Checks the safe browsing reputation of the webpage where password reuse
    // happens. This is called by the PasswordReuseDetectionManager when a
    // protected password is typed on the wrong domain. This may trigger a
-@@ -356,6 +360,7 @@ class PasswordManagerClient {
+@@ -355,6 +359,7 @@ class PasswordManagerClient {
        const std::string& username,
        const std::vector<MatchingReusedCredential>& matching_reused_credentials,
        bool password_field_exists) = 0;

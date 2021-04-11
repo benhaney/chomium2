@@ -345,6 +345,7 @@ chrome/browser/ash/attestation/tpm_challenge_key_subtle_unittest.cc
 chrome/browser/ash/backdrop_wallpaper_handlers/backdrop_wallpaper_handlers.cc
 chrome/browser/ash/bluetooth/debug_logs_manager_unittest.cc
 chrome/browser/ash/cert_provisioning/cert_provisioning_test_helpers.cc
+chrome/browser/ash/child_accounts/parent_access_code/parent_access_service_browsertest.cc
 chrome/browser/ash/crosapi/browser_util_unittest.cc
 chrome/browser/ash/drive/drivefs_test_support.cc
 chrome/browser/ash/login/app_mode/kiosk_browsertest.cc
@@ -438,7 +439,6 @@ chrome/browser/chromeos/android_sms/android_sms_urls.cc
 chrome/browser/chromeos/android_sms/android_sms_urls.h
 chrome/browser/chromeos/child_accounts/child_user_service.cc
 chrome/browser/chromeos/child_accounts/family_user_device_metrics_browsertest.cc
-chrome/browser/chromeos/child_accounts/parent_access_code/parent_access_service_browsertest.cc
 chrome/browser/chromeos/child_accounts/secondary_account_consent_logger_unittest.cc
 chrome/browser/chromeos/child_accounts/time_limits/web_time_limit_error_page/resources/web_time_limit_error_page.html
 chrome/browser/chromeos/chrome_content_browser_client_chromeos_part_unittest.cc
@@ -669,6 +669,7 @@ chrome/browser/extensions/policy_handlers_unittest.cc
 chrome/browser/extensions/scripting_permissions_modifier.cc
 chrome/browser/extensions/scripting_permissions_modifier.h
 chrome/browser/extensions/scripting_permissions_modifier_unittest.cc
+chrome/browser/extensions/tab_helper.cc
 chrome/browser/extensions/updater/chrome_extension_downloader_factory.cc
 chrome/browser/extensions/updater/chrome_update_client_config.cc
 chrome/browser/extensions/updater/extension_updater_unittest.cc
@@ -703,11 +704,6 @@ chrome/browser/local_discovery/service_discovery_client_mac.mm
 chrome/browser/login_detection/password_store_sites_browsertest.cc
 chrome/browser/lookalikes/lookalike_url_navigation_throttle.cc
 chrome/browser/lookalikes/lookalike_url_navigation_throttle_browsertest.cc
-chrome/browser/media/feeds/media_feeds_browsertest.cc
-chrome/browser/media/feeds/media_feeds_converter_unittest.cc
-chrome/browser/media/feeds/media_feeds_fetcher_unittest.cc
-chrome/browser/media/feeds/media_feeds_service_unittest.cc
-chrome/browser/media/history/media_history_browsertest.cc
 chrome/browser/media/history/media_history_keyed_service_unittest.cc
 chrome/browser/media/history/media_history_store_unittest.cc
 chrome/browser/media/media_engagement_contents_observer_unittest.cc
@@ -775,7 +771,6 @@ chrome/browser/notifications/win/notification_template_builder.cc
 chrome/browser/optimization_guide/hints_fetcher_browsertest.cc
 chrome/browser/optimization_guide/optimization_guide_hints_manager_unittest.cc
 chrome/browser/optimization_guide/page_content_annotations_service_browsertest.cc
-chrome/browser/optimization_guide/prediction/prediction_manager_browsertest.cc
 chrome/browser/page_load_metrics/observers/aborts_page_load_metrics_observer_unittest.cc
 chrome/browser/page_load_metrics/observers/core/amp_page_load_metrics_observer.h
 chrome/browser/page_load_metrics/observers/core/amp_page_load_metrics_observer_unittest.cc
@@ -896,6 +891,7 @@ chrome/browser/resource_coordinator/tab_ranker/tab_features_test_helper.cc
 chrome/browser/resources/PRESUBMIT.py
 chrome/browser/resources/bookmarks/command_manager.js
 chrome/browser/resources/chromeos/about_os_credits.html
+chrome/browser/resources/chromeos/accessibility/accessibility_common/magnifier/magnifier.js
 chrome/browser/resources/chromeos/accessibility/chromevox/background/background_test.js
 chrome/browser/resources/chromeos/accessibility/chromevox/background/command_handler.js
 chrome/browser/resources/chromeos/accessibility/chromevox/background/output/locale_output_helper_test.js
@@ -1035,6 +1031,7 @@ chrome/browser/safe_browsing/chrome_enterprise_url_lookup_service_unittest.cc
 chrome/browser/safe_browsing/chrome_password_protection_service.cc
 chrome/browser/safe_browsing/chrome_password_protection_service_browsertest.cc
 chrome/browser/safe_browsing/chrome_password_protection_service_unittest.cc
+chrome/browser/safe_browsing/client_side_detection_host_unittest.cc
 chrome/browser/safe_browsing/cloud_content_scanning/binary_upload_service.cc
 chrome/browser/safe_browsing/cloud_content_scanning/binary_upload_service_unittest.cc
 chrome/browser/safe_browsing/download_protection/check_client_download_request_base.cc
@@ -1160,7 +1157,6 @@ chrome/browser/sync_file_system/local/local_file_sync_context_unittest.cc
 chrome/browser/tab/web_contents_state.cc
 chrome/browser/tab_contents/navigation_metrics_recorder_browsertest.cc
 chrome/browser/task_manager/sampling/shared_sampler_win_defines.h
-chrome/browser/tflite_experiment/tflite_experiment_keyed_service_browsertest.cc
 chrome/browser/themes/theme_syncable_service.cc
 chrome/browser/tracing/crash_service_uploader.cc
 chrome/browser/translate/translate_manager_browsertest.cc
@@ -1226,7 +1222,6 @@ chrome/browser/ui/content_settings/content_setting_bubble_model_unittest.cc
 chrome/browser/ui/content_settings/content_setting_image_model_unittest.cc
 chrome/browser/ui/crypto_module_password_dialog_nss.cc
 chrome/browser/ui/extensions/extension_action_view_controller_unittest.cc
-chrome/browser/ui/extensions/extension_message_bubble_browsertest.cc
 chrome/browser/ui/extensions/hosted_app_browsertest.cc
 chrome/browser/ui/extensions/installation_error_infobar_delegate.cc
 chrome/browser/ui/global_media_controls/media_notification_service_unittest.cc
@@ -1371,8 +1366,6 @@ chrome/browser/usb/usb_policy_allowed_devices_unittest.cc
 chrome/browser/usb/usb_tab_helper_unittest.cc
 chrome/browser/usb/web_usb_detector_unittest.cc
 chrome/browser/usb/web_usb_service_impl_unittest.cc
-chrome/browser/video_tutorials/internal/config.cc
-chrome/browser/video_tutorials/internal/config_unittest.cc
 chrome/browser/vr/PRESUBMIT.py
 chrome/browser/web_applications/components/externally_installed_web_app_prefs.cc
 chrome/browser/web_applications/components/web_app_handler_registration_utils_win.cc
@@ -1751,7 +1744,6 @@ chromeos/components/quick_answers/translation_result_loader.cc
 chromeos/components/quick_answers/translation_result_loader_unittest.cc
 chromeos/components/string_matching/tokenized_string_unittest.cc
 chromeos/components/trial_group/trial_group_checker.cc
-chromeos/cryptohome/cryptohome_util.cc
 chromeos/cryptohome/userdataauth_util.cc
 chromeos/dbus/arc/arc_obb_mounter_client.h
 chromeos/dbus/biod/fake_biod_client_unittest.cc
@@ -1993,7 +1985,6 @@ components/favicon_base/favicon_url_parser_unittest.cc
 components/feed/core/v2/feed_network_impl.cc
 components/feed/core/v2/feed_network_impl_unittest.cc
 components/feed/core/v2/public/types_unittest.cc
-components/feed/core/v2/types_unittest.cc
 components/feed/feed_feature_list.cc
 components/feedback/feedback_common.cc
 components/feedback/feedback_common_unittest.cc
@@ -2255,6 +2246,7 @@ components/password_manager/core/browser/sync_username_test_base.cc
 components/password_manager/core/browser/ui/insecure_credentials_reader_unittest.cc
 components/password_manager/core/browser/ui/saved_passwords_presenter_unittest.cc
 components/password_manager/core/browser/well_known_change_password_util_unittest.cc
+components/password_manager/core/common/password_manager_pref_names.h
 components/password_manager/ios/password_form_helper_unittest.mm
 components/password_manager/ios/shared_password_controller_unittest.mm
 components/password_manager/ios/test_helpers.cc
@@ -2418,7 +2410,6 @@ components/safe_search_api/stub_url_checker.cc
 components/safe_search_api/url_checker_unittest.cc
 components/safety_check/update_check_helper.h
 components/safety_check/url_constants.cc
-components/schema_org/extractor_unittest.cc
 components/search/repeatable_queries/repeatable_queries_service_unittest.cc
 components/search_engines/default_search_policy_handler_unittest.cc
 components/search_engines/keyword_table_unittest.cc
@@ -2727,6 +2718,7 @@ content/public/browser/browsing_data_filter_builder.h
 content/public/browser/content_browser_client.cc
 content/public/browser/content_browser_client.h
 content/public/browser/navigation_handle_timing.h
+content/public/browser/page_navigator.cc
 content/public/browser/payment_app_provider.h
 content/public/browser/render_frame_host.h
 content/public/browser/render_view_host.h
@@ -2778,7 +2770,6 @@ content/test/gpu/unexpected_passes/result_output_unittest.py
 content/test/test_render_view_host.cc
 content/web_test/browser/fake_bluetooth_chooser.h
 content/web_test/browser/fake_bluetooth_chooser_factory.h
-content/web_test/common/web_test_switches.cc
 content/zygote/zygote_linux.cc
 content/zygote/zygote_linux.h
 content/zygote/zygote_main_linux.cc
@@ -3599,6 +3590,7 @@ net/disk_cache/disk_cache.h
 net/disk_cache/simple/simple_backend_impl.h
 net/disk_cache/simple/simple_index.cc
 net/dns/context_host_resolver_unittest.cc
+net/dns/dns_config_service_linux_unittest.cc
 net/dns/dns_config_service_posix_unittest.cc
 net/dns/dns_config_service_win.cc
 net/dns/dns_config_service_win.h
@@ -4123,8 +4115,11 @@ third_party/android_deps/libs/com_android_support_swiperefreshlayout/3pp/fetch.p
 third_party/android_deps/libs/com_android_support_transition/3pp/fetch.py
 third_party/android_deps/libs/com_android_support_versionedparcelable/3pp/fetch.py
 third_party/android_deps/libs/com_android_support_viewpager/3pp/fetch.py
+third_party/android_deps/libs/com_android_tools_common/3pp/fetch.py
 third_party/android_deps/libs/com_android_tools_desugar_jdk_libs/3pp/fetch.py
 third_party/android_deps/libs/com_android_tools_desugar_jdk_libs_configuration/3pp/fetch.py
+third_party/android_deps/libs/com_android_tools_layoutlib_layoutlib_api/3pp/fetch.py
+third_party/android_deps/libs/com_android_tools_sdk_common/3pp/fetch.py
 third_party/android_deps/libs/com_google_android_datatransport_transport_api/3pp/fetch.py
 third_party/android_deps/libs/com_google_android_gms_play_services_auth/3pp/fetch.py
 third_party/android_deps/libs/com_google_android_gms_play_services_auth_api_phone/3pp/fetch.py
@@ -4168,6 +4163,7 @@ third_party/angle/extensions/ANGLE_client_arrays.txt
 third_party/angle/extensions/ANGLE_external_objects_flags.txt
 third_party/angle/extensions/ANGLE_external_objects_fuchsia.txt
 third_party/angle/extensions/ANGLE_get_image.txt
+third_party/angle/extensions/ANGLE_get_serialized_context_string.txt
 third_party/angle/extensions/ANGLE_get_tex_level_parameter.txt
 third_party/angle/extensions/ANGLE_lossy_etc_decode.txt
 third_party/angle/extensions/ANGLE_memory_size.txt
@@ -4199,7 +4195,6 @@ third_party/angle/extensions/EGL_ANGLE_flexible_surface_compatibility.txt
 third_party/angle/extensions/EGL_ANGLE_ggp_stream_descriptor.txt
 third_party/angle/extensions/EGL_ANGLE_iosurface_client_buffer.txt
 third_party/angle/extensions/EGL_ANGLE_keyed_mutex.txt
-third_party/angle/extensions/EGL_ANGLE_metal_texture_client_buffer.txt
 third_party/angle/extensions/EGL_ANGLE_platform_angle_d3d_luid.txt
 third_party/angle/extensions/EGL_ANGLE_power_preference.txt
 third_party/angle/extensions/EGL_ANGLE_program_cache_control.txt
@@ -4289,6 +4284,7 @@ third_party/angle/src/tests/gles1_conformance_tests/ConformanceTests.cpp
 third_party/angle/src/tests/perf_tests/ANGLEPerfTest.h
 third_party/angle/src/tests/test_utils/angle_test_instantiate.cpp
 third_party/angle/src/tests/test_utils/runner/TestSuite.cpp
+third_party/angle/src/tests/test_utils/runner/android/java/AndroidManifest.xml.jinja2
 third_party/angle/src/third_party/volk/volk.h
 third_party/angle/third_party/BUILD.gn
 third_party/angle/third_party/VK-GL-CTS/src/external/vulkancts/modules/vulkan/conditional_rendering/vktConditionalClearAttachmentTests.cpp
@@ -4315,6 +4311,7 @@ third_party/angle/third_party/rapidjson/src/bin/data/readme.txt
 third_party/angle/third_party/rapidjson/src/include/rapidjson/document.h
 third_party/angle/third_party/rapidjson/src/test/unittest/valuetest.cpp
 third_party/angle/util/android/AndroidWindow.cpp
+third_party/angle/util/frame_capture_test_utils.h
 third_party/angle/util/windows/third_party/StackWalker/src/StackWalker.cpp
 third_party/apple_apsl/cssmapplePriv.h
 third_party/ashmem/ashmem-dev.c
@@ -4611,6 +4608,7 @@ third_party/blink/renderer/core/frame/local_frame_view.cc
 third_party/blink/renderer/core/frame/local_frame_view.h
 third_party/blink/renderer/core/frame/navigator.cc
 third_party/blink/renderer/core/frame/settings.h
+third_party/blink/renderer/core/frame/visual_viewport.h
 third_party/blink/renderer/core/frame/web_frame_serializer_impl.cc
 third_party/blink/renderer/core/frame/web_frame_test.cc
 third_party/blink/renderer/core/frame/web_frame_widget_impl.cc
@@ -6385,6 +6383,7 @@ third_party/dawn/src/dawn_native/d3d12/ResourceAllocatorManagerD3D12.cpp
 third_party/dawn/src/dawn_native/d3d12/ResourceAllocatorManagerD3D12.h
 third_party/dawn/src/dawn_native/d3d12/SamplerD3D12.cpp
 third_party/dawn/src/dawn_native/d3d12/ShaderModuleD3D12.cpp
+third_party/dawn/src/dawn_native/d3d12/SwapChainD3D12.cpp
 third_party/dawn/src/dawn_native/d3d12/TextureD3D12.cpp
 third_party/dawn/src/dawn_native/dawn_platform.h
 third_party/dawn/src/dawn_native/metal/BufferMTL.mm
@@ -6431,6 +6430,13 @@ third_party/dawn/src/tests/white_box/VulkanImageWrappingTestsDmaBuf.cpp
 third_party/dawn/src/utils/TerribleCommandBuffer.cpp
 third_party/dawn/src/utils/TestUtils.cpp
 third_party/dawn/src/utils/WindowsDebugLogger.cpp
+third_party/dawn/third_party/tint/.vscode/tasks.json
+third_party/dawn/third_party/tint/PRESUBMIT.py
+third_party/dawn/third_party/tint/src/reader/spirv/function.cc
+third_party/dawn/third_party/tint/src/reader/spirv/function_cfg_test.cc
+third_party/dawn/third_party/tint/src/reader/spirv/parser_impl.cc
+third_party/dawn/third_party/tint/src/writer/hlsl/generator_impl.cc
+third_party/dawn/third_party/tint/src/writer/msl/generator_impl.cc
 third_party/depot_tools/PRESUBMIT.py
 third_party/depot_tools/auth.py
 third_party/depot_tools/autoninja.py
@@ -6851,6 +6857,7 @@ third_party/depot_tools/watchlists.py
 third_party/depot_tools/win32imports.py
 third_party/depot_tools/win_toolchain/get_toolchain_if_necessary.py
 third_party/devtools-frontend/src/PRESUBMIT.py
+third_party/devtools-frontend/src/front_end/core/i18n/locales/en-US.json
 third_party/devtools-frontend/src/front_end/core/sdk/CSSMetadata.js
 third_party/devtools-frontend/src/front_end/core/sdk/Cookie.js
 third_party/devtools-frontend/src/front_end/core/sdk/NetworkLog.js
@@ -6858,10 +6865,8 @@ third_party/devtools-frontend/src/front_end/core/sdk/NetworkManager.js
 third_party/devtools-frontend/src/front_end/dagre_layout/dagre.js
 third_party/devtools-frontend/src/front_end/devtools_compatibility.js
 third_party/devtools-frontend/src/front_end/entrypoint_template.html
-third_party/devtools-frontend/src/front_end/i18n/locales/en-US.json
 third_party/devtools-frontend/src/front_end/inspector_main/RenderingOptions.js
 third_party/devtools-frontend/src/front_end/integration_test_runner.html
-third_party/devtools-frontend/src/front_end/main/MainImpl.js
 third_party/devtools-frontend/src/front_end/panels/emulation/DeviceModeToolbar.js
 third_party/devtools-frontend/src/front_end/theme_support/theme_support_impl.js
 third_party/devtools-frontend/src/front_end/third_party/acorn-loose/package/package.json
@@ -6966,12 +6971,10 @@ third_party/devtools-frontend/src/front_end/third_party/puppeteer/package/lib/es
 third_party/devtools-frontend/src/front_end/third_party/puppeteer/package/lib/esm/puppeteer/node/Puppeteer.js
 third_party/devtools-frontend/src/front_end/third_party/puppeteer/package/lib/esm/puppeteer/node/install.js
 third_party/devtools-frontend/src/front_end/third_party/wasmparser/package/package.json
-third_party/devtools-frontend/src/front_end/timeline/TimelinePanel.js
-third_party/devtools-frontend/src/front_end/timeline/TimelineUIUtils.js
-third_party/devtools-frontend/src/front_end/ui/SearchableView.js
-third_party/devtools-frontend/src/front_end/ui/UIUtils.js
-third_party/devtools-frontend/src/front_end/ui/themeColors.css
-third_party/devtools-frontend/src/front_end/ui/utils/append-style.js
+third_party/devtools-frontend/src/front_end/ui/legacy/SearchableView.js
+third_party/devtools-frontend/src/front_end/ui/legacy/UIUtils.js
+third_party/devtools-frontend/src/front_end/ui/legacy/themeColors.css
+third_party/devtools-frontend/src/front_end/ui/legacy/utils/append-style.js
 third_party/devtools-frontend/src/node_modules/@babel/code-frame/package.json
 third_party/devtools-frontend/src/node_modules/@babel/core/node_modules/source-map/dist/source-map.debug.js
 third_party/devtools-frontend/src/node_modules/@babel/core/node_modules/source-map/dist/source-map.js
@@ -9521,34 +9524,8 @@ third_party/libyuv/include/libyuv/video_common.h
 third_party/libyuv/source/cpu_id.cc
 third_party/libyuv/tools_libyuv/autoroller/roll_deps.py
 third_party/libyuv/tools_libyuv/autoroller/unittests/roll_deps_test.py
-third_party/libyuv/tools_libyuv/valgrind/memcheck/PRESUBMIT.py
-third_party/libyuv/tools_libyuv/valgrind/memcheck_analyze.py
-third_party/libyuv/tools_libyuv/valgrind/valgrind_test.py
 third_party/libzip/src/lib/zip_crypto_win.c
 third_party/libzip/src/lib/zip_extra_field.c
-third_party/llvm-build/Release+Asserts/include/clang/Basic/TargetInfo.h
-third_party/llvm-build/Release+Asserts/include/clang/Format/Format.h
-third_party/llvm-build/Release+Asserts/include/clang/StaticAnalyzer/Frontend/CheckerRegistry.h
-third_party/llvm-build/Release+Asserts/include/llvm/BinaryFormat/COFF.h
-third_party/llvm-build/Release+Asserts/include/llvm/BinaryFormat/ELF.h
-third_party/llvm-build/Release+Asserts/include/llvm/BinaryFormat/Minidump.h
-third_party/llvm-build/Release+Asserts/include/llvm/DebugInfo/CodeView/CodeView.h
-third_party/llvm-build/Release+Asserts/include/llvm/DebugInfo/PDB/PDBSymbol.h
-third_party/llvm-build/Release+Asserts/include/llvm/DebugInfo/PDB/PDBSymbolCustom.h
-third_party/llvm-build/Release+Asserts/include/llvm/DebugInfo/PDB/PDBTypes.h
-third_party/llvm-build/Release+Asserts/include/llvm/IR/PassManager.h
-third_party/llvm-build/Release+Asserts/include/llvm/Object/COFFModuleDefinition.h
-third_party/llvm-build/Release+Asserts/include/llvm/Object/WindowsResource.h
-third_party/llvm-build/Release+Asserts/include/llvm/Support/CommandLine.h
-third_party/llvm-build/Release+Asserts/include/llvm/Support/Compiler.h
-third_party/llvm-build/Release+Asserts/include/llvm/Support/SHA1.h
-third_party/llvm-build/Release+Asserts/include/llvm/Support/TimeProfiler.h
-third_party/llvm-build/Release+Asserts/include/llvm/Support/Win64EH.h
-third_party/llvm-build/Release+Asserts/include/llvm/WindowsManifest/WindowsManifestMerger.h
-third_party/llvm-build/Release+Asserts/include/llvm/WindowsResource/ResourceScriptToken.h
-third_party/llvm-build/Release+Asserts/lib/clang/11.0.0/include/__clang_cuda_builtin_vars.h
-third_party/llvm-build/Release+Asserts/lib/clang/11.0.0/include/float.h
-third_party/llvm-build/Release+Asserts/lib/clang/11.0.0/share/asan_blacklist.txt
 third_party/llvm/clang-tools-extra/CODE_OWNERS.TXT
 third_party/llvm/clang-tools-extra/clangd/support/Trace.h
 third_party/llvm/clang/CODE_OWNERS.TXT
@@ -10165,6 +10142,9 @@ third_party/openscreen/src/cast/common/certificate/cast_cert_validator_internal.
 third_party/openscreen/src/cast/common/discovery/e2e_test/tests.cc
 third_party/openscreen/src/cast/standalone_sender/receiver_chooser.cc
 third_party/openscreen/src/cast/standalone_sender/streaming_vp8_encoder.h
+third_party/openscreen/src/cast/streaming/remoting_capabilities.h
+third_party/openscreen/src/cast/streaming/rtp_defines.h
+third_party/openscreen/src/cast/streaming/sender_session.h
 third_party/openscreen/src/cast/streaming/sender_session_unittest.cc
 third_party/openscreen/src/cast/test/cast_socket_e2e_test.cc
 third_party/openscreen/src/discovery/BUILD.gn
@@ -11118,8 +11098,6 @@ third_party/skia/infra/bots/assets/asset_utils_test.py
 third_party/skia/infra/bots/assets/clang_linux/create.py
 third_party/skia/infra/bots/assets/clang_win/create.py
 third_party/skia/infra/bots/assets/gcloud_linux/create.py
-third_party/skia/infra/bots/assets/go/create.py
-third_party/skia/infra/bots/assets/go_win/create.py
 third_party/skia/infra/bots/assets/procdump_win/create.py
 third_party/skia/infra/bots/cfg.json
 third_party/skia/infra/bots/check_deps.py
@@ -11597,13 +11575,6 @@ third_party/tflite/src/third_party/eigen3/unsupported/Eigen/CXX11/src/FixedPoint
 third_party/tflite/src/third_party/eigen3/unsupported/Eigen/CXX11/src/FixedPoint/MatMatProductAVX2.h
 third_party/tflite/src/third_party/eigen3/unsupported/Eigen/CXX11/src/FixedPoint/MatMatProductNEON.h
 third_party/tflite/src/third_party/eigen3/unsupported/Eigen/CXX11/src/FixedPoint/MatVecProduct.h
-third_party/tint/src/.vscode/tasks.json
-third_party/tint/src/PRESUBMIT.py
-third_party/tint/src/src/reader/spirv/function.cc
-third_party/tint/src/src/reader/spirv/function_cfg_test.cc
-third_party/tint/src/src/reader/spirv/parser_impl.cc
-third_party/tint/src/src/writer/hlsl/generator_impl.cc
-third_party/tint/src/src/writer/msl/generator_impl.cc
 third_party/tlslite/tests/tlstest.py
 third_party/vulkan-deps/glslang/src/glslang/HLSL/hlslParseHelper.cpp
 third_party/vulkan-deps/spirv-cross/src/spirv_hlsl.cpp
@@ -12046,6 +12017,8 @@ third_party/webrtc/modules/video_coding/codecs/vp9/vp9.cc
 third_party/webrtc/modules/video_coding/codecs/vp9/vp9_frame_buffer_pool.cc
 third_party/webrtc/modules/video_coding/packet_buffer.cc
 third_party/webrtc/modules/video_coding/utility/quality_scaler.cc
+third_party/webrtc/net/dcsctp/public/strong_alias.h
+third_party/webrtc/net/dcsctp/public/strong_alias_test.cc
 third_party/webrtc/p2p/base/port_unittest.cc
 third_party/webrtc/p2p/base/stun_server_unittest.cc
 third_party/webrtc/p2p/base/turn_port.cc
@@ -13073,7 +13046,7 @@ ui/gl/gl_surface_egl.cc
 ui/gl/gl_surface_presentation_helper.cc
 ui/gl/hdr_metadata_helper_win.cc
 ui/gl/vsync_thread_win.cc
-ui/gtk/native_theme_gtk.cc
+ui/gtk/gtk_util.cc
 ui/gtk/printing/print_dialog_gtk.cc
 ui/latency/latency_info.h
 ui/native_theme/native_theme_win.h

@@ -3,7 +3,7 @@ author: Michael Gilbert <mgilbert@debian.org>
 
 --- a/chrome/browser/ui/startup/startup_browser_creator_impl.cc
 +++ b/chrome/browser/ui/startup/startup_browser_creator_impl.cc
-@@ -609,9 +609,6 @@ void StartupBrowserCreatorImpl::AddInfoB
+@@ -610,9 +610,6 @@ void StartupBrowserCreatorImpl::AddInfoB
      }
  #endif
  

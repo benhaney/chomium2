@@ -34,7 +34,7 @@ approach to change color components.
  #endif  // CHROME_BROWSER_BROMITE_FLAG_ENTRIES_H_
 --- a/content/browser/renderer_host/render_process_host_impl.cc
 +++ b/content/browser/renderer_host/render_process_host_impl.cc
-@@ -3221,6 +3221,7 @@ void RenderProcessHostImpl::PropagateBro
+@@ -3256,6 +3256,7 @@ void RenderProcessHostImpl::PropagateBro
      switches::kFileUrlPathAlias,
      switches::kFingerprintingClientRectsNoise,
      switches::kFingerprintingCanvasMeasureTextNoise,
@@ -44,7 +44,7 @@ approach to change color components.
      switches::kForceGpuMemAvailableMb,
 --- a/content/child/runtime_features.cc
 +++ b/content/child/runtime_features.cc
-@@ -440,6 +440,8 @@ void SetRuntimeFeaturesFromCommandLine(c
+@@ -442,6 +442,8 @@ void SetRuntimeFeaturesFromCommandLine(c
          switches::kFingerprintingClientRectsNoise, true},
        {wrf::EnableFingerprintingCanvasMeasureTextNoise,
          switches::kFingerprintingCanvasMeasureTextNoise, true},
@@ -88,7 +88,7 @@ approach to change color components.
    // Wrap |contents| in an ImageData.
 --- a/third_party/blink/renderer/platform/BUILD.gn
 +++ b/third_party/blink/renderer/platform/BUILD.gn
-@@ -1618,7 +1618,9 @@ component("platform") {
+@@ -1619,7 +1619,9 @@ component("platform") {
      "//third_party/blink/renderer:non_test_config",
    ]
  
@@ -333,5 +333,5 @@ approach to change color components.
 +    },
 +    {
        name: "FledgeInterestGroups",
+       origin_trial_feature_name: "FledgeInterestGroups",
      },
-     {

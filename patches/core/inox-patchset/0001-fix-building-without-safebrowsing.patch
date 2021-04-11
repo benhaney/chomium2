@@ -1,6 +1,6 @@
 --- a/chrome/browser/BUILD.gn
 +++ b/chrome/browser/BUILD.gn
-@@ -3509,8 +3509,6 @@ static_library("browser") {
+@@ -3496,8 +3496,6 @@ static_library("browser") {
        "download/download_commands.h",
        "download/download_crx_util.cc",
        "download/download_crx_util.h",
@@ -136,7 +136,7 @@
          delete_begin, delete_end, filter_builder, host_content_settings_map_,
 --- a/chrome/browser/chrome_content_browser_client.cc
 +++ b/chrome/browser/chrome_content_browser_client.cc
-@@ -1008,30 +1008,6 @@ void SetApplicationLocaleOnIOThread(cons
+@@ -1009,30 +1009,6 @@ void SetApplicationLocaleOnIOThread(cons
    GetIOThreadApplicationLocale() = locale;
  }
  
@@ -167,7 +167,7 @@
  #if BUILDFLAG(ENABLE_EXTENSIONS)
  
  AppLoadedInTabSource ClassifyAppLoadedInTabSource(
-@@ -1457,7 +1433,6 @@ void ChromeContentBrowserClient::PostAft
+@@ -1458,7 +1434,6 @@ void ChromeContentBrowserClient::PostAft
    InitNetworkContextsParentDirectory();
  
    DCHECK_CURRENTLY_ON(BrowserThread::UI);
@@ -175,7 +175,7 @@
  }
  
  bool ChromeContentBrowserClient::IsBrowserStartupComplete() {
-@@ -4161,7 +4136,7 @@ ChromeContentBrowserClient::CreateThrott
+@@ -4162,7 +4137,7 @@ ChromeContentBrowserClient::CreateThrott
        base::BindRepeating(&MaybeTriggerSecurityInterstitialShownEvent));
    throttles.push_back(std::make_unique<SSLErrorNavigationThrottle>(
        handle,
@@ -184,7 +184,7 @@
        base::BindOnce(&HandleSSLErrorWrapper), base::BindOnce(&IsInHostedApp),
        base::BindOnce(
            &TypedNavigationUpgradeThrottle::
-@@ -4189,9 +4164,6 @@ ChromeContentBrowserClient::CreateThrott
+@@ -4190,9 +4165,6 @@ ChromeContentBrowserClient::CreateThrott
                     &throttles);
  #endif
  
@@ -328,7 +328,7 @@
    extension.erase(0, 1);
 --- a/chrome/browser/download/download_target_determiner.cc
 +++ b/chrome/browser/download/download_target_determiner.cc
-@@ -292,13 +292,6 @@ base::FilePath DownloadTargetDeterminer:
+@@ -293,13 +293,6 @@ base::FilePath DownloadTargetDeterminer:
        download_->GetURL(), download_->GetContentDisposition(), referrer_charset,
        suggested_filename, sniffed_mime_type, default_filename);
  
@@ -342,7 +342,7 @@
    // If no mime type or explicitly specified a name, don't replace file
    // extension.
    if (sniffed_mime_type.empty() || !suggested_filename.empty())
-@@ -1097,29 +1090,7 @@ DownloadFileType::DangerLevel DownloadTa
+@@ -1102,29 +1095,7 @@ DownloadFileType::DangerLevel DownloadTa
        download_->HasUserGesture())
      return DownloadFileType::NOT_DANGEROUS;
  
@@ -383,7 +383,7 @@
  #include "chrome/browser/download/download_file_icon_extractor.h"
  #include "chrome/browser/download/download_open_prompt.h"
  #include "chrome/browser/download/download_prefs.h"
-@@ -1302,9 +1301,6 @@ DownloadsAcceptDangerFunction::Downloads
+@@ -1301,9 +1300,6 @@ DownloadsAcceptDangerFunction::Downloads
  
  DownloadsAcceptDangerFunction::~DownloadsAcceptDangerFunction() {}
  
@@ -393,7 +393,7 @@
  ExtensionFunction::ResponseAction DownloadsAcceptDangerFunction::Run() {
    std::unique_ptr<downloads::AcceptDanger::Params> params(
        downloads::AcceptDanger::Params::Create(*args_));
-@@ -1342,41 +1338,7 @@ void DownloadsAcceptDangerFunction::Prom
+@@ -1341,41 +1337,7 @@ void DownloadsAcceptDangerFunction::Prom
      return;
    }
    RecordApiFunctions(DOWNLOADS_FUNCTION_ACCEPT_DANGER);
@@ -515,11 +515,11 @@
            referrer_entries)));
 --- a/chrome/browser/extensions/api/webstore_private/webstore_private_api.cc
 +++ b/chrome/browser/extensions/api/webstore_private/webstore_private_api.cc
-@@ -1108,51 +1108,9 @@ WebstorePrivateGetReferrerChainFunction:
+@@ -1161,51 +1161,9 @@ WebstorePrivateGetReferrerChainFunction:
  
  ExtensionFunction::ResponseAction
  WebstorePrivateGetReferrerChainFunction::Run() {
--  Profile* profile = chrome_details_.GetProfile();
+-  Profile* profile = Profile::FromBrowserContext(browser_context());
 -  if (!SafeBrowsingNavigationObserverManager::IsEnabledAndReady(profile))
 -    return RespondNow(ArgumentList(
 -        api::webstore_private::GetReferrerChain::Results::Create("")));
@@ -674,7 +674,7 @@
  // static
 --- a/chrome/browser/profiles/chrome_browser_main_extra_parts_profiles.cc
 +++ b/chrome/browser/profiles/chrome_browser_main_extra_parts_profiles.cc
-@@ -277,7 +277,6 @@ void ChromeBrowserMainExtraPartsProfiles
+@@ -276,7 +276,6 @@ void ChromeBrowserMainExtraPartsProfiles
  #if BUILDFLAG(IS_CHROMEOS_LACROS)
    CertDbInitializerFactory::GetInstance();
  #endif
@@ -692,7 +692,7 @@
  #include "chrome/browser/sharing/sharing_service_factory.h"
  #include "chrome/browser/signin/identity_manager_factory.h"
  #include "chrome/browser/signin/signin_ui_util.h"
-@@ -645,17 +644,6 @@ void ProfileImpl::LoadPrefsForNormalStar
+@@ -646,17 +645,6 @@ void ProfileImpl::LoadPrefsForNormalStar
  
    mojo::PendingRemote<prefs::mojom::TrackedPreferenceValidationDelegate>
        pref_validation_delegate;
@@ -732,7 +732,7 @@
    sources = [
      "chrome_controller_client.cc",
      "chrome_controller_client.h",
-@@ -83,6 +84,7 @@ static_library("safe_browsing") {
+@@ -84,6 +85,7 @@ static_library("safe_browsing") {
        "//extensions/browser",
      ]
    }
@@ -833,10 +833,10 @@
  
 --- a/chrome/browser/subresource_filter/chrome_subresource_filter_client.cc
 +++ b/chrome/browser/subresource_filter/chrome_subresource_filter_client.cc
-@@ -57,10 +57,7 @@ void ChromeSubresourceFilterClient::Show
- 
+@@ -24,10 +24,7 @@ namespace {
+ // available. Otherwise returns nullptr.
  const scoped_refptr<safe_browsing::SafeBrowsingDatabaseManager>
- ChromeSubresourceFilterClient::GetSafeBrowsingDatabaseManager() {
+ GetDatabaseManagerFromSafeBrowsingService() {
 -  safe_browsing::SafeBrowsingService* safe_browsing_service =
 -      g_browser_process->safe_browsing_service();
 -  return safe_browsing_service ? safe_browsing_service->database_manager()
@@ -844,10 +844,10 @@
 +  return nullptr;
  }
  
- subresource_filter::ProfileInteractionManager*
+ }  // namespace
 --- a/chrome/browser/ui/BUILD.gn
 +++ b/chrome/browser/ui/BUILD.gn
-@@ -3681,7 +3681,6 @@ static_library("ui") {
+@@ -3684,7 +3684,6 @@ static_library("ui") {
        "views/device_chooser_content_view.h",
        "views/devtools_process_observer.cc",
        "views/devtools_process_observer.h",
@@ -857,7 +857,7 @@
        "views/download/download_item_view.cc",
 --- a/chrome/browser/ui/tab_helpers.cc
 +++ b/chrome/browser/ui/tab_helpers.cc
-@@ -325,11 +325,6 @@ void TabHelpers::AttachTabHelpers(WebCon
+@@ -308,11 +308,6 @@ void TabHelpers::AttachTabHelpers(WebCon
    //     See https://crbug.com/910288.
    resource_coordinator::ResourceCoordinatorTabHelper::CreateForWebContents(
        web_contents);

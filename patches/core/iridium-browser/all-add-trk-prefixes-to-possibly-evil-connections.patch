@@ -91,7 +91,7 @@ by default.
  // creates and uses to publish OEM default apps to the extensions system.
 --- a/chrome/browser/chromeos/extensions/file_manager/private_api_drive.cc
 +++ b/chrome/browser/chromeos/extensions/file_manager/private_api_drive.cc
-@@ -863,7 +863,7 @@ void FileManagerPrivateInternalGetDownlo
+@@ -858,7 +858,7 @@ void FileManagerPrivateInternalGetDownlo
    const CoreAccountId& account_id =
        identity_manager->GetPrimaryAccountId(signin::ConsentLevel::kSignin);
    std::vector<std::string> scopes;
@@ -99,7 +99,7 @@ by default.
 +  scopes.emplace_back("trk:208:https://www.googleapis.com/auth/drive.readonly");
  
    scoped_refptr<network::SharedURLLoaderFactory> url_loader_factory =
-       content::BrowserContext::GetDefaultStoragePartition(
+       content::BrowserContext::GetDefaultStoragePartition(browser_context())
 --- a/chrome/browser/chromeos/extensions/file_manager/private_api_misc.cc
 +++ b/chrome/browser/chromeos/extensions/file_manager/private_api_misc.cc
 @@ -81,7 +81,7 @@ namespace {
@@ -143,7 +143,7 @@ by default.
  // elements of |list| equals |hash|.
 --- a/chrome/browser/extensions/install_signer.cc
 +++ b/chrome/browser/extensions/install_signer.cc
-@@ -65,7 +65,7 @@ const int kSignatureFormatVersion = 2;
+@@ -67,7 +67,7 @@ const int kSignatureFormatVersion = 2;
  const size_t kSaltBytes = 32;
  
  const char kBackendUrl[] =
@@ -187,7 +187,7 @@ by default.
  std::u16string NaClInfoBarDelegate::GetMessageText() const {
 --- a/chrome/browser/profiles/profile_avatar_downloader.cc
 +++ b/chrome/browser/profiles/profile_avatar_downloader.cc
-@@ -19,7 +19,7 @@
+@@ -20,7 +20,7 @@
  
  namespace {
  const char kHighResAvatarDownloadUrlPrefix[] =
@@ -471,7 +471,7 @@ by default.
      "http://clientservices.googleapis.com/uma/v2";
 --- a/components/password_manager/core/browser/password_store.cc
 +++ b/components/password_manager/core/browser/password_store.cc
-@@ -297,10 +297,10 @@ void PasswordStore::GetLogins(const Form
+@@ -296,10 +296,10 @@ void PasswordStore::GetLogins(const Form
    // TODO(mdm): actually delete them at some point, say M24 or so.
    base::Time cutoff;  // the null time
    if (form.scheme == PasswordForm::Scheme::kHtml &&
@@ -488,15 +488,15 @@ by default.
      base::Time out_time;
 --- a/components/safe_browsing/content/browser/client_side_detection_service.cc
 +++ b/components/safe_browsing/content/browser/client_side_detection_service.cc
-@@ -56,7 +56,7 @@ const int ClientSideDetectionService::kN
+@@ -59,7 +59,7 @@ const int ClientSideDetectionService::kN
  const int ClientSideDetectionService::kPositiveCacheIntervalMinutes = 30;
  
  const char ClientSideDetectionService::kClientReportPhishingUrl[] =
 -    "https://sb-ssl.google.com/safebrowsing/clientreport/phishing";
 +    "trk:148:https://sb-ssl.google.com/safebrowsing/clientreport/phishing";
  
- struct ClientSideDetectionService::ClientPhishingReportInfo {
-   std::unique_ptr<network::SimpleURLLoader> loader;
+ constexpr char kAuthHeaderBearer[] = "Bearer ";
+ 
 --- a/components/safe_search_api/safe_search/safe_search_url_checker_client.cc
 +++ b/components/safe_search_api/safe_search/safe_search_url_checker_client.cc
 @@ -29,7 +29,7 @@ namespace safe_search_api {
@@ -553,7 +553,7 @@ by default.
      "http://clientservices.googleapis.com/chrome-variations/seed";
 --- a/content/browser/speech/speech_recognition_engine.cc
 +++ b/content/browser/speech/speech_recognition_engine.cc
-@@ -30,7 +30,7 @@ namespace content {
+@@ -31,7 +31,7 @@ namespace content {
  namespace {
  
  const char kWebServiceBaseUrl[] =
@@ -564,7 +564,7 @@ by default.
  
 --- a/content/browser/webauth/authenticator_common.cc
 +++ b/content/browser/webauth/authenticator_common.cc
-@@ -179,9 +179,9 @@ base::Optional<std::string> ProcessAppId
+@@ -178,9 +178,9 @@ base::Optional<std::string> ProcessAppId
    // special-case AppIDs. Firefox also does this:
    // https://groups.google.com/forum/#!msg/mozilla.dev.platform/Uiu3fwnA2xw/201ynAiPAQAJ
    const GURL kGstatic1 =
@@ -716,7 +716,7 @@ by default.
  
 --- a/remoting/protocol/jingle_messages.cc
 +++ b/remoting/protocol/jingle_messages.cc
-@@ -25,7 +25,7 @@ const char kJabberNamespace[] = "jabber:
+@@ -27,7 +27,7 @@ const char kJabberNamespace[] = "jabber:
  const char kJingleNamespace[] = "urn:xmpp:jingle:1";
  
  // Namespace for transport messages when using standard ICE.

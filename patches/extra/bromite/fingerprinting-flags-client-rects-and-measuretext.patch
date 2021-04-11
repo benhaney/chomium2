@@ -9,7 +9,7 @@
 
 --- a/chrome/browser/BUILD.gn
 +++ b/chrome/browser/BUILD.gn
-@@ -2322,6 +2322,7 @@ static_library("browser") {
+@@ -2317,6 +2317,7 @@ static_library("browser") {
      "//third_party/libyuv",
      "//third_party/metrics_proto",
      "//third_party/re2",
@@ -19,7 +19,7 @@
      "//third_party/widevine/cdm:headers",
 --- a/chrome/browser/about_flags.cc
 +++ b/chrome/browser/about_flags.cc
-@@ -177,6 +177,7 @@
+@@ -178,6 +178,7 @@
  #include "third_party/blink/public/common/forcedark/forcedark_switches.h"
  #include "third_party/blink/public/common/switches.h"
  #include "third_party/leveldatabase/leveldb_features.h"
@@ -44,7 +44,7 @@
  #endif  // CHROME_BROWSER_BROMITE_FLAG_ENTRIES_H_
 --- a/content/browser/BUILD.gn
 +++ b/content/browser/BUILD.gn
-@@ -217,6 +217,7 @@ source_set("browser") {
+@@ -218,6 +218,7 @@ source_set("browser") {
      "//third_party/libyuv",
      "//third_party/re2",
      "//third_party/sqlite",
@@ -54,7 +54,7 @@
      "//third_party/zlib",
 --- a/content/browser/renderer_host/render_process_host_impl.cc
 +++ b/content/browser/renderer_host/render_process_host_impl.cc
-@@ -209,6 +209,7 @@
+@@ -208,6 +208,7 @@
  #include "third_party/blink/public/common/user_agent/user_agent_metadata.h"
  #include "third_party/blink/public/mojom/disk_allocator.mojom.h"
  #include "third_party/blink/public/public_buildflags.h"
@@ -62,7 +62,7 @@
  #include "third_party/skia/include/core/SkBitmap.h"
  #include "ui/accessibility/accessibility_switches.h"
  #include "ui/base/ui_base_switches.h"
-@@ -3218,6 +3219,8 @@ void RenderProcessHostImpl::PropagateBro
+@@ -3253,6 +3254,8 @@ void RenderProcessHostImpl::PropagateBro
      switches::kEnableWebGLDraftExtensions,
      switches::kEnableWebGLImageChromium,
      switches::kFileUrlPathAlias,
@@ -91,7 +91,7 @@
  #include "ui/accessibility/accessibility_features.h"
  #include "ui/base/ui_base_features.h"
  #include "ui/events/blink/blink_features.h"
-@@ -435,6 +436,10 @@ void SetRuntimeFeaturesFromCommandLine(c
+@@ -437,6 +438,10 @@ void SetRuntimeFeaturesFromCommandLine(c
        {wrf::EnableAutomationControlled, switches::kRemoteDebuggingPipe, true},
        {wrf::EnableDatabase, switches::kDisableDatabases, false},
        {wrf::EnableFileSystem, switches::kDisableFileSystem, false},
@@ -124,7 +124,7 @@
  #include "base/time/time.h"
  #include "cc/input/overscroll_behavior.h"
  #include "cc/input/scroll_snap_data.h"
-@@ -866,6 +867,14 @@ Range* Document::CreateRangeAdjustedToTr
+@@ -857,6 +858,14 @@ Range* Document::CreateRangeAdjustedToTr
                                       Position::BeforeNode(*shadow_host));
  }
  
@@ -139,7 +139,7 @@
  SelectorQueryCache& Document::GetSelectorQueryCache() {
    if (!selector_query_cache_)
      selector_query_cache_ = std::make_unique<SelectorQueryCache>();
-@@ -2396,6 +2405,15 @@ void Document::UpdateStyleAndLayoutTreeF
+@@ -2348,6 +2357,15 @@ void Document::UpdateStyleAndLayoutTreeF
  #if DCHECK_IS_ON()
    AssertLayoutTreeUpdated(*this);
  #endif
@@ -157,7 +157,7 @@
  void Document::InvalidateStyleAndLayoutForFontUpdates() {
 --- a/third_party/blink/renderer/core/dom/document.h
 +++ b/third_party/blink/renderer/core/dom/document.h
-@@ -445,6 +445,10 @@ class CORE_EXPORT Document : public Cont
+@@ -441,6 +441,10 @@ class CORE_EXPORT Document : public Cont
      has_xml_declaration_ = has_xml_declaration ? 1 : 0;
    }
  
@@ -168,7 +168,7 @@
    AtomicString visibilityState() const;
    bool IsPageVisible() const;
    bool hidden() const;
-@@ -2004,6 +2008,9 @@ class CORE_EXPORT Document : public Cont
+@@ -1987,6 +1991,9 @@ class CORE_EXPORT Document : public Cont
  
    base::ElapsedTimer start_time_;
  
@@ -180,7 +180,7 @@
    HeapVector<Member<ScriptElementBase>> current_script_stack_;
 --- a/third_party/blink/renderer/core/dom/element.cc
 +++ b/third_party/blink/renderer/core/dom/element.cc
-@@ -2092,6 +2092,11 @@ DOMRectList* Element::getClientRects() {
+@@ -2093,6 +2093,11 @@ DOMRectList* Element::getClientRects() {
    DCHECK(element_layout_object);
    GetDocument().AdjustFloatQuadsForScrollAndAbsoluteZoom(
        quads, *element_layout_object);
@@ -192,7 +192,7 @@
    return MakeGarbageCollected<DOMRectList>(quads);
  }
  
-@@ -2109,6 +2114,9 @@ FloatRect Element::GetBoundingClientRect
+@@ -2110,6 +2115,9 @@ FloatRect Element::GetBoundingClientRect
    DCHECK(element_layout_object);
    GetDocument().AdjustFloatRectForScrollAndAbsoluteZoom(result,
                                                          *element_layout_object);
@@ -286,7 +286,7 @@
  void CanvasRenderingContext2D::fillFormattedText(
 --- a/third_party/blink/renderer/platform/BUILD.gn
 +++ b/third_party/blink/renderer/platform/BUILD.gn
-@@ -1659,6 +1659,7 @@ component("platform") {
+@@ -1660,6 +1660,7 @@ component("platform") {
      "//components/paint_preview/common",
      "//components/power_scheduler",
      "//components/search_engines:search_engine_utils",
@@ -322,5 +322,5 @@
 +    },
 +    {
        name: "FledgeInterestGroups",
+       origin_trial_feature_name: "FledgeInterestGroups",
      },
-     {

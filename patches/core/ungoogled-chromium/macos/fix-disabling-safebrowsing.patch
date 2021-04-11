@@ -2,7 +2,7 @@
 
 --- a/chrome/browser/BUILD.gn
 +++ b/chrome/browser/BUILD.gn
-@@ -1856,10 +1856,6 @@ static_library("browser") {
+@@ -1852,10 +1852,6 @@ static_library("browser") {
      "//chrome/browser/profiling_host",
      "//chrome/browser/ui",
      "//chrome/browser/ui/webui/bluetooth_internals",
@@ -13,7 +13,7 @@
  
      # TODO(crbug.com/1030821): Eliminate usages of browser.h from Media Router.
      "//chrome/browser/media/router",
-@@ -1940,7 +1936,6 @@ static_library("browser") {
+@@ -1934,7 +1930,6 @@ static_library("browser") {
      "//chrome/browser/push_messaging:budget_proto",
      "//chrome/browser/resource_coordinator:mojo_bindings",
      "//chrome/browser/resource_coordinator:tab_manager_features",
@@ -39,7 +39,7 @@
                ? IDS_PROMPT_UNCOMMON_DOWNLOAD_CONTENT_IN_ADVANCED_PROTECTION
 --- a/chrome/browser/extensions/BUILD.gn
 +++ b/chrome/browser/extensions/BUILD.gn
-@@ -746,9 +746,6 @@ static_library("extensions") {
+@@ -751,9 +751,6 @@ static_library("extensions") {
  
      # TODO(crbug.com/1065748): Remove this circular dependency.
      "//chrome/browser/web_applications/extensions",
@@ -49,7 +49,7 @@
    ]
  
    # Since browser and browser_extensions actually depend on each other,
-@@ -761,8 +758,6 @@ static_library("extensions") {
+@@ -766,8 +763,6 @@ static_library("extensions") {
      "//chrome/common",
      "//chrome/common/extensions/api",
      "//components/omnibox/browser",
@@ -58,7 +58,7 @@
      "//components/signin/core/browser",
      "//components/translate/content/browser",
      "//content/public/browser",
-@@ -794,7 +789,6 @@ static_library("extensions") {
+@@ -799,7 +794,6 @@ static_library("extensions") {
      "//chrome/browser/profiles:profile",
      "//chrome/browser/resource_coordinator:intervention_policy_database_proto",
      "//chrome/browser/resource_coordinator:mojo_bindings",
@@ -66,7 +66,7 @@
      "//chrome/browser/web_applications",
      "//chrome/browser/web_applications/components",
      "//components/site_engagement/core/mojom:mojo_bindings",
-@@ -850,12 +844,6 @@ static_library("extensions") {
+@@ -855,12 +849,6 @@ static_library("extensions") {
      "//components/privacy_sandbox:privacy_sandbox_prefs",
      "//components/proxy_config",
      "//components/resources",
@@ -81,7 +81,7 @@
      "//components/services/patch/content",
 --- a/chrome/browser/safe_browsing/download_protection/download_protection_service.cc
 +++ b/chrome/browser/safe_browsing/download_protection/download_protection_service.cc
-@@ -358,8 +358,12 @@ void DownloadProtectionService::ShowDeta
+@@ -364,8 +364,12 @@ void DownloadProtectionService::ShowDeta
    Profile* profile = Profile::FromBrowserContext(
        content::DownloadItemUtils::GetBrowserContext(item));
    if (profile &&
@@ -110,15 +110,15 @@
    defines = []
    libs = []
  
-@@ -344,7 +337,6 @@ static_library("ui") {
+@@ -343,7 +336,6 @@ static_library("ui") {
+   public_deps = [
      "//components/dom_distiller/core",
-     "//components/optimization_guide:machine_learning_tflite_buildflags",
      "//components/paint_preview/buildflags",
 -    "//components/safe_browsing:buildflags",
      "//components/sync",
      "//components/sync_user_events",
      "//components/translate/content/browser",
-@@ -386,7 +378,6 @@ static_library("ui") {
+@@ -385,7 +377,6 @@ static_library("ui") {
      "//chrome/browser/resources/omnibox:resources",
      "//chrome/browser/resources/quota_internals:resources",
      "//chrome/browser/resources/usb_internals:resources",
@@ -126,7 +126,7 @@
      "//chrome/browser/ui/webui/bluetooth_internals",
      "//chrome/browser/ui/webui/download_shelf:mojo_bindings",
      "//chrome/browser/ui/webui/downloads:mojo_bindings",
-@@ -493,17 +484,7 @@ static_library("ui") {
+@@ -492,17 +483,7 @@ static_library("ui") {
      "//components/reading_list/features:flags",
      "//components/renderer_context_menu",
      "//components/resources",
@@ -144,7 +144,7 @@
      "//components/schema_org/common:improved_mojom",
      "//components/search",
      "//components/search_engines",
-@@ -610,7 +591,6 @@ static_library("ui") {
+@@ -609,7 +590,6 @@ static_library("ui") {
    allow_circular_includes_from = [
      # TODO(crbug.com/1158905): Remove this circular dependency.
      "//chrome/browser/devtools",
@@ -152,7 +152,7 @@
      "//chrome/browser/ui/webui/bluetooth_internals",
      "//chrome/browser/profiling_host",
    ]
-@@ -1588,7 +1568,6 @@ static_library("ui") {
+@@ -1585,7 +1565,6 @@ static_library("ui") {
        "//chrome/browser/promo_browser_command:mojo_bindings",
        "//chrome/browser/resource_coordinator:tab_metrics_event_proto",
        "//chrome/browser/resource_coordinator/tab_ranker",
@@ -160,7 +160,7 @@
        "//chrome/browser/search/drive:mojo_bindings",
        "//chrome/browser/search/task_module:mojo_bindings",
        "//chrome/browser/ui/color:color_headers",
-@@ -3333,7 +3312,6 @@ static_library("ui") {
+@@ -3336,7 +3315,6 @@ static_library("ui") {
        "//ui/views/controls/webview",
      ]
      deps += [
@@ -168,7 +168,7 @@
        "//chrome/browser/ui/startup:buildflags",
        "//chrome/browser/win/conflicts:module_info",
        "//chrome/credential_provider/common:common_constants",
-@@ -4752,15 +4730,6 @@ static_library("ui") {
+@@ -4770,15 +4748,6 @@ static_library("ui") {
      }
    }
  
@@ -186,7 +186,7 @@
    }
 --- a/chrome/browser/ui/browser.cc
 +++ b/chrome/browser/ui/browser.cc
-@@ -1422,10 +1422,10 @@ void Browser::OnDidBlockNavigation(
+@@ -1423,10 +1423,10 @@ void Browser::OnDidBlockNavigation(
        framebust_helper->AddBlockedUrl(blocked_url, base::BindOnce(on_click));
      }
    }

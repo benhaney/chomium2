@@ -180,7 +180,7 @@
  #include "content/browser/renderer_host/pepper/browser_ppapi_host_impl.h"
  #include "ipc/ipc_listener.h"
  #include "ipc/ipc_platform_file.h"
-@@ -90,12 +89,6 @@ class PepperFileIOHost : public ppapi::h
+@@ -91,12 +90,6 @@ class PepperFileIOHost : public ppapi::h
                           const base::FilePath& path,
                           base::File::Error error_code);
  

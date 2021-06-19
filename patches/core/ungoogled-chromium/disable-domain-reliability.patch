@@ -637,8 +637,8 @@
      const std::string& hostname) {
    bool is_www_subdomain =
 @@ -578,23 +20,6 @@ std::unique_ptr<const DomainReliabilityC
-   std::unique_ptr<const DomainReliabilityConfig> config = nullptr;
-   std::unique_ptr<const DomainReliabilityConfig> superdomain_config = nullptr;
+   std::unique_ptr<const DomainReliabilityConfig> config;
+   std::unique_ptr<const DomainReliabilityConfig> superdomain_config;
  
 -  for (const auto& params : kGoogleConfigs) {
 -    if (params.hostname == hostname) {
@@ -674,7 +674,7 @@
  
 --- a/components/domain_reliability/uploader.cc
 +++ b/components/domain_reliability/uploader.cc
-@@ -79,7 +79,7 @@ class DomainReliabilityUploaderImpl : pu
+@@ -80,7 +80,7 @@ class DomainReliabilityUploaderImpl : pu
      if (discard_uploads_)
        discarded_upload_count_++;
  

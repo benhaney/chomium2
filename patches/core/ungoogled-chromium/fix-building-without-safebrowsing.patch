@@ -2,7 +2,7 @@
 
 --- a/chrome/browser/chrome_content_browser_client.cc
 +++ b/chrome/browser/chrome_content_browser_client.cc
-@@ -4165,11 +4165,13 @@ ChromeContentBrowserClient::CreateThrott
+@@ -4135,11 +4135,13 @@ ChromeContentBrowserClient::CreateThrott
                     &throttles);
  #endif
  
@@ -16,7 +16,7 @@
  
  // TODO(crbug.com/1052397): Revisit the macro expression once build flag switch
  // of lacros-chrome is complete.
-@@ -5393,26 +5395,7 @@ ChromeContentBrowserClient::GetSafeBrows
+@@ -5439,26 +5441,7 @@ ChromeContentBrowserClient::GetSafeBrows
      const std::vector<std::string>& allowlist_domains) {
    DCHECK_CURRENTLY_ON(BrowserThread::IO);
  
@@ -44,7 +44,7 @@
  }
  
  safe_browsing::RealTimeUrlLookupServiceBase*
-@@ -5433,11 +5416,6 @@ ChromeContentBrowserClient::GetUrlLookup
+@@ -5479,11 +5462,6 @@ ChromeContentBrowserClient::GetUrlLookup
          GetForProfile(profile);
    }
  #endif
@@ -58,15 +58,15 @@
  
 --- a/chrome/browser/download/chrome_download_manager_delegate.cc
 +++ b/chrome/browser/download/chrome_download_manager_delegate.cc
-@@ -131,7 +131,6 @@ using content::DownloadManager;
+@@ -129,7 +129,6 @@ using content::DownloadManager;
  using download::DownloadItem;
  using download::DownloadPathReservationTracker;
  using download::PathValidationResult;
 -using safe_browsing::DownloadFileType;
  using safe_browsing::DownloadProtectionService;
+ using ConnectionType = net::NetworkChangeNotifier::ConnectionType;
  
- namespace {
-@@ -1431,8 +1430,6 @@ void ChromeDownloadManagerDelegate::OnDo
+@@ -1426,8 +1425,6 @@ void ChromeDownloadManagerDelegate::OnDo
      if (item->GetOriginalMimeType() == "application/x-x509-user-cert")
        DownloadItemModel(item).SetShouldPreferOpeningInBrowser(true);
  #endif
@@ -93,25 +93,25 @@
  #include "content/public/browser/web_contents.h"
 --- a/chrome/browser/enterprise/connectors/connectors_service.cc
 +++ b/chrome/browser/enterprise/connectors/connectors_service.cc
-@@ -250,34 +250,12 @@ std::vector<std::string> ConnectorsServi
+@@ -365,34 +365,12 @@ std::vector<std::string> ConnectorsServi
  
- base::Optional<std::string> ConnectorsService::GetDMTokenForRealTimeUrlCheck()
+ absl::optional<std::string> ConnectorsService::GetDMTokenForRealTimeUrlCheck()
      const {
 -  if (!ConnectorsEnabled())
--    return base::nullopt;
+-    return absl::nullopt;
 -
 -  if (Profile::FromBrowserContext(context_)->GetPrefs()->GetInteger(
 -          prefs::kSafeBrowsingEnterpriseRealTimeUrlCheckMode) ==
 -      safe_browsing::REAL_TIME_CHECK_DISABLED) {
--    return base::nullopt;
+-    return absl::nullopt;
 -  }
 -
--  base::Optional<DmToken> dm_token =
+-  absl::optional<DmToken> dm_token =
 -      GetDmToken(prefs::kSafeBrowsingEnterpriseRealTimeUrlCheckScope);
 -
 -  if (dm_token.has_value())
 -    return dm_token.value().value;
-   return base::nullopt;
+   return absl::nullopt;
  }
  
  safe_browsing::EnterpriseRealTimeUrlCheckMode
@@ -131,7 +131,7 @@
  ConnectorsManager* ConnectorsService::ConnectorsManagerForTesting() {
 --- a/chrome/browser/extensions/api/safe_browsing_private/safe_browsing_private_event_router.cc
 +++ b/chrome/browser/extensions/api/safe_browsing_private/safe_browsing_private_event_router.cc
-@@ -305,6 +305,7 @@ void SafeBrowsingPrivateEventRouter::OnD
+@@ -307,6 +307,7 @@ void SafeBrowsingPrivateEventRouter::OnD
      event_router_->BroadcastEvent(std::move(extension_event));
    }
  
@@ -139,7 +139,7 @@
    auto settings = GetReportingSettings();
    if (!settings.has_value() ||
        settings->enabled_event_names.count(kKeyDangerousDownloadEvent) == 0) {
-@@ -330,6 +331,7 @@ void SafeBrowsingPrivateEventRouter::OnD
+@@ -336,6 +337,7 @@ void SafeBrowsingPrivateEventRouter::OnD
  
    ReportRealtimeEvent(kKeyDangerousDownloadEvent, std::move(settings.value()),
                        std::move(event));
@@ -147,7 +147,7 @@
  }
  
  void SafeBrowsingPrivateEventRouter::OnSecurityInterstitialShown(
-@@ -357,6 +359,7 @@ void SafeBrowsingPrivateEventRouter::OnS
+@@ -363,6 +365,7 @@ void SafeBrowsingPrivateEventRouter::OnS
      event_router_->BroadcastEvent(std::move(extension_event));
    }
  
@@ -155,7 +155,7 @@
    auto settings = GetReportingSettings();
    if (!settings.has_value() ||
        settings->enabled_event_names.count(kKeyInterstitialEvent) == 0) {
-@@ -379,6 +382,7 @@ void SafeBrowsingPrivateEventRouter::OnS
+@@ -385,6 +388,7 @@ void SafeBrowsingPrivateEventRouter::OnS
  
    ReportRealtimeEvent(kKeyInterstitialEvent, std::move(settings.value()),
                        std::move(event));
@@ -163,7 +163,7 @@
  }
  
  void SafeBrowsingPrivateEventRouter::OnSecurityInterstitialProceeded(
-@@ -406,6 +410,7 @@ void SafeBrowsingPrivateEventRouter::OnS
+@@ -412,6 +416,7 @@ void SafeBrowsingPrivateEventRouter::OnS
      event_router_->BroadcastEvent(std::move(extension_event));
    }
  
@@ -171,7 +171,7 @@
    auto settings = GetReportingSettings();
    if (!settings.has_value() ||
        settings->enabled_event_names.count(kKeyInterstitialEvent) == 0) {
-@@ -424,6 +429,7 @@ void SafeBrowsingPrivateEventRouter::OnS
+@@ -430,6 +435,7 @@ void SafeBrowsingPrivateEventRouter::OnS
  
    ReportRealtimeEvent(kKeyInterstitialEvent, std::move(settings.value()),
                        std::move(event));
@@ -179,7 +179,7 @@
  }
  
  void SafeBrowsingPrivateEventRouter::OnAnalysisConnectorResult(
-@@ -436,6 +442,7 @@ void SafeBrowsingPrivateEventRouter::OnA
+@@ -443,6 +449,7 @@ void SafeBrowsingPrivateEventRouter::OnA
      const enterprise_connectors::ContentAnalysisResponse::Result& result,
      const int64_t content_size,
      safe_browsing::EventResult event_result) {
@@ -187,23 +187,23 @@
    if (result.tag() == "malware") {
      DCHECK_EQ(1, result.triggered_rules().size());
      OnDangerousDeepScanningResult(
-@@ -447,6 +454,7 @@ void SafeBrowsingPrivateEventRouter::OnA
+@@ -454,6 +461,7 @@ void SafeBrowsingPrivateEventRouter::OnA
      OnSensitiveDataEvent(url, file_name, download_digest_sha256, mime_type,
-                          trigger, result, content_size, event_result);
+                          trigger, scan_id, result, content_size, event_result);
    }
 +#endif // FULL_SAFE_BROWSING
  }
  
  void SafeBrowsingPrivateEventRouter::OnDangerousDeepScanningResult(
-@@ -461,6 +469,7 @@ void SafeBrowsingPrivateEventRouter::OnD
-     const std::string& malware_family,
+@@ -469,6 +477,7 @@ void SafeBrowsingPrivateEventRouter::OnD
      const std::string& malware_category,
-     const std::string& evidence_locker_filepath) {
+     const std::string& evidence_locker_filepath,
+     const std::string& scan_id) {
 +#if defined(FULL_SAFE_BROWSING)
    auto settings = GetReportingSettings();
    if (!settings.has_value() ||
        settings->enabled_event_names.count(kKeyDangerousDownloadEvent) == 0) {
-@@ -493,6 +502,7 @@ void SafeBrowsingPrivateEventRouter::OnD
+@@ -505,6 +514,7 @@ void SafeBrowsingPrivateEventRouter::OnD
  
    ReportRealtimeEvent(kKeyDangerousDownloadEvent, std::move(settings.value()),
                        std::move(event));
@@ -211,7 +211,7 @@
  }
  
  void SafeBrowsingPrivateEventRouter::OnSensitiveDataEvent(
-@@ -504,6 +514,7 @@ void SafeBrowsingPrivateEventRouter::OnS
+@@ -517,6 +527,7 @@ void SafeBrowsingPrivateEventRouter::OnS
      const enterprise_connectors::ContentAnalysisResponse::Result& result,
      const int64_t content_size,
      safe_browsing::EventResult event_result) {
@@ -219,7 +219,7 @@
    auto settings = GetReportingSettings();
    if (!settings.has_value() ||
        settings->enabled_event_names.count(kKeySensitiveDataEvent) == 0) {
-@@ -534,6 +545,7 @@ void SafeBrowsingPrivateEventRouter::OnS
+@@ -548,6 +559,7 @@ void SafeBrowsingPrivateEventRouter::OnS
  
    ReportRealtimeEvent(kKeySensitiveDataEvent, std::move(settings.value()),
                        std::move(event));
@@ -227,7 +227,7 @@
  }
  
  void SafeBrowsingPrivateEventRouter::OnAnalysisConnectorWarningBypassed(
-@@ -545,6 +557,7 @@ void SafeBrowsingPrivateEventRouter::OnA
+@@ -560,6 +572,7 @@ void SafeBrowsingPrivateEventRouter::OnA
      safe_browsing::DeepScanAccessPoint access_point,
      const enterprise_connectors::ContentAnalysisResponse::Result& result,
      const int64_t content_size) {
@@ -235,7 +235,7 @@
    auto settings = GetReportingSettings();
    if (!settings.has_value() ||
        settings->enabled_event_names.count(kKeySensitiveDataEvent) == 0) {
-@@ -575,6 +588,7 @@ void SafeBrowsingPrivateEventRouter::OnA
+@@ -591,6 +604,7 @@ void SafeBrowsingPrivateEventRouter::OnA
  
    ReportRealtimeEvent(kKeySensitiveDataEvent, std::move(settings.value()),
                        std::move(event));
@@ -243,7 +243,7 @@
  }
  
  void SafeBrowsingPrivateEventRouter::OnUnscannedFileEvent(
-@@ -587,6 +601,7 @@ void SafeBrowsingPrivateEventRouter::OnU
+@@ -603,6 +617,7 @@ void SafeBrowsingPrivateEventRouter::OnU
      const std::string& reason,
      const int64_t content_size,
      safe_browsing::EventResult event_result) {
@@ -251,7 +251,7 @@
    auto settings = GetReportingSettings();
    if (!settings.has_value() ||
        settings->enabled_event_names.count(kKeyUnscannedFileEvent) == 0) {
-@@ -612,6 +627,7 @@ void SafeBrowsingPrivateEventRouter::OnU
+@@ -628,6 +643,7 @@ void SafeBrowsingPrivateEventRouter::OnU
  
    ReportRealtimeEvent(kKeyUnscannedFileEvent, std::move(settings.value()),
                        std::move(event));
@@ -259,15 +259,15 @@
  }
  
  void SafeBrowsingPrivateEventRouter::OnDangerousDownloadEvent(
-@@ -635,6 +651,7 @@ void SafeBrowsingPrivateEventRouter::OnD
-     const std::string& mime_type,
+@@ -653,6 +669,7 @@ void SafeBrowsingPrivateEventRouter::OnD
+     const std::string& scan_id,
      const int64_t content_size,
      safe_browsing::EventResult event_result) {
 +#if defined(FULL_SAFE_BROWSING)
    auto settings = GetReportingSettings();
    if (!settings.has_value() ||
        settings->enabled_event_names.count(kKeyDangerousDownloadEvent) == 0) {
-@@ -659,6 +676,7 @@ void SafeBrowsingPrivateEventRouter::OnD
+@@ -682,6 +699,7 @@ void SafeBrowsingPrivateEventRouter::OnD
  
    ReportRealtimeEvent(kKeyDangerousDownloadEvent, std::move(settings.value()),
                        std::move(event));
@@ -275,15 +275,15 @@
  }
  
  void SafeBrowsingPrivateEventRouter::OnDangerousDownloadWarningBypassed(
-@@ -680,6 +698,7 @@ void SafeBrowsingPrivateEventRouter::OnD
-     const std::string& threat_type,
+@@ -705,6 +723,7 @@ void SafeBrowsingPrivateEventRouter::OnD
      const std::string& mime_type,
+     const std::string& scan_id,
      const int64_t content_size) {
 +#if defined(FULL_SAFE_BROWSING)
    auto settings = GetReportingSettings();
    if (!settings.has_value() ||
        settings->enabled_event_names.count(kKeyDangerousDownloadEvent) == 0) {
-@@ -705,6 +724,7 @@ void SafeBrowsingPrivateEventRouter::OnD
+@@ -734,6 +753,7 @@ void SafeBrowsingPrivateEventRouter::OnD
  
    ReportRealtimeEvent(kKeyDangerousDownloadEvent, std::move(settings.value()),
                        std::move(event));
@@ -291,7 +291,7 @@
  }
  
  // static
-@@ -977,7 +997,11 @@ void SafeBrowsingPrivateEventRouter::Rep
+@@ -1006,7 +1026,11 @@ void SafeBrowsingPrivateEventRouter::Rep
  }
  
  std::string SafeBrowsingPrivateEventRouter::GetProfileUserName() const {
@@ -305,15 +305,15 @@
  #if BUILDFLAG(IS_CHROMEOS_ASH)
 --- a/chrome/browser/file_system_access/chrome_file_system_access_permission_context.cc
 +++ b/chrome/browser/file_system_access/chrome_file_system_access_permission_context.cc
-@@ -25,7 +25,6 @@
- #include "chrome/browser/file_system_access/file_system_access_permission_context_factory.h"
+@@ -35,7 +35,6 @@
  #include "chrome/browser/file_system_access/file_system_access_permission_request_manager.h"
+ #include "chrome/browser/installable/installable_utils.h"
  #include "chrome/browser/profiles/profile.h"
 -#include "chrome/browser/safe_browsing/download_protection/download_protection_service.h"
  #include "chrome/browser/ui/file_system_access_dialogs.h"
  #include "chrome/common/chrome_paths.h"
  #include "components/content_settings/core/browser/host_content_settings_map.h"
-@@ -278,79 +277,6 @@ BindResultCallbackToCurrentSequence(
+@@ -310,80 +309,6 @@ BindResultCallbackToCurrentSequence(
        base::SequencedTaskRunnerHandle::Get(), std::move(callback));
  }
  
@@ -373,6 +373,7 @@
 -    case Result::BLOCKED_PASSWORD_PROTECTED:
 -    case Result::BLOCKED_TOO_LARGE:
 -    case Result::BLOCKED_UNSUPPORTED_FILE_TYPE:
+-    case Result::DANGEROUS_ACCOUNT_COMPROMISE:
 -      return ChromeFileSystemAccessPermissionContext::AfterWriteCheckResult::
 -          kBlock;
 -
@@ -393,7 +394,7 @@
  std::string GenerateLastPickedDirectoryKey(const std::string& id) {
    return id.empty() ? kDefaultLastPickedDirectoryKey
                      : base::StrCat({kCustomLastPickedDirectoryKey, "-", id});
-@@ -825,28 +751,6 @@ void ChromeFileSystemAccessPermissionCon
+@@ -1114,28 +1039,6 @@ void ChromeFileSystemAccessPermissionCon
                       std::move(callback)));
  }
  
@@ -424,7 +425,7 @@
          const url::Origin& origin,
 --- a/chrome/browser/file_system_access/chrome_file_system_access_permission_context.h
 +++ b/chrome/browser/file_system_access/chrome_file_system_access_permission_context.h
-@@ -63,10 +63,6 @@ class ChromeFileSystemAccessPermissionCo
+@@ -85,10 +85,6 @@ class ChromeFileSystemAccessPermissionCo
        HandleType handle_type,
        content::GlobalFrameRoutingId frame_id,
        base::OnceCallback<void(SensitiveDirectoryResult)> callback) override;
@@ -456,14 +457,14 @@
 --- a/chrome/browser/password_manager/chrome_password_manager_client.cc
 +++ b/chrome/browser/password_manager/chrome_password_manager_client.cc
 @@ -32,7 +32,6 @@
+ #include "chrome/browser/password_manager/field_info_manager_factory.h"
  #include "chrome/browser/password_manager/password_store_factory.h"
  #include "chrome/browser/profiles/profile.h"
- #include "chrome/browser/profiles/profile_metrics.h"
 -#include "chrome/browser/safe_browsing/chrome_password_protection_service.h"
  #include "chrome/browser/safe_browsing/user_interaction_observer.h"
  #include "chrome/browser/signin/identity_manager_factory.h"
- #include "chrome/browser/sync/profile_sync_service_factory.h"
-@@ -108,11 +107,11 @@
+ #include "chrome/browser/sync/sync_service_factory.h"
+@@ -109,11 +108,11 @@
  #if BUILDFLAG(FULL_SAFE_BROWSING)
  #include "chrome/browser/safe_browsing/advanced_protection_status_manager.h"
  #include "chrome/browser/safe_browsing/advanced_protection_status_manager_factory.h"
@@ -476,7 +477,7 @@
  
  #if defined(OS_ANDROID)
  #include "base/feature_list.h"
-@@ -793,6 +792,7 @@ autofill::LanguageCode ChromePasswordMan
+@@ -806,6 +805,7 @@ autofill::LanguageCode ChromePasswordMan
    return autofill::LanguageCode();
  }
  
@@ -484,7 +485,7 @@
  safe_browsing::PasswordProtectionService*
  ChromePasswordManagerClient::GetPasswordProtectionService() const {
    return safe_browsing::ChromePasswordProtectionService::
-@@ -803,13 +803,6 @@ ChromePasswordManagerClient::GetPassword
+@@ -816,13 +816,6 @@ ChromePasswordManagerClient::GetPassword
  void ChromePasswordManagerClient::CheckSafeBrowsingReputation(
      const GURL& form_action,
      const GURL& frame_url) {
@@ -498,7 +499,7 @@
  }
  #endif  // defined(ON_FOCUS_PING_ENABLED)
  
-@@ -819,22 +812,10 @@ void ChromePasswordManagerClient::CheckP
+@@ -832,22 +825,10 @@ void ChromePasswordManagerClient::CheckP
      const std::vector<password_manager::MatchingReusedCredential>&
          matching_reused_credentials,
      bool password_field_exists) {
@@ -522,7 +523,7 @@
  }
  
  ukm::SourceId ChromePasswordManagerClient::GetUkmSourceId() {
-@@ -1289,9 +1270,11 @@ void ChromePasswordManagerClient::OnPast
+@@ -1322,9 +1303,11 @@ void ChromePasswordManagerClient::OnPast
    }
  
    was_on_paste_called_ = true;
@@ -535,7 +536,7 @@
  
  void ChromePasswordManagerClient::RenderFrameCreated(
      content::RenderFrameHost* render_frame_host) {
-@@ -1326,7 +1309,9 @@ void ChromePasswordManagerClient::OnInpu
+@@ -1359,7 +1342,9 @@ void ChromePasswordManagerClient::OnInpu
    if (key_event.windows_key_code == (ui::VKEY_V & 0x1f)) {
      OnPaste();
    } else {
@@ -545,7 +546,7 @@
    }
  #endif  // defined(OS_ANDROID)
  }
-@@ -1365,6 +1350,7 @@ bool ChromePasswordManagerClient::IsPass
+@@ -1398,6 +1383,7 @@ bool ChromePasswordManagerClient::IsPass
      is_enabled = false;
    }
  
@@ -553,7 +554,7 @@
    // SafeBrowsing Delayed Warnings experiment can delay some SafeBrowsing
    // warnings until user interaction. If the current page has a delayed warning,
    // it'll have a user interaction observer attached. Disable password
-@@ -1375,6 +1361,7 @@ bool ChromePasswordManagerClient::IsPass
+@@ -1408,6 +1394,7 @@ bool ChromePasswordManagerClient::IsPass
      observer->OnPasswordSaveOrAutofillDenied();
      is_enabled = false;
    }
@@ -563,7 +564,7 @@
      password_manager::BrowserSavePasswordProgressLogger logger(
 --- a/chrome/browser/password_manager/chrome_password_manager_client.h
 +++ b/chrome/browser/password_manager/chrome_password_manager_client.h
-@@ -189,13 +189,14 @@ class ChromePasswordManagerClient
+@@ -191,13 +191,14 @@ class ChromePasswordManagerClient
    void AnnotateNavigationEntry(bool has_password_field) override;
    autofill::LanguageCode GetPageLanguage() const override;
  
@@ -579,7 +580,7 @@
  
    void CheckProtectedPasswordEntry(
        password_manager::metrics_util::PasswordType reused_password_type,
-@@ -203,6 +204,7 @@ class ChromePasswordManagerClient
+@@ -205,6 +206,7 @@ class ChromePasswordManagerClient
        const std::vector<password_manager::MatchingReusedCredential>&
            matching_reused_credentials,
        bool password_field_exists) override;
@@ -630,18 +631,19 @@
  
 --- a/chrome/browser/permissions/contextual_notification_permission_ui_selector.cc
 +++ b/chrome/browser/permissions/contextual_notification_permission_ui_selector.cc
-@@ -17,10 +17,8 @@
+@@ -17,11 +17,9 @@
  #include "chrome/browser/browser_process.h"
  #include "chrome/browser/permissions/quiet_notification_permission_ui_config.h"
  #include "chrome/browser/permissions/quiet_notification_permission_ui_state.h"
 -#include "chrome/browser/safe_browsing/safe_browsing_service.h"
  #include "chrome/common/chrome_features.h"
  #include "components/permissions/permission_request.h"
+ #include "components/permissions/request_type.h"
 -#include "components/safe_browsing/core/db/database_manager.h"
  
  namespace {
  
-@@ -150,9 +148,6 @@ void ContextualNotificationPermissionUiS
+@@ -151,9 +149,6 @@ void ContextualNotificationPermissionUiS
  }
  
  void ContextualNotificationPermissionUiSelector::Cancel() {
@@ -650,9 +652,9 @@
 -  safe_browsing_request_.reset();
  }
  
- ContextualNotificationPermissionUiSelector::
-@@ -173,24 +168,14 @@ void ContextualNotificationPermissionUiS
-   base::Optional<Decision> decision =
+ bool ContextualNotificationPermissionUiSelector::IsPermissionRequestSupported(
+@@ -179,24 +174,14 @@ void ContextualNotificationPermissionUiS
+   absl::optional<Decision> decision =
        GetDecisionBasedOnSiteReputation(reputation);
  
 -  // If the PreloadData suggests this is an unacceptable site, ping Safe
@@ -683,7 +685,7 @@
  void ContextualNotificationPermissionUiSelector::OnSafeBrowsingVerdictReceived(
 --- a/chrome/browser/permissions/prediction_based_permission_ui_selector.cc
 +++ b/chrome/browser/permissions/prediction_based_permission_ui_selector.cc
-@@ -20,7 +20,6 @@
+@@ -22,7 +22,6 @@
  #include "components/permissions/prediction_service/prediction_service.h"
  #include "components/permissions/prediction_service/prediction_service_messages.pb.h"
  #include "components/prefs/pref_service.h"
@@ -691,16 +693,16 @@
  
  namespace {
  
-@@ -197,8 +196,7 @@ bool PredictionBasedPermissionUiSelector
+@@ -205,8 +204,7 @@ bool PredictionBasedPermissionUiSelector
+     permissions::RequestType request_type) {
    // We need to also check `kQuietNotificationPrompts` here since there is no
    // generic safeguard anywhere else in the stack.
-   return base::FeatureList::IsEnabled(features::kQuietNotificationPrompts) &&
--         base::FeatureList::IsEnabled(features::kPermissionPredictions) &&
--         safe_browsing::IsSafeBrowsingEnabled(*(profile_->GetPrefs()));
-+         base::FeatureList::IsEnabled(features::kPermissionPredictions);
- }
- 
- // static
+-  if (!base::FeatureList::IsEnabled(features::kQuietNotificationPrompts) ||
+-      !safe_browsing::IsSafeBrowsingEnabled(*(profile_->GetPrefs()))) {
++  if (!base::FeatureList::IsEnabled(features::kQuietNotificationPrompts)) {
+     return false;
+   }
+   double hold_back_chance = 0.0;
 --- a/chrome/browser/reputation/reputation_service.cc
 +++ b/chrome/browser/reputation/reputation_service.cc
 @@ -119,9 +119,7 @@ void ReputationService::GetReputationSta
@@ -716,7 +718,7 @@
    if (service->EngagedSitesNeedUpdating()) {
 --- a/chrome/browser/safe_browsing/url_lookup_service_factory.cc
 +++ b/chrome/browser/safe_browsing/url_lookup_service_factory.cc
-@@ -55,29 +55,7 @@ RealTimeUrlLookupServiceFactory::RealTim
+@@ -57,28 +57,7 @@ RealTimeUrlLookupServiceFactory::RealTim
  
  KeyedService* RealTimeUrlLookupServiceFactory::BuildServiceInstanceFor(
      content::BrowserContext* context) const {
@@ -737,12 +739,11 @@
 -          IdentityManagerFactory::GetForProfile(profile)),
 -      base::BindRepeating(&safe_browsing::SyncUtils::
 -                              AreSigninAndSyncSetUpForSafeBrowsingTokenFetches,
--                          ProfileSyncServiceFactory::GetForProfile(profile),
+-                          SyncServiceFactory::GetForProfile(profile),
 -                          IdentityManagerFactory::GetForProfile(profile)),
 -      profile->IsOffTheRecord(), g_browser_process->variations_service(),
--      g_browser_process->safe_browsing_service()
--          ->navigation_observer_manager()
--          .get());
+-      SafeBrowsingNavigationObserverManagerFactory::GetForBrowserContext(
+-          profile));
 +  return nullptr;
  }
  
@@ -830,9 +831,9 @@
  }
 --- a/chrome/browser/ui/views/download/download_item_view.cc
 +++ b/chrome/browser/ui/views/download/download_item_view.cc
-@@ -778,9 +778,7 @@ void DownloadItemView::UpdateLabels() {
- 
-   deep_scanning_label_->SetVisible(mode_ == Mode::kDeepScanning);
+@@ -790,9 +790,7 @@ void DownloadItemView::UpdateLabels() {
+   deep_scanning_label_->SetVisible(mode_ ==
+                                    download::DownloadItemMode::kDeepScanning);
    if (deep_scanning_label_->GetVisible()) {
 -    const int id = (model_->download() &&
 -                    safe_browsing::DeepScanningRequest::ShouldUploadBinary(
@@ -841,12 +842,12 @@
                         ? IDS_PROMPT_DEEP_SCANNING_DOWNLOAD
                         : IDS_PROMPT_DEEP_SCANNING_APP_DOWNLOAD;
      const std::u16string filename = ElidedFilename(*deep_scanning_label_);
-@@ -804,11 +802,15 @@ void DownloadItemView::UpdateButtons() {
+@@ -816,11 +814,15 @@ void DownloadItemView::UpdateButtons() {
    }
  
    const bool allow_open_during_deep_scan =
 +#if BUILDFLAG(FULL_SAFE_BROWSING)
-       (mode_ == Mode::kDeepScanning) &&
+       (mode_ == download::DownloadItemMode::kDeepScanning) &&
        !enterprise_connectors::ConnectorsServiceFactory::GetForBrowserContext(
             model_->profile())
             ->DelayUntilVerdict(
@@ -854,10 +855,10 @@
 +#else
 +      false;
 +#endif // BUILDFLAG(FULL_SAFE_BROWSING)
-   open_button_->SetEnabled((mode_ == Mode::kNormal) || prompt_to_scan ||
-                            allow_open_during_deep_scan);
+   open_button_->SetEnabled((mode_ == download::DownloadItemMode::kNormal) ||
+                            prompt_to_scan || allow_open_during_deep_scan);
  
-@@ -1237,7 +1239,9 @@ void DownloadItemView::ShowContextMenuIm
+@@ -1262,7 +1264,9 @@ void DownloadItemView::ShowContextMenuIm
  }
  
  void DownloadItemView::OpenDownloadDuringAsyncScanning() {
@@ -869,7 +870,7 @@
  
 --- a/chrome/browser/ui/views/safe_browsing/password_reuse_modal_warning_dialog.cc
 +++ b/chrome/browser/ui/views/safe_browsing/password_reuse_modal_warning_dialog.cc
-@@ -174,10 +174,7 @@ PasswordReuseModalWarningDialog::Passwor
+@@ -179,10 +179,7 @@ PasswordReuseModalWarningDialog::Passwor
          placeholder_offsets);
    } else {
      views::Label* message_body_label = CreateMessageBodyLabel(
@@ -883,16 +884,16 @@
    modal_construction_start_time_ = base::TimeTicks::Now();
 --- a/chrome/browser/ui/webui/chrome_web_ui_controller_factory.cc
 +++ b/chrome/browser/ui/webui/chrome_web_ui_controller_factory.cc
-@@ -75,8 +75,6 @@
+@@ -78,8 +78,6 @@
  #include "components/prefs/pref_service.h"
  #include "components/reading_list/features/reading_list_switches.h"
  #include "components/safe_browsing/buildflags.h"
 -#include "components/safe_browsing/content/web_ui/safe_browsing_ui.h"
 -#include "components/safe_browsing/core/web_ui/constants.h"
- #include "components/search/ntp_features.h"
  #include "components/security_interstitials/content/connection_help_ui.h"
  #include "components/security_interstitials/content/known_interception_disclosure_ui.h"
-@@ -588,8 +586,6 @@ WebUIFactoryFunction GetWebUIFactoryFunc
+ #include "components/security_interstitials/content/urls.h"
+@@ -624,8 +622,6 @@ WebUIFactoryFunction GetWebUIFactoryFunc
      return &NewWebUI<PredictorsUI>;
    if (url.host_piece() == chrome::kChromeUIQuotaInternalsHost)
      return &NewWebUI<QuotaInternalsUI>;
@@ -903,7 +904,7 @@
    if (url.host_piece() == chrome::kChromeUISuggestionsHost)
 --- a/chrome/browser/ui/webui/downloads/downloads_dom_handler.cc
 +++ b/chrome/browser/ui/webui/downloads/downloads_dom_handler.cc
-@@ -357,7 +357,6 @@ void DownloadsDOMHandler::OpenDuringScan
+@@ -360,7 +360,6 @@ void DownloadsDOMHandler::OpenDuringScan
    if (download) {
      DownloadItemModel model(download);
      model.SetOpenWhenComplete(true);
@@ -913,24 +914,22 @@
  
 --- a/chrome/browser/ui/webui/management/management_ui_handler.cc
 +++ b/chrome/browser/ui/webui/management/management_ui_handler.cc
-@@ -790,14 +790,6 @@ base::Value ManagementUIHandler::GetThre
+@@ -813,12 +813,6 @@ base::Value ManagementUIHandler::GetThre
+                                   &info);
+   }
  
-   auto* on_page_visited_event =
-       chrome_policies.GetValue(policy::key::kEnterpriseRealTimeUrlCheckMode);
--  if (on_page_visited_event && on_page_visited_event->is_int() &&
--      on_page_visited_event->GetInt() !=
--          safe_browsing::REAL_TIME_CHECK_DISABLED) {
--    base::Value value(base::Value::Type::DICTIONARY);
--    value.SetStringKey("title", kManagementOnPageVisitedEvent);
--    value.SetStringKey("permission", kManagementOnPageVisitedVisibleData);
--    info.Append(std::move(value));
+-  if (connectors_service->GetAppliedRealTimeUrlCheck() !=
+-      safe_browsing::REAL_TIME_CHECK_DISABLED) {
+-    AddThreatProtectionPermission(kManagementOnPageVisitedEvent,
+-                                  kManagementOnPageVisitedVisibleData, &info);
 -  }
- 
+-
  #if BUILDFLAG(IS_CHROMEOS_ASH)
    std::string enterprise_manager = GetDeviceManager();
+   if (enterprise_manager.empty())
 --- a/components/password_manager/content/browser/content_password_manager_driver.cc
 +++ b/components/password_manager/content/browser/content_password_manager_driver.cc
-@@ -316,7 +316,7 @@ void ContentPasswordManagerDriver::Check
+@@ -318,7 +318,7 @@ void ContentPasswordManagerDriver::Check
    if (client_->GetMetricsRecorder()) {
      client_->GetMetricsRecorder()->RecordUserFocusedPasswordField();
    }
@@ -990,7 +989,7 @@
  }
 --- a/components/safe_browsing/content/common/safe_browsing.mojom
 +++ b/components/safe_browsing/content/common/safe_browsing.mojom
-@@ -117,7 +117,6 @@ enum PhishingDetectorResult {
+@@ -120,7 +120,6 @@ enum PhishingDetectorResult {
    INVALID_SCORE = 4,
  };
  
@@ -1074,7 +1073,7 @@
    // Protected by lock_.
 --- a/content/browser/file_system_access/file_system_access_file_writer_impl.cc
 +++ b/content/browser/file_system_access/file_system_access_file_writer_impl.cc
-@@ -335,15 +335,8 @@ void FileSystemAccessFileWriterImpl::Clo
+@@ -339,15 +339,8 @@ void FileSystemAccessFileWriterImpl::Clo
  
    close_callback_ = std::move(callback);
  
@@ -1092,7 +1091,7 @@
  }
  
  void FileSystemAccessFileWriterImpl::AbortImpl(AbortCallback callback) {
-@@ -363,35 +356,6 @@ void FileSystemAccessFileWriterImpl::Abo
+@@ -367,35 +360,6 @@ void FileSystemAccessFileWriterImpl::Abo
    manager()->RemoveFileWriter(this);
  }
  
@@ -1130,7 +1129,7 @@
    DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
 --- a/content/browser/file_system_access/file_system_access_file_writer_impl.h
 +++ b/content/browser/file_system_access/file_system_access_file_writer_impl.h
-@@ -99,9 +99,6 @@ class CONTENT_EXPORT FileSystemAccessFil
+@@ -103,9 +103,6 @@ class CONTENT_EXPORT FileSystemAccessFil
    void TruncateImpl(uint64_t length, TruncateCallback callback);
    void CloseImpl(CloseCallback callback);
    void AbortImpl(AbortCallback callback);

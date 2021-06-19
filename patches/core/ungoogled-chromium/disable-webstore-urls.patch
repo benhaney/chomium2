@@ -2,7 +2,7 @@
 
 --- a/chrome/browser/extensions/chrome_content_browser_client_extensions_part.cc
 +++ b/chrome/browser/extensions/chrome_content_browser_client_extensions_part.cc
-@@ -622,10 +622,6 @@ std::vector<url::Origin> ChromeContentBr
+@@ -655,10 +655,6 @@ std::vector<url::Origin> ChromeContentBr
      GetOriginsRequiringDedicatedProcess() {
    std::vector<url::Origin> list;
  
@@ -54,20 +54,20 @@
 -                  base::Value(extension_urls::GetWebstoreUpdateUrl().spec()));
 +                  base::Value(chrome_blank_.spec()));
  
-     prefs->SetWithoutPathExpansion(new_id_, std::move(entry));
+     prefs->SetKey(new_id_, base::Value::FromUniquePtrValue(std::move(entry)));
    }
 --- a/chrome/browser/extensions/extension_migrator.h
 +++ b/chrome/browser/extensions/extension_migrator.h
-@@ -9,6 +9,7 @@
- 
+@@ -10,6 +10,7 @@
  #include "base/macros.h"
+ #include "base/memory/checked_ptr.h"
  #include "chrome/browser/extensions/external_loader.h"
 +#include "url/gurl.h"
  
  class Profile;
  
-@@ -37,6 +38,7 @@ class ExtensionMigrator : public Externa
-   Profile* profile_;
+@@ -38,6 +39,7 @@ class ExtensionMigrator : public Externa
+   CheckedPtr<Profile> profile_;
    const std::string old_id_;
    const std::string new_id_;
 +  GURL chrome_blank_;
@@ -76,7 +76,7 @@
  };
 --- a/extensions/browser/updater/extension_downloader.cc
 +++ b/extensions/browser/updater/extension_downloader.cc
-@@ -94,27 +94,18 @@ const char kNotFromWebstoreInstallSource
+@@ -93,27 +93,18 @@ const char kNotFromWebstoreInstallSource
  const char kDefaultInstallSource[] = "";
  const char kReinstallInstallSource[] = "reinstall";
  
@@ -106,7 +106,7 @@
  
  bool ShouldRetryRequest(const network::SimpleURLLoader* loader) {
    DCHECK(loader);
-@@ -310,12 +301,6 @@ void ExtensionDownloader::DoStartAllPend
+@@ -309,12 +300,6 @@ void ExtensionDownloader::DoStartAllPend
    ReportStats();
    url_stats_ = URLStats();
  
@@ -119,7 +119,7 @@
    fetches_preparing_.clear();
  }
  
-@@ -354,11 +339,6 @@ bool ExtensionDownloader::AddExtensionDa
+@@ -353,11 +338,6 @@ bool ExtensionDownloader::AddExtensionDa
      return false;
    }
  
@@ -131,7 +131,7 @@
    // Skip extensions with empty IDs.
    if (id.empty()) {
      DLOG(WARNING) << "Found extension with empty ID";
-@@ -367,12 +347,10 @@ bool ExtensionDownloader::AddExtensionDa
+@@ -366,12 +346,10 @@ bool ExtensionDownloader::AddExtensionDa
      return false;
    }
  
@@ -146,7 +146,7 @@
    } else {
      url_stats_.other_url_count++;
    }
-@@ -844,20 +822,6 @@ void ExtensionDownloader::HandleManifest
+@@ -847,20 +825,6 @@ void ExtensionDownloader::HandleManifest
          update->info);
    }
  
@@ -167,7 +167,7 @@
    NotifyExtensionsDownloadStageChanged(
        no_updates, ExtensionDownloaderDelegate::Stage::FINISHED);
    NotifyExtensionsDownloadFailed(
-@@ -1409,11 +1373,7 @@ bool ExtensionDownloader::IterateFetchCr
+@@ -1420,11 +1384,7 @@ bool ExtensionDownloader::IterateFetchCr
    // fetch.
    switch (fetch->credentials) {
      case ExtensionFetch::CREDENTIALS_NONE:

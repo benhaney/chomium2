@@ -1,6 +1,6 @@
 --- a/chrome/browser/ui/browser_command_controller.cc
 +++ b/chrome/browser/ui/browser_command_controller.cc
-@@ -1552,8 +1552,9 @@ void BrowserCommandController::UpdateTab
+@@ -1539,8 +1539,9 @@ void BrowserCommandController::UpdateTab
    // The command is updated once the load completes.
    command_updater_.UpdateCommandEnabled(
        IDC_RESTORE_TAB,
@@ -14,7 +14,7 @@
  void BrowserCommandController::UpdateCommandsForFind() {
 --- a/chrome/browser/ui/browser_commands.cc
 +++ b/chrome/browser/ui/browser_commands.cc
-@@ -735,6 +735,17 @@ bool CanResetZoom(content::WebContents* 
+@@ -750,6 +750,17 @@ bool CanResetZoom(content::WebContents* 
           !zoom_controller->PageScaleFactorIsOne();
  }
  
@@ -44,7 +44,7 @@
      TabStripModel::UserGestureDetails gesture_detail =
 --- a/chrome/browser/ui/browser_tab_strip_model_delegate.cc
 +++ b/chrome/browser/ui/browser_tab_strip_model_delegate.cc
-@@ -225,6 +225,15 @@ bool BrowserTabStripModelDelegate::Shoul
+@@ -229,6 +229,15 @@ bool BrowserTabStripModelDelegate::Shoul
    return browser_->ShouldRunUnloadListenerBeforeClosing(contents);
  }
  
@@ -62,7 +62,7 @@
    return browser_->ShouldDisplayFavicon(contents);
 --- a/chrome/browser/ui/browser_tab_strip_model_delegate.h
 +++ b/chrome/browser/ui/browser_tab_strip_model_delegate.h
-@@ -49,6 +49,8 @@ class BrowserTabStripModelDelegate : pub
+@@ -51,6 +51,8 @@ class BrowserTabStripModelDelegate : pub
    bool RunUnloadListenerBeforeClosing(content::WebContents* contents) override;
    bool ShouldRunUnloadListenerBeforeClosing(
        content::WebContents* contents) override;
@@ -73,7 +73,7 @@
    void CloseFrame();
 --- a/chrome/browser/ui/tabs/tab_menu_model.cc
 +++ b/chrome/browser/ui/tabs/tab_menu_model.cc
-@@ -162,4 +162,10 @@ void TabMenuModel::Build(TabStripModel* 
+@@ -155,4 +155,10 @@ void TabMenuModel::Build(TabStripModel* 
                        IDS_TAB_CXMENU_CLOSEOTHERTABS);
    AddItemWithStringId(TabStripModel::CommandCloseTabsToRight,
                        IDS_TAB_CXMENU_CLOSETABSTORIGHT);
@@ -86,7 +86,7 @@
  }
 --- a/chrome/browser/ui/tabs/tab_strip_model.cc
 +++ b/chrome/browser/ui/tabs/tab_strip_model.cc
-@@ -1269,6 +1269,10 @@ bool TabStripModel::IsContextMenuCommand
+@@ -1280,6 +1280,10 @@ bool TabStripModel::IsContextMenuCommand
        return false;
      }
  
@@ -97,7 +97,7 @@
      case CommandToggleSiteMuted:
        return true;
  
-@@ -1394,6 +1398,11 @@ void TabStripModel::ExecuteContextMenuCo
+@@ -1401,6 +1405,11 @@ void TabStripModel::ExecuteContextMenuCo
        break;
      }
  
@@ -108,27 +108,27 @@
 +
      case CommandSendTabToSelfSingleTarget: {
        send_tab_to_self::ShareToSingleTarget(GetWebContentsAt(context_index));
-       send_tab_to_self::RecordSendTabToSelfClickResult(
-@@ -1571,6 +1580,9 @@ bool TabStripModel::ContextMenuCommandTo
+       send_tab_to_self::RecordDeviceClicked(
+@@ -1570,6 +1579,9 @@ bool TabStripModel::ContextMenuCommandTo
      case CommandCloseTab:
        *browser_cmd = IDC_CLOSE_TAB;
        break;
 +    case CommandRestoreTab:
 +      *browser_cmd = IDC_RESTORE_TAB;
 +      break;
-     case CommandFocusMode:
-       *browser_cmd = IDC_FOCUS_THIS_TAB;
-       break;
+     default:
+       *browser_cmd = 0;
+       return false;
 --- a/chrome/browser/ui/tabs/tab_strip_model.h
 +++ b/chrome/browser/ui/tabs/tab_strip_model.h
-@@ -498,6 +498,7 @@ class TabStripModel : public TabGroupCon
+@@ -511,6 +511,7 @@ class TabStripModel : public TabGroupCon
      CommandCloseTab,
      CommandCloseOtherTabs,
      CommandCloseTabsToRight,
 +    CommandRestoreTab,
      CommandTogglePinned,
      CommandToggleGrouped,
-     CommandFocusMode,
+     CommandToggleSiteMuted,
 --- a/chrome/browser/ui/tabs/tab_strip_model_delegate.h
 +++ b/chrome/browser/ui/tabs/tab_strip_model_delegate.h
 @@ -46,6 +46,12 @@ class TabStripModelDelegate {
@@ -144,7 +144,7 @@
    virtual ~TabStripModelDelegate() {}
  
    // Adds a tab to the model and loads |url| in the tab. If |url| is an empty
-@@ -141,6 +147,12 @@ class TabStripModelDelegate {
+@@ -145,6 +151,12 @@ class TabStripModelDelegate {
    virtual bool ShouldRunUnloadListenerBeforeClosing(
        content::WebContents* contents) = 0;
  

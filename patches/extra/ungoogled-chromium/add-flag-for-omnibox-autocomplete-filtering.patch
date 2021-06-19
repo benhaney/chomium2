@@ -39,15 +39,16 @@
  #endif  // CHROME_BROWSER_UNGOOGLED_FLAG_ENTRIES_H_
 --- a/components/omnibox/browser/autocomplete_controller.cc
 +++ b/components/omnibox/browser/autocomplete_controller.cc
-@@ -15,6 +15,7 @@
+@@ -15,6 +15,8 @@
  
  #include "base/bind.h"
  #include "base/check_op.h"
 +#include "base/command_line.h"
++#include "base/containers/contains.h"
  #include "base/feature_list.h"
  #include "base/format_macros.h"
  #include "base/metrics/histogram.h"
-@@ -275,6 +276,17 @@ AutocompleteController::AutocompleteCont
+@@ -276,6 +277,17 @@ AutocompleteController::AutocompleteCont
        search_service_worker_signal_sent_(false),
        template_url_service_(provider_client_->GetTemplateURLService()) {
    provider_types &= ~OmniboxFieldTrial::GetDisabledProviderTypes();
@@ -67,7 +68,7 @@
    if (provider_types & AutocompleteProvider::TYPE_BUILTIN)
 --- a/components/omnibox/browser/history_url_provider.cc
 +++ b/components/omnibox/browser/history_url_provider.cc
-@@ -553,6 +553,9 @@ void HistoryURLProvider::Start(const Aut
+@@ -554,6 +554,9 @@ void HistoryURLProvider::Start(const Aut
    if (fixed_up_input.type() != metrics::OmniboxInputType::QUERY)
      matches_.push_back(what_you_typed_match);
  
@@ -99,11 +100,12 @@
    if (minimal_changes)
 --- a/components/url_formatter/url_fixer.cc
 +++ b/components/url_formatter/url_fixer.cc
-@@ -9,6 +9,7 @@
+@@ -9,6 +9,8 @@
  #include <algorithm>
  
  #include "base/check_op.h"
 +#include "base/command_line.h"
++#include "base/containers/contains.h"
  #include "base/files/file_path.h"
  #include "base/files/file_util.h"
  #include "base/ranges/algorithm.h"

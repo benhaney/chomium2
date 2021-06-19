@@ -1,6 +1,6 @@
 --- a/chrome/browser/federated_learning/floc_eligibility_observer.cc
 +++ b/chrome/browser/federated_learning/floc_eligibility_observer.cc
-@@ -18,15 +18,7 @@ namespace federated_learning {
+@@ -19,15 +19,7 @@ namespace federated_learning {
  namespace {
  
  history::HistoryService* GetHistoryService(content::WebContents* web_contents) {
@@ -17,7 +17,7 @@
  }
  
  }  // namespace
-@@ -36,32 +28,7 @@ FlocEligibilityObserver::~FlocEligibilit
+@@ -37,34 +29,7 @@ FlocEligibilityObserver::~FlocEligibilit
  page_load_metrics::PageLoadMetricsObserver::ObservePolicy
  FlocEligibilityObserver::OnCommit(
      content::NavigationHandle* navigation_handle) {
@@ -32,8 +32,10 @@
 -
 -  // If the IP was not publicly routable, the navigation history is not eligible
 -  // for floc. We can stop observing now.
--  if (!navigation_handle->GetSocketAddress().address().IsPubliclyRoutable())
+-  if (!navigation_handle->GetSocketAddress().address().IsPubliclyRoutable() &&
+-      !base::FeatureList::IsEnabled(kFlocBypassIPIsPubliclyRoutableCheck)) {
 -    return ObservePolicy::STOP_OBSERVING;
+-  }
 -
 -  // If the interest-cohort permissions policy in the main document disallows
 -  // the floc inclusion, the navigation history is not eligible for floc. We can
@@ -51,7 +53,7 @@
  }
  
  void FlocEligibilityObserver::OnAdResource() {
-@@ -76,17 +43,7 @@ FlocEligibilityObserver::FlocEligibility
+@@ -84,17 +49,7 @@ FlocEligibilityObserver::FlocEligibility
      : web_contents_(content::WebContents::FromRenderFrameHost(rfh)) {}
  
  void FlocEligibilityObserver::OnOptInSignalObserved() {
@@ -79,7 +81,7 @@
 -  Profile* profile = Profile::FromBrowserContext(context);
 -
 -  syncer::SyncService* sync_service =
--      ProfileSyncServiceFactory::GetForProfile(profile);
+-      SyncServiceFactory::GetForProfile(profile);
 -  if (!sync_service)
 -    return nullptr;
 -
@@ -115,7 +117,7 @@
  }  // namespace federated_learning
 --- a/chrome/browser/federated_learning/floc_id_provider_impl.cc
 +++ b/chrome/browser/federated_learning/floc_id_provider_impl.cc
-@@ -148,155 +148,47 @@ blink::mojom::InterestCohortPtr FlocIdPr
+@@ -159,18 +159,7 @@ blink::mojom::InterestCohortPtr FlocIdPr
  }
  
  void FlocIdProviderImpl::MaybeRecordFlocToUkm(ukm::SourceId source_id) {
@@ -132,6 +134,10 @@
 -
 -  need_ukm_recording_ = false;
 +  return;
+ }
+ 
+ base::Time FlocIdProviderImpl::GetApproximateNextComputeTime() const {
+@@ -183,219 +172,57 @@ base::Time FlocIdProviderImpl::GetApprox
  }
  
  void FlocIdProviderImpl::OnComputeFlocCompleted(ComputeFlocResult result) {
@@ -171,13 +177,26 @@
 +  return;
  }
  
- void FlocIdProviderImpl::OnFlocDataAccessibleSinceUpdated() {
+ void FlocIdProviderImpl::OnFlocDataAccessibleSinceUpdated(
+     bool reset_compute_timer) {
 -  // Set the |need_recompute_| flag so that we will recompute the floc
 -  // immediately after the in-progress one finishes, so as to avoid potential
--  // data races.
+-  // data races. This function maybe have been called in response to a user
+-  // deliberately resetting floc, in this case the recomputed floc should be
+-  // invalid as the floc-accessible timestamp was just updated to now. The
+-  // floc computation is fast so it's exceedingly unlikely to populate enough
+-  // history for the recomputed ID to be valid between one floc calculation and
+-  // the next.
 -  if (floc_computation_in_progress_) {
 -    need_recompute_ = true;
 -    return;
+-  }
+-
+-  // Clear any pending computes and re-schedule if requested.
+-  if (reset_compute_timer) {
+-    compute_floc_timer_.AbandonAndStop();
+-    ScheduleFlocComputation(kFlocIdScheduledUpdateInterval.Get());
+-    floc_id_.ResetComputeTimeAndSaveToPrefs(base::Time::Now(), prefs_);
 -  }
 -
 -  // Note: we only invalidate the floc rather than recomputing, because we don't
@@ -191,7 +210,7 @@
 -  // the begin time of the history used to compute the current floc.
 -  if (privacy_sandbox_settings_->FlocDataAccessibleSince() >
 -      floc_id_.history_begin_time()) {
--    floc_id_.InvalidateIdAndSaveToPrefs(prefs_);
+-    floc_id_.UpdateStatusAndSaveToPrefs(prefs_, FlocId::Status::kInvalidReset);
 -  }
 +  return;
  }
@@ -224,9 +243,11 @@
 -  // We log the invalidation event although it's technically not a recompute.
 -  // It'd give us a better idea how often the floc is invalidated due to
 -  // history-delete.
--  LogFlocComputedEvent(ComputeFlocResult());
+-  LogFlocComputedEvent(
+-      ComputeFlocResult(FlocId::Status::kInvalidHistoryDeleted));
 -
--  floc_id_.InvalidateIdAndSaveToPrefs(prefs_);
+-  floc_id_.UpdateStatusAndSaveToPrefs(prefs_,
+-                                      FlocId::Status::kInvalidHistoryDeleted);
 +  return;
  }
  
@@ -257,7 +278,7 @@
  }
  
  void FlocIdProviderImpl::CheckCanComputeFloc(CanComputeFlocCallback callback) {
--  if (!IsPrivacySandboxAllowed()) {
+-  if (!IsFlocAllowed()) {
 -    std::move(callback).Run(false);
 -    return;
 -  }
@@ -270,7 +291,8 @@
      ComputeFlocCompletedCallback callback,
      bool can_compute_floc) {
 -  if (!can_compute_floc) {
--    std::move(callback).Run(ComputeFlocResult());
+-    std::move(callback).Run(
+-        ComputeFlocResult(FlocId::Status::kInvalidDisallowedByUserSettings));
 -    return;
 -  }
 -
@@ -280,8 +302,10 @@
 +  return;
  }
  
- bool FlocIdProviderImpl::IsPrivacySandboxAllowed() const {
-@@ -305,60 +197,11 @@ bool FlocIdProviderImpl::IsPrivacySandbo
+ bool FlocIdProviderImpl::IsFlocAllowed() const {
+-  return privacy_sandbox_settings_->IsFlocAllowed();
++  return false;
+ }
  
  void FlocIdProviderImpl::GetRecentlyVisitedURLs(
      GetRecentlyVisitedURLsCallback callback) {
@@ -325,7 +349,8 @@
 -
 -  if (domains.size() <
 -      static_cast<size_t>(kFlocIdMinimumHistoryDomainSizeRequired.Get())) {
--    std::move(callback).Run(ComputeFlocResult());
+-    std::move(callback).Run(ComputeFlocResult(
+-        FlocId::Status::kInvalidNotEnoughElgibleHistoryDomains));
 -    return;
 -  }
 -
@@ -342,18 +367,20 @@
  }
  
  void FlocIdProviderImpl::DidApplySortingLshPostProcessing(
-@@ -368,20 +211,11 @@ void FlocIdProviderImpl::DidApplySorting
+@@ -405,22 +232,11 @@ void FlocIdProviderImpl::DidApplySorting
      base::Time history_end_time,
-     base::Optional<uint64_t> final_hash,
+     absl::optional<uint64_t> final_hash,
      base::Version version) {
 -  if (!final_hash) {
--    std::move(callback).Run(ComputeFlocResult(sim_hash, FlocId()));
+-    std::move(callback).Run(ComputeFlocResult(
+-        sim_hash, FlocId::CreateInvalid(FlocId::Status::kInvalidBlocked)));
 -    return;
 -  }
 -
 -  std::move(callback).Run(ComputeFlocResult(
--      sim_hash, FlocId(final_hash.value(), history_begin_time, history_end_time,
--                       version.components().front())));
+-      sim_hash,
+-      FlocId::CreateValid(final_hash.value(), history_begin_time,
+-                          history_end_time, version.components().front())));
 +  return;
  }
  

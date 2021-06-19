@@ -102,3 +102,5 @@ extra/ben/remove-nomerge.patch
 extra/ben/restore-reopen-closed-tab-in-context-menu.patch
 extra/ben/disable-floc.patch
 extra/ben/tmp-revert-f5499b1.patch
+extra/ben/unused-but-set.patch
+extra/ben/fix-building-without-safe-browsing.patch

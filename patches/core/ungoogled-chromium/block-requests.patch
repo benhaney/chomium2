@@ -1,7 +1,7 @@
 ## Prevent request attempts
 --- a/chrome/browser/search/background/ntp_background_service.cc
 +++ b/chrome/browser/search/background/ntp_background_service.cc
-@@ -66,6 +66,7 @@ void NtpBackgroundService::Shutdown() {
+@@ -65,6 +65,7 @@ void NtpBackgroundService::Shutdown() {
  }
  
  void NtpBackgroundService::FetchCollectionInfo() {
@@ -11,7 +11,7 @@
    collection_error_info_.ClearError();
 --- a/chrome/browser/search/one_google_bar/one_google_bar_loader_impl.cc
 +++ b/chrome/browser/search/one_google_bar/one_google_bar_loader_impl.cc
-@@ -296,6 +296,7 @@ OneGoogleBarLoaderImpl::OneGoogleBarLoad
+@@ -298,6 +298,7 @@ OneGoogleBarLoaderImpl::OneGoogleBarLoad
  OneGoogleBarLoaderImpl::~OneGoogleBarLoaderImpl() = default;
  
  void OneGoogleBarLoaderImpl::Load(OneGoogleCallback callback) {

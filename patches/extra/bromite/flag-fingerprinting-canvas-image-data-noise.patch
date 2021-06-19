@@ -34,7 +34,7 @@ approach to change color components.
  #endif  // CHROME_BROWSER_BROMITE_FLAG_ENTRIES_H_
 --- a/content/browser/renderer_host/render_process_host_impl.cc
 +++ b/content/browser/renderer_host/render_process_host_impl.cc
-@@ -3256,6 +3256,7 @@ void RenderProcessHostImpl::PropagateBro
+@@ -3435,6 +3435,7 @@ void RenderProcessHostImpl::PropagateBro
      switches::kFileUrlPathAlias,
      switches::kFingerprintingClientRectsNoise,
      switches::kFingerprintingCanvasMeasureTextNoise,
@@ -44,7 +44,7 @@ approach to change color components.
      switches::kForceGpuMemAvailableMb,
 --- a/content/child/runtime_features.cc
 +++ b/content/child/runtime_features.cc
-@@ -442,6 +442,8 @@ void SetRuntimeFeaturesFromCommandLine(c
+@@ -455,6 +455,8 @@ void SetRuntimeFeaturesFromCommandLine(c
          switches::kFingerprintingClientRectsNoise, true},
        {wrf::EnableFingerprintingCanvasMeasureTextNoise,
          switches::kFingerprintingCanvasMeasureTextNoise, true},
@@ -55,7 +55,7 @@ approach to change color components.
        {wrf::EnableNotifications, switches::kDisableNotifications, false},
 --- a/third_party/blink/public/platform/web_runtime_features.h
 +++ b/third_party/blink/public/platform/web_runtime_features.h
-@@ -211,6 +211,8 @@ class WebRuntimeFeatures {
+@@ -219,6 +219,8 @@ class WebRuntimeFeatures {
    BLINK_PLATFORM_EXPORT static void EnableFingerprintingClientRectsNoise(bool);
    BLINK_PLATFORM_EXPORT static void EnableFingerprintingCanvasMeasureTextNoise(
        bool);
@@ -66,7 +66,7 @@ approach to change color components.
    BLINK_PLATFORM_EXPORT static void EnableSignedExchangeSubresourcePrefetch(
 --- a/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_context_2d.cc
 +++ b/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_context_2d.cc
-@@ -21,6 +21,7 @@
+@@ -24,6 +24,7 @@
  #include "third_party/blink/renderer/platform/geometry/float_quad.h"
  #include "third_party/blink/renderer/platform/graphics/bitmap_image.h"
  #include "third_party/blink/renderer/platform/graphics/skia/skia_utils.h"
@@ -74,7 +74,7 @@ approach to change color components.
  #include "third_party/blink/renderer/platform/graphics/stroke_data.h"
  #include "third_party/blink/renderer/platform/heap/heap.h"
  
-@@ -2005,6 +2006,11 @@ ImageData* BaseRenderingContext2D::getIm
+@@ -1991,6 +1992,11 @@ ImageData* BaseRenderingContext2D::getIm
            snapshot->PaintImageForCurrentFrame().GetSkImageInfo().bounds();
        DCHECK(!bounds.intersect(SkIRect::MakeXYWH(sx, sy, sw, sh)));
      }
@@ -85,10 +85,10 @@ approach to change color components.
 +    }
    }
  
-   // Wrap |contents| in an ImageData.
+   if (!IsPaint2D()) {
 --- a/third_party/blink/renderer/platform/BUILD.gn
 +++ b/third_party/blink/renderer/platform/BUILD.gn
-@@ -1619,7 +1619,9 @@ component("platform") {
+@@ -1627,7 +1627,9 @@ component("platform") {
      "//third_party/blink/renderer:non_test_config",
    ]
  
@@ -101,7 +101,7 @@ approach to change color components.
      "//third_party/blink/renderer/platform/blob",
 --- a/third_party/blink/renderer/platform/exported/web_runtime_features.cc
 +++ b/third_party/blink/renderer/platform/exported/web_runtime_features.cc
-@@ -673,4 +673,8 @@ void WebRuntimeFeatures::EnableFingerpri
+@@ -698,4 +698,8 @@ void WebRuntimeFeatures::EnableFingerpri
    RuntimeEnabledFeatures::SetFingerprintingCanvasMeasureTextNoiseEnabled(enable);
  }
  
@@ -314,7 +314,7 @@ approach to change color components.
  }  // namespace blink
 --- a/third_party/blink/renderer/platform/graphics/static_bitmap_image.h
 +++ b/third_party/blink/renderer/platform/graphics/static_bitmap_image.h
-@@ -35,6 +35,8 @@ class PLATFORM_EXPORT StaticBitmapImage 
+@@ -36,6 +36,8 @@ class PLATFORM_EXPORT StaticBitmapImage 
  
    StaticBitmapImage(ImageOrientation orientation) : orientation_(orientation) {}
  
@@ -325,13 +325,13 @@ approach to change color components.
    // Methods overridden by all sub-classes
 --- a/third_party/blink/renderer/platform/runtime_enabled_features.json5
 +++ b/third_party/blink/renderer/platform/runtime_enabled_features.json5
-@@ -950,6 +950,9 @@
+@@ -979,6 +979,9 @@
        name: "FingerprintingCanvasMeasureTextNoise",
      },
      {
 +      name: "FingerprintingCanvasImageDataNoise",
 +    },
 +    {
-       name: "FledgeInterestGroups",
-       origin_trial_feature_name: "FledgeInterestGroups",
+       name: "FledgeInterestGroupAPI",
+       origin_trial_feature_name: "FledgeInterestGroupAPI",
      },

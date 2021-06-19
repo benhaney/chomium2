@@ -5,7 +5,7 @@
 
 --- a/third_party/devtools-frontend/src/BUILD.gn
 +++ b/third_party/devtools-frontend/src/BUILD.gn
-@@ -166,7 +166,7 @@ devtools_applications = [
+@@ -140,7 +140,7 @@ foreach(module_file, non_autostart_non_r
  devtools_frontend_resources_deps = [
    ":build_release_devtools",
    "front_end",

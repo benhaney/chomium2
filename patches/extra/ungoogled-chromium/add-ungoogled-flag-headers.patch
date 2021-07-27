@@ -1,6 +1,6 @@
 --- a/chrome/browser/about_flags.cc
 +++ b/chrome/browser/about_flags.cc
-@@ -2564,7 +2564,13 @@ const FeatureEntry::FeatureVariation kPa
+@@ -2718,7 +2718,13 @@ const FeatureEntry::FeatureVariation kCo
  // calculate and verify checksum.
  //
  // When adding a new choice, add it to the end of the list.

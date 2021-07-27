@@ -1,7 +1,7 @@
 
 --- a/chrome/browser/background/background_mode_manager.cc
 +++ b/chrome/browser/background/background_mode_manager.cc
-@@ -373,7 +373,7 @@ void BackgroundModeManager::RegisterPref
+@@ -376,7 +376,7 @@ void BackgroundModeManager::RegisterPref
    registry->RegisterBooleanPref(prefs::kChromeCreatedLoginItem, false);
    registry->RegisterBooleanPref(prefs::kMigratedLoginItemPref, false);
  #endif
@@ -12,7 +12,7 @@
  void BackgroundModeManager::RegisterProfile(Profile* profile) {
 --- a/chrome/browser/chrome_content_browser_client.cc
 +++ b/chrome/browser/chrome_content_browser_client.cc
-@@ -1292,7 +1292,7 @@ void ChromeContentBrowserClient::Registe
+@@ -1159,7 +1159,7 @@ void ChromeContentBrowserClient::Registe
  void ChromeContentBrowserClient::RegisterProfilePrefs(
      user_prefs::PrefRegistrySyncable* registry) {
    registry->RegisterBooleanPref(prefs::kDisable3DAPIs, false);
@@ -45,7 +45,7 @@
  enum class NetworkPredictionStatus {
 --- a/chrome/browser/net/profile_network_context_service.cc
 +++ b/chrome/browser/net/profile_network_context_service.cc
-@@ -319,7 +319,7 @@ void ProfileNetworkContextService::Updat
+@@ -318,7 +318,7 @@ void ProfileNetworkContextService::Updat
  void ProfileNetworkContextService::RegisterProfilePrefs(
      user_prefs::PrefRegistrySyncable* registry) {
    registry->RegisterBooleanPref(
@@ -89,12 +89,12 @@
  // static
 --- a/chrome/browser/ui/browser_ui_prefs.cc
 +++ b/chrome/browser/ui/browser_ui_prefs.cc
-@@ -72,11 +72,11 @@ void RegisterBrowserUserPrefs(user_prefs
+@@ -77,11 +77,11 @@ void RegisterBrowserUserPrefs(user_prefs
    registry->RegisterBooleanPref(prefs::kWebAppCreateInAppsMenu, true);
    registry->RegisterBooleanPref(prefs::kWebAppCreateInQuickLaunchBar, true);
    registry->RegisterBooleanPref(
--      prefs::kOfferTranslateEnabled, true,
-+      prefs::kOfferTranslateEnabled, false,
+-      translate::prefs::kOfferTranslateEnabled, true,
++      translate::prefs::kOfferTranslateEnabled, false,
        user_prefs::PrefRegistrySyncable::SYNCABLE_PREF);
    registry->RegisterStringPref(prefs::kCloudPrintEmail, std::string());
    registry->RegisterBooleanPref(prefs::kCloudPrintProxyEnabled, true);
@@ -140,7 +140,7 @@
        prefs::kAutofillProfileValidity, "",
 --- a/components/bookmarks/browser/bookmark_utils.cc
 +++ b/components/bookmarks/browser/bookmark_utils.cc
-@@ -441,12 +441,12 @@ bool DoesBookmarkContainWords(const std:
+@@ -440,12 +440,12 @@ bool DoesBookmarkContainWords(const std:
  void RegisterProfilePrefs(user_prefs::PrefRegistrySyncable* registry) {
    registry->RegisterBooleanPref(
        prefs::kShowBookmarkBar,
@@ -168,7 +168,7 @@
  
 --- a/components/password_manager/core/browser/password_manager.cc
 +++ b/components/password_manager/core/browser/password_manager.cc
-@@ -194,10 +194,10 @@ bool HasMutedCredentials(base::span<cons
+@@ -204,10 +204,10 @@ bool HasMutedCredentials(base::span<cons
  void PasswordManager::RegisterProfilePrefs(
      user_prefs::PrefRegistrySyncable* registry) {
    registry->RegisterBooleanPref(

@@ -1,13 +1,12 @@
 --- a/chrome/test/BUILD.gn
 +++ b/chrome/test/BUILD.gn
-@@ -5207,13 +5207,9 @@ test("unit_tests") {
+@@ -5270,12 +5270,8 @@ test("unit_tests") {
+       "//chrome/app_shim",
        "//chrome/browser/apps/app_shim",
-       "//chrome/browser/ui/cocoa/notifications:common",
        "//chrome/common/notifications",
 -      "//chrome/common/safe_browsing:archive_analyzer_results",
 -      "//chrome/common/safe_browsing:disk_image_type_sniffer_mac",
        "//chrome/services/mac_notifications:unit_tests",
-       "//chrome/services/mac_notifications/public/cpp",
        "//chrome/services/mac_notifications/public/mojom",
 -      "//chrome/utility/safe_browsing/mac",
 -      "//chrome/utility/safe_browsing/mac:dmg_common",
@@ -22,6 +21,6 @@
      "//base",
 -    "//chrome/common/safe_browsing:archive_analyzer_results",
 -    "//chrome/common/safe_browsing:binary_feature_extractor",
-     "//components/safe_browsing/core:csd_proto",
+     "//components/safe_browsing/core/common/proto:csd_proto",
    ]
  }

@@ -48,7 +48,7 @@
  #include "base/feature_list.h"
  #include "base/format_macros.h"
  #include "base/metrics/histogram.h"
-@@ -276,6 +277,17 @@ AutocompleteController::AutocompleteCont
+@@ -276,6 +278,17 @@ AutocompleteController::AutocompleteCont
        search_service_worker_signal_sent_(false),
        template_url_service_(provider_client_->GetTemplateURLService()) {
    provider_types &= ~OmniboxFieldTrial::GetDisabledProviderTypes();
@@ -68,7 +68,7 @@
    if (provider_types & AutocompleteProvider::TYPE_BUILTIN)
 --- a/components/omnibox/browser/history_url_provider.cc
 +++ b/components/omnibox/browser/history_url_provider.cc
-@@ -554,6 +554,9 @@ void HistoryURLProvider::Start(const Aut
+@@ -553,6 +553,9 @@ void HistoryURLProvider::Start(const Aut
    if (fixed_up_input.type() != metrics::OmniboxInputType::QUERY)
      matches_.push_back(what_you_typed_match);
  
@@ -88,7 +88,7 @@
  #include "base/feature_list.h"
  #include "base/i18n/break_iterator.h"
  #include "base/i18n/case_conversion.h"
-@@ -643,6 +644,9 @@ void SearchProvider::Run(bool query_is_p
+@@ -647,6 +648,9 @@ void SearchProvider::Run(bool query_is_p
  }
  
  void SearchProvider::DoHistoryQuery(bool minimal_changes) {
@@ -109,7 +109,7 @@
  #include "base/files/file_path.h"
  #include "base/files/file_util.h"
  #include "base/ranges/algorithm.h"
-@@ -607,6 +608,8 @@ GURL FixupURL(const std::string& text, c
+@@ -607,6 +609,8 @@ GURL FixupURL(const std::string& text, c
  
      FixupHost(trimmed, parts.host, parts.scheme.is_valid(), desired_tld, &url);
      if (chrome_url && !parts.host.is_valid())

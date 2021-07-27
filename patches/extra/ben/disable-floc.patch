@@ -74,10 +74,13 @@
  RENDER_DOCUMENT_HOST_USER_DATA_KEY_IMPL(FlocEligibilityObserver)
 --- a/chrome/browser/federated_learning/floc_id_provider_factory.cc
 +++ b/chrome/browser/federated_learning/floc_id_provider_factory.cc
-@@ -48,39 +48,7 @@ FlocIdProviderFactory::~FlocIdProviderFa
+@@ -49,42 +49,7 @@ FlocIdProviderFactory::~FlocIdProviderFa
  
  KeyedService* FlocIdProviderFactory::BuildServiceInstanceFor(
      content::BrowserContext* context) const {
+-  if (!base::FeatureList::IsEnabled(kFederatedLearningOfCohorts))
+-    return nullptr;
+-
 -  Profile* profile = Profile::FromBrowserContext(context);
 -
 -  syncer::SyncService* sync_service =
@@ -117,7 +120,7 @@
  }  // namespace federated_learning
 --- a/chrome/browser/federated_learning/floc_id_provider_impl.cc
 +++ b/chrome/browser/federated_learning/floc_id_provider_impl.cc
-@@ -159,18 +159,7 @@ blink::mojom::InterestCohortPtr FlocIdPr
+@@ -192,18 +192,7 @@ mojom::WebUIFlocStatusPtr FlocIdProvider
  }
  
  void FlocIdProviderImpl::MaybeRecordFlocToUkm(ukm::SourceId source_id) {
@@ -137,7 +140,7 @@
  }
  
  base::Time FlocIdProviderImpl::GetApproximateNextComputeTime() const {
-@@ -183,219 +172,57 @@ base::Time FlocIdProviderImpl::GetApprox
+@@ -216,219 +205,57 @@ base::Time FlocIdProviderImpl::GetApprox
  }
  
  void FlocIdProviderImpl::OnComputeFlocCompleted(ComputeFlocResult result) {
@@ -367,7 +370,7 @@
  }
  
  void FlocIdProviderImpl::DidApplySortingLshPostProcessing(
-@@ -405,22 +232,11 @@ void FlocIdProviderImpl::DidApplySorting
+@@ -438,22 +265,11 @@ void FlocIdProviderImpl::DidApplySorting
      base::Time history_end_time,
      absl::optional<uint64_t> final_hash,
      base::Version version) {
@@ -394,7 +397,7 @@
  }  // namespace federated_learning
 --- a/chrome/browser/federated_learning/floc_remote_permission_service.cc
 +++ b/chrome/browser/federated_learning/floc_remote_permission_service.cc
-@@ -23,7 +23,7 @@ namespace federated_learning {
+@@ -24,7 +24,7 @@ namespace federated_learning {
  namespace {
  
  const char kQueryFlocPermissionUrl[] =
@@ -403,7 +406,7 @@
  
  // The maximum number of retries for the SimpleURLLoader requests.
  const size_t kMaxRetries = 1;
-@@ -54,43 +54,7 @@ class RequestImpl : public FlocRemotePer
+@@ -55,43 +55,7 @@ class RequestImpl : public FlocRemotePer
  
   private:
    void Start() override {

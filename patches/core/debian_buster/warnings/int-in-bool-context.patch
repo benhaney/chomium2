@@ -28,7 +28,7 @@ author: Michael Gilbert <mgilbert@debian.org>
  }
 --- a/gpu/command_buffer/service/gles2_cmd_decoder.cc
 +++ b/gpu/command_buffer/service/gles2_cmd_decoder.cc
-@@ -16436,7 +16436,8 @@ bool GLES2DecoderImpl::GetUniformSetup(G
+@@ -16440,7 +16440,8 @@ bool GLES2DecoderImpl::GetUniformSetup(G
    }
    uint32_t checked_size = 0;
    if (!SizedResult<T>::ComputeSize(num_elements).AssignIfValid(&checked_size)) {

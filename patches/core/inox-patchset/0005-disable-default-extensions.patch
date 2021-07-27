@@ -10,7 +10,7 @@
      extension_misc::kAccessibilityCommonExtensionId,
 --- a/chrome/browser/extensions/component_loader.cc
 +++ b/chrome/browser/extensions/component_loader.cc
-@@ -353,11 +353,6 @@ void ComponentLoader::AddWebStoreApp() {
+@@ -354,11 +354,6 @@ void ComponentLoader::AddWebStoreApp() {
    if (!IsNormalSession())
      return;
  #endif
@@ -22,7 +22,7 @@
  }
  
  #if BUILDFLAG(IS_CHROMEOS_ASH)
-@@ -530,18 +525,6 @@ void ComponentLoader::AddDefaultComponen
+@@ -531,18 +526,6 @@ void ComponentLoader::AddDefaultComponen
      AddHangoutServicesExtension();
  #endif  // BUILDFLAG(ENABLE_HANGOUT_SERVICES_EXTENSION)
  

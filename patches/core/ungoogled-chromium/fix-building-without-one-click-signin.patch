@@ -14,7 +14,7 @@
  }
 --- a/chrome/browser/ui/webui/signin/inline_login_handler_impl.cc
 +++ b/chrome/browser/ui/webui/signin/inline_login_handler_impl.cc
-@@ -347,6 +347,7 @@ void InlineSigninHelper::OnClientOAuthSu
+@@ -360,6 +360,7 @@ void InlineSigninHelper::OnClientOAuthSu
      const ClientOAuthResult& result,
      Profile* /*profile*/,
      Profile::CreateStatus /*status*/) {
@@ -22,7 +22,7 @@
    HandlerSigninReason reason = GetHandlerSigninReason(current_url_);
    if (reason == HandlerSigninReason::kFetchLstOnly) {
      // Constants are only available on Windows for the Google Credential
-@@ -423,6 +424,7 @@ void InlineSigninHelper::OnClientOAuthSu
+@@ -436,6 +437,7 @@ void InlineSigninHelper::OnClientOAuthSu
    }
  
    base::ThreadTaskRunnerHandle::Get()->DeleteSoon(FROM_HERE, this);
@@ -30,15 +30,3 @@
  }
  
  void InlineSigninHelper::UntrustedSigninConfirmed(
---- a/chrome/common/features.gni
-+++ b/chrome/common/features.gni
-@@ -49,8 +49,7 @@ declare_args() {
-   # It is enableable separately to facilitate testing.
-   enable_hangout_services_extension = is_chrome_branded
- 
--  enable_one_click_signin =
--      is_win || is_mac || ((is_linux || is_chromeos_lacros) && !is_chromecast)
-+  enable_one_click_signin = false
- 
-   enable_service_discovery = (enable_mdns && !is_android) || is_mac
- 

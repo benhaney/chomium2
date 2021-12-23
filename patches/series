@@ -6,11 +6,13 @@ core/inox-patchset/0009-disable-google-ipv6-probes.patch
 core/inox-patchset/0015-disable-update-pings.patch
 core/inox-patchset/0017-disable-new-avatar-menu.patch
 core/inox-patchset/0021-disable-rlz.patch
+core/debian/disable/unrar.patch
 core/iridium-browser/safe_browsing-disable-incident-reporting.patch
 core/iridium-browser/safe_browsing-disable-reporting-of-safebrowsing-over.patch
 core/iridium-browser/all-add-trk-prefixes-to-possibly-evil-connections.patch
 core/ungoogled-chromium/disable-crash-reporter.patch
 core/ungoogled-chromium/disable-google-host-detection.patch
+core/ungoogled-chromium/replace-google-search-engine-with-nosearch.patch
 core/ungoogled-chromium/disable-signin.patch
 core/ungoogled-chromium/toggle-translation-via-switch.patch
 core/ungoogled-chromium/disable-untraceable-urls.patch
@@ -24,13 +26,16 @@ core/ungoogled-chromium/disable-fonts-googleapis-references.patch
 core/ungoogled-chromium/disable-webstore-urls.patch
 core/ungoogled-chromium/fix-learn-doubleclick-hsts.patch
 core/ungoogled-chromium/disable-webrtc-log-uploader.patch
-core/ungoogled-chromium/use-local-devtools-files.patch
+core/ungoogled-chromium/fix-building-with-prunned-binaries.patch
 core/ungoogled-chromium/disable-network-time-tracker.patch
 core/ungoogled-chromium/disable-mei-preload.patch
 core/ungoogled-chromium/fix-building-without-safebrowsing.patch
 core/ungoogled-chromium/remove-unused-preferences-fields.patch
 core/ungoogled-chromium/fix-building-without-enabling-reporting.patch
 core/ungoogled-chromium/block-requests.patch
+core/ungoogled-chromium/disable-floc.patch
+core/ungoogled-chromium/disable-privacy-sandbox.patch
+core/ungoogled-chromium/doh-changes.patch
 core/bromite/disable-fetching-field-trials.patch
 
 extra/inox-patchset/0006-modify-default-prefs.patch
@@ -40,9 +45,13 @@ extra/inox-patchset/0016-chromium-sandbox-pie.patch
 extra/inox-patchset/0018-disable-first-run-behaviour.patch
 extra/inox-patchset/0019-disable-battery-status-service.patch
 extra/debian/gn/parallel.patch
+extra/debian/fixes/connection-message.patch
 extra/debian/disable/welcome-page.patch
 extra/debian/disable/google-api-warning.patch
 extra/iridium-browser/net-cert-increase-default-key-length-for-newly-gener.patch
+extra/iridium-browser/mime_util-force-text-x-suse-ymp-to-be-downloaded.patch
+extra/iridium-browser/prefs-only-keep-cookies-until-exit.patch
+extra/iridium-browser/prefs-always-prompt-for-download-directory-by-defaul.patch
 extra/iridium-browser/updater-disable-auto-update.patch
 extra/iridium-browser/Remove-EV-certificates.patch
 extra/iridium-browser/browser-disable-profile-auto-import-on-first-run.patch
@@ -66,6 +75,7 @@ extra/ungoogled-chromium/add-suggestions-url-field.patch
 extra/ungoogled-chromium/add-flag-to-hide-crashed-bubble.patch
 extra/ungoogled-chromium/add-flag-to-scroll-tabs.patch
 extra/ungoogled-chromium/enable-paste-and-go-new-tab-button.patch
+extra/ungoogled-chromium/add-flag-for-pdf-plugin-name.patch
 extra/ungoogled-chromium/add-flag-for-bookmark-bar-ntp.patch
 extra/ungoogled-chromium/enable-default-prefetch-privacy-changes.patch
 extra/ungoogled-chromium/enable-menu-on-reload-button.patch
@@ -74,15 +84,25 @@ extra/ungoogled-chromium/disable-dial-repeating-discovery.patch
 extra/ungoogled-chromium/remove-uneeded-ui.patch
 extra/ungoogled-chromium/add-flag-to-close-window-with-last-tab.patch
 extra/ungoogled-chromium/add-flag-to-convert-popups-to-tabs.patch
+extra/ungoogled-chromium/add-flag-to-disable-local-history-expiration.patch
 extra/ungoogled-chromium/add-extra-channel-info.patch
+extra/ungoogled-chromium/prepopulated-search-engines.patch
+extra/ungoogled-chromium/fix-distilled-icons.patch
+extra/ungoogled-chromium/add-flag-to-clear-data-on-exit.patch
+extra/ungoogled-chromium/add-flag-for-tabsearch-button.patch
+extra/ungoogled-chromium/add-flag-for-qr-generator.patch
+extra/ungoogled-chromium/add-flag-for-grab-handle.patch
+extra/ungoogled-chromium/add-flag-for-close-confirmation.patch
+extra/ungoogled-chromium/keep-expired-flags.patch
+extra/ungoogled-chromium/add-flag-for-custom-ntp.patch
+extra/ungoogled-chromium/add-flag-for-tab-hover-cards.patch
+extra/ungoogled-chromium/add-flag-to-hide-tab-close-buttons.patch
 extra/bromite/fingerprinting-flags-client-rects-and-measuretext.patch
 extra/bromite/flag-max-connections-per-host.patch
 extra/bromite/flag-fingerprinting-canvas-image-data-noise.patch
 
-core/inox-patchset/chromium-skia-harmony.patch
 core/inox-patchset/fix-cfi-failures-with-unbundled-libxml.patch
 core/debian_buster/fixes/mojo.patch
-core/debian_buster/fixes/as-needed.patch
 core/debian_buster/fixes/namespace.patch
 core/debian_buster/fixes/empty-array.patch
 core/debian_buster/disable/installer.patch
@@ -97,10 +117,7 @@ core/ungoogled-chromium/macos/fix-visibility.patch
 core/ungoogled-chromium/macos/fix-dsymutil.patch
 core/ungoogled-chromium/macos/fix-clang-format-path.patch
 core/ungoogled-chromium/fix-node-path.patch
+core/ungoogled-chromium/macos/disable-clang-warning-crbug_com_1203071.patch
+core/ungoogled-chromium/macos/disable-clang-warning-crbug_com_1255745.patch
 
-extra/ben/remove-nomerge.patch
 extra/ben/restore-reopen-closed-tab-in-context-menu.patch
-extra/ben/disable-floc.patch
-extra/ben/tmp-revert-f5499b1.patch
-extra/ben/unused-but-set.patch
-extra/ben/fix-building-without-safe-browsing.patch

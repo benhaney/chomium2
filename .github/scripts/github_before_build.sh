@@ -10,7 +10,7 @@ mkdir -p "$_src"
 hdiutil create -type SPARSEBUNDLE -size 20g -fs APFS -volname build_src -nospotlight -verbose ./build_src.sparsebundle
 hdiutil attach ./build_src.sparsebundle -mountpoint "$_src" -nobrowse -noverify -noautoopen -noautofsck
 
-mdutil -i off ./build_src.sparsebundle
+# mdutil -i off ./build_src.sparsebundle
 rm -rfv ./build_src.sparsebundle/.{,_.}{fseventsd,Spotlight-V*,Trashes} || true
 mkdir -pv ./build_src.sparsebundle/.fseventsd
 touch ./build_src.sparsebundle/.fseventsd/no_log ./build_src.sparsebundle/.metadata_never_index ./build_src.sparsebundle/.Trashes

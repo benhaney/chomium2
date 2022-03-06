@@ -19,4 +19,4 @@ author: Michael Gilbert <mgilbert@debian.org>
 -  int mem_length = base::size(stack_buf);
    while (true) {
      if (result < 0) {
- #if defined(OS_WIN)
+ #if BUILDFLAG(IS_WIN)

@@ -3,7 +3,7 @@ author: Michael Gilbert <mgilbert@debian.org>
 
 --- a/content/browser/renderer_host/render_widget_host_view_base.cc
 +++ b/content/browser/renderer_host/render_widget_host_view_base.cc
-@@ -321,15 +321,16 @@ void RenderWidgetHostViewBase::SetBackgr
+@@ -322,15 +322,16 @@ void RenderWidgetHostViewBase::SetBackgr
    if (default_background_color_ == color)
      return;
  
@@ -28,7 +28,7 @@ author: Michael Gilbert <mgilbert@debian.org>
  }
 --- a/third_party/blink/renderer/core/html/parser/html_tree_builder.cc
 +++ b/third_party/blink/renderer/core/html/parser/html_tree_builder.cc
-@@ -1070,7 +1070,7 @@ void HTMLTreeBuilder::ProcessStartTagFor
+@@ -1073,7 +1073,7 @@ void HTMLTreeBuilder::ProcessStartTagFor
    }
    if (token->GetName() == html_names::kColTag) {
      ProcessFakeStartTag(html_names::kColgroupTag);

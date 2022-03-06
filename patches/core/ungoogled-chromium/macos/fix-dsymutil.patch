@@ -1,6 +1,6 @@
 --- a/build/toolchain/apple/toolchain.gni
 +++ b/build/toolchain/apple/toolchain.gni
-@@ -206,8 +206,9 @@ template("apple_toolchain") {
+@@ -197,8 +197,9 @@ template("apple_toolchain") {
      if (_enable_dsyms) {
        dsym_switch = " -Wcrl,dsym,{{root_out_dir}} "
        dsym_switch += "-Wcrl,dsymutilpath," +

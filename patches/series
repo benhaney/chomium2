@@ -15,4 +15,4 @@ ungoogled-chromium/macos/fix-dsymutil.patch
 ungoogled-chromium/macos/fix-clang-format-path.patch
 ungoogled-chromium/macos/fix-runTsc-log-info.patch
 ungoogled-chromium/fix-node-path.patch
-
+extra/ben/restore-reopen-closed-tab-in-context-menu.patch
